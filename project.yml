@@ -85,6 +85,12 @@ targets:
             LSHandlerRank: Alternate
             LSItemContentTypes:
               - org.idpf.epub-container
+          - CFBundleTypeName: FictionBook
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes:
+              - org.fictionbook.fb2
+              - dyn.ah62d4rv4ge80q2vw
           - CFBundleTypeName: PDF Document
             CFBundleTypeRole: Viewer
             LSHandlerRank: Alternate
@@ -107,6 +113,17 @@ targets:
                 - epub
               public.mime-type:
                 - application/epub+zip
+          - UTTypeIdentifier: org.fictionbook.fb2
+            UTTypeDescription: FictionBook
+            UTTypeConformsTo:
+              - public.xml
+              - public.data
+            UTTypeTagSpecification:
+              public.filename-extension:
+                - fb2
+              public.mime-type:
+                - application/x-fictionbook+xml
+                - text/fb2+xml
         NSUbiquitousContainers:
           iCloud.com.quolia.reader:
             NSUbiquitousContainerIsDocumentScopePublic: false
@@ -154,6 +171,9 @@ targets:
               SUBQUERY (extensionItems, $extensionItem,
               SUBQUERY ($extensionItem.attachments, $attachment,
               ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "org.idpf.epub-container"
+              || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "org.fictionbook.fb2"
+              || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "dyn.ah62d4rv4ge80q2vw"
+              || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.zip-archive"
               || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "com.adobe.pdf"
               || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.plain-text"
               ).@count >= 1).@count >= 1

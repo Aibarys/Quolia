@@ -1,7 +1,7 @@
 import Foundation
 
 /// Format-independent representation of a reflowable book.
-/// EPUB, TXT and (reflowed) PDF engines all produce this model, so the reader,
+/// EPUB, FB2, TXT and (reflowed) PDF engines all produce this model, so the reader,
 /// highlights, focus mode, search, stats and AI only ever deal with one shape.
 struct BookContent: Codable, Sendable {
     static let schemaVersion = 3

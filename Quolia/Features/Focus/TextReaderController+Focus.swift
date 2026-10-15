@@ -114,10 +114,10 @@ extension TextReaderController {
     }
 
     func pagedFocusUnits(page: TextPageViewController, mode: FocusMode) -> [(key: Int, rect: CGRect)] {
-        let layout = page.layout
-        let layoutManager = layout.layoutManager
-        guard layout.containers.indices.contains(page.pageIndex) else { return [] }
-        let container = layout.containers[page.pageIndex]
+        // The page's own text view: its layout manager may hold just this page (page-local indices).
+        let layoutManager = page.textView.layoutManager
+        let container = page.textView.textContainer
+        let storage = page.textView.textStorage
         let glyphRange = layoutManager.glyphRange(for: container)
         guard glyphRange.length > 0 else { return [] }
 
@@ -126,19 +126,19 @@ extension TextReaderController {
             layoutManager.enumerateLineFragments(forGlyphRange: glyphRange) { _, used, _, lineGlyphs, _ in
                 let character = layoutManager.characterIndexForGlyph(at: lineGlyphs.location)
                 let rect = CGRect(x: 0, y: used.minY, width: container.size.width,
-                                  height: self.glyphBand(used, character: character, storage: layout.storage))
-                units.append((lineGlyphs.location, rect))
+                                  height: self.glyphBand(used, character: character, storage: storage))
+                units.append((character + page.characterOffset, rect))
             }
         } else {
             let characters = page.characterRange
-            let rendered = layout.rendered
+            let rendered = page.layout.rendered
             let first = rendered.blockIndex(containing: characters.location)
             let last = rendered.blockIndex(containing: max(NSMaxRange(characters) - 1, characters.location))
             for block in first...max(first, last) where rendered.blockRanges.indices.contains(block) {
                 let blockRange = rendered.blockRanges[block]
                 let intersection = NSIntersectionRange(blockRange, characters)
-                guard intersection.length > 0 else { continue }
-                let glyphs = layoutManager.glyphRange(forCharacterRange: intersection, actualCharacterRange: nil)
+                guard intersection.length > 0, let local = page.localRange(intersection) else { continue }
+                let glyphs = layoutManager.glyphRange(forCharacterRange: local, actualCharacterRange: nil)
                 var rect = layoutManager.boundingRect(forGlyphRange: glyphs, in: container)
                 rect = trimmedParagraphRect(rect, endsBlock: NSMaxRange(intersection) == NSMaxRange(blockRange))
                 rect.origin.x = 0

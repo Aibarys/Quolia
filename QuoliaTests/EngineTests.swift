@@ -118,6 +118,42 @@ final class PositionTests: XCTestCase {
         XCTAssertEqual(rendered.anchor(for: whole).endBlock, 1)
     }
 
+    /// Each page gets its own TextKit stack (so text selection works on every page); its layout
+    /// must show exactly the page's characters, or the page silently falls back to the shared one.
+    @MainActor
+    func testEveryPageHasItsOwnMatchingTextStack() {
+        let words = ["тишина", "страница", "медленно", "возвращаться", "внимание", "читатель", "reading", "a", "и", "—"]
+        var blocks: [ContentBlock] = [ContentBlock(kind: .heading, text: "Глава первая", level: 1)]
+        for index in 0..<60 {
+            let length = 12 + (index * 37) % 140
+            let text = (0..<length).map { words[($0 * 7 + index) % words.count] }.joined(separator: " ")
+            switch index % 9 {
+            case 3: blocks.append(ContentBlock(kind: .quote, text: text))
+            case 5: blocks.append(ContentBlock(kind: .quote, text: "Строка стиха,\nещё одна строка,\nи третья."))
+            case 7: blocks.append(ContentBlock(kind: .heading, text: "Часть \(index)", level: 2))
+            default: blocks.append(ContentBlock(kind: .paragraph, text: text + "."))
+            }
+        }
+        let chapter = Chapter(id: 0, title: "Глава первая", blocks: blocks)
+
+        for (font, size, alignment) in [(ReaderFont.newYork, 19.0, TextAlignmentOption.leading),
+                                        (.sanFrancisco, 15, .justified), (.georgia, 24, .justified)] {
+            var preferences = ReaderPreferences()
+            preferences.font = font
+            preferences.fontSize = size
+            preferences.alignment = alignment
+            let style = ReaderStyle(preferences: preferences, theme: .light)
+            let rendered = ChapterRenderer.render(chapter, style: style, imagesDirectory: nil, contentWidth: 340, maxImageHeight: 500)
+            let layout = ChapterLayout(rendered: rendered, pageSize: CGSize(width: 340, height: 620))
+            XCTAssertGreaterThan(layout.pageCount, 3)
+            for page in 0..<layout.pageCount {
+                let stack = layout.makePageStack(page)
+                XCTAssertNotNil(stack, "\(font) \(size) \(alignment): page \(page) has no matching stack")
+                XCTAssertEqual(stack?.characterOffset, layout.range(ofPage: page).location)
+            }
+        }
+    }
+
     func testSpoilerSafeContextNeverPassesFrontier() {
         let content = makeContent()
         let frontier = ReadingLocator(chapter: 1, block: 0, offset: 9) // "eta theta"

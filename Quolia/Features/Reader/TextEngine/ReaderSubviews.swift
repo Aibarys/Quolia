@@ -106,18 +106,25 @@ final class ChapterFooterView: UIView {
     @objc private func tapped() { onTap?() }
 }
 
-/// One page in paged mode: a fixed-size text view bound to a page's text container.
+/// One page in paged mode: a fixed-size text view showing one page of a chapter.
+/// The text view has its own TextKit stack (see `ChapterLayout.makePageStack`), so its
+/// character indices are page-local: chapter index = local index + `characterOffset`.
 final class TextPageViewController: UIViewController {
     let layout: ChapterLayout
     let pageIndex: Int
     let textView: ReaderTextView
+    let characterOffset: Int
+    private let stack: PageStack?
     private let theme: ReaderTheme
 
     init(layout: ChapterLayout, pageIndex: Int, frame: CGRect, theme: ReaderTheme, delegate: UITextViewDelegate) {
         self.layout = layout
         self.pageIndex = pageIndex
         self.theme = theme
-        self.textView = ReaderTextView(frame: frame, textContainer: layout.containers[pageIndex])
+        stack = layout.makePageStack(pageIndex)
+        // Without its own stack the page falls back to the shared container: same text, but not selectable.
+        characterOffset = stack?.characterOffset ?? 0
+        textView = ReaderTextView(frame: frame, textContainer: stack?.container ?? layout.containers[pageIndex])
         super.init(nibName: nil, bundle: nil)
         textView.isScrollEnabled = false
         textView.alwaysBounceVertical = false
@@ -133,5 +140,22 @@ final class TextPageViewController: UIViewController {
         view.addSubview(textView)
     }
 
+    /// The page's range in chapter coordinates.
     var characterRange: NSRange { layout.range(ofPage: pageIndex) }
+
+    /// Converts a chapter range to this text view's coordinates, clipped to the text it holds.
+    func localRange(_ chapterRange: NSRange) -> NSRange? {
+        let held = NSRange(location: characterOffset, length: textView.textStorage.length)
+        let clipped = NSIntersectionRange(chapterRange, held)
+        guard clipped.length > 0 else { return nil }
+        return NSRange(location: clipped.location - characterOffset, length: clipped.length)
+    }
+
+    /// Draws highlight marks given in chapter coordinates.
+    func applyMarks(_ marks: [ReaderLayoutManager.Mark]) {
+        guard let layoutManager = stack?.layoutManager else { return }
+        layoutManager.marks = marks.compactMap { mark in
+            localRange(mark.range).map { ReaderLayoutManager.Mark(range: $0, color: mark.color) }
+        }
+    }
 }

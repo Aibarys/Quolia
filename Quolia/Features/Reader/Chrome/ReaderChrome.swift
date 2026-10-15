@@ -307,7 +307,7 @@ struct QuietProgressOverlay: View {
     private var bottomText: String {
         if model.engine == .pdf { return model.locationText }
         if let page = model.pageInChapter, let count = model.pagesInChapter {
-            return String(localized: "\(page + 1) of \(count)")
+            return String(localized: "Page \(page + 1) of \(count) in chapter · \(model.progress.percentText)")
         }
         return model.progress.percentText
     }

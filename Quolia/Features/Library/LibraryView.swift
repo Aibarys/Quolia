@@ -156,7 +156,7 @@ struct LibraryView: View {
         ContentUnavailableView {
             Label("Your library is quiet", systemImage: "books.vertical")
         } description: {
-            Text("Import EPUB, PDF or TXT books from Files, or AirDrop and share them to Quolia.")
+            Text("Import EPUB, FB2, PDF or TXT books from Files, or AirDrop and share them to Quolia.")
         } actions: {
             Button {
                 isImporterPresented = true

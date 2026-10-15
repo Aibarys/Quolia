@@ -38,7 +38,8 @@ final class ShareModel {
     private(set) var state: State = .working
     @ObservationIgnored var onFinished: (() -> Void)?
 
-    private static let bookTypes = ["org.idpf.epub-container", UTType.pdf.identifier, UTType.plainText.identifier]
+    private static let bookTypes = ["org.idpf.epub-container", "org.fictionbook.fb2", "dyn.ah62d4rv4ge80q2vw",
+                                    UTType.pdf.identifier, UTType.zip.identifier, UTType.plainText.identifier]
 
     func process(_ items: [NSExtensionItem]) {
         Task {
@@ -56,7 +57,7 @@ final class ShareModel {
             }
             if added.isEmpty {
                 state = .failed(lastError == nil
-                                ? String(localized: "Quolia can import EPUB, PDF and TXT files.")
+                                ? String(localized: "Quolia can import EPUB, FB2, PDF and TXT files.")
                                 : String(localized: "Something went wrong while saving the file."))
             } else {
                 state = .added(added)
@@ -68,7 +69,8 @@ final class ShareModel {
 
     /// Copies the shared file into the App Group inbox. Returns a display name.
     private func save(_ provider: NSItemProvider, type: String, item: NSExtensionItem) async throws -> String? {
-        let fileExtension = UTType(type)?.preferredFilenameExtension ?? (type == "org.idpf.epub-container" ? "epub" : "txt")
+        let fileExtension = UTType(type)?.preferredFilenameExtension
+            ?? ["org.idpf.epub-container": "epub", "org.fictionbook.fb2": "fb2", "dyn.ah62d4rv4ge80q2vw": "fb2"][type] ?? "txt"
         let suggested = provider.suggestedName.map { name -> String in
             (name as NSString).pathExtension.isEmpty ? "\(name).\(fileExtension)" : name
         }

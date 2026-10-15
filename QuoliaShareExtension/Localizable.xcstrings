@@ -24,12 +24,6 @@
         "ru" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld книга добавлена в Quolia"
-                }
-              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -40,6 +34,12 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld книг добавлено в Quolia"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld книга добавлена в Quolia"
                 }
               },
               "other" : {
@@ -103,12 +103,12 @@
         }
       }
     },
-    "Quolia can import EPUB, PDF and TXT files." : {
+    "Quolia can import EPUB, FB2, PDF and TXT files." : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quolia поддерживает файлы EPUB, PDF и TXT."
+            "value" : "Quolia поддерживает файлы EPUB, FB2, PDF и TXT."
           }
         }
       }

@@ -61,8 +61,11 @@ private struct ReaderContentView: View {
         .statusBarHidden(!model.isChromeVisible)
         .persistentSystemOverlays(model.isChromeVisible ? .automatic : .hidden)
         .sheet(item: $model.activeSheet) { sheet in
+            // The sheet's own container and UIKit controls follow the presentation's trait,
+            // not the SwiftUI environment, so set both to the reader theme's scheme.
             sheetContent(sheet)
                 .environment(\.colorScheme, theme.colorScheme)
+                .preferredColorScheme(theme.colorScheme)
         }
         .translationPresentation(isPresented: $model.isTranslationPresented, text: model.translationText)
         .onChange(of: scenePhase) { _, phase in model.scenePhaseChanged(phase) }

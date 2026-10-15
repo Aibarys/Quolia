@@ -1,7 +1,7 @@
 import Foundation
 import SwiftData
 
-/// Imports EPUB, PDF and TXT files from Files, iCloud Drive, AirDrop or the Share Sheet.
+/// Imports EPUB, FB2, PDF and TXT files from Files, iCloud Drive, AirDrop or the Share Sheet.
 @MainActor
 final class BookImporter {
     struct Outcome {
@@ -63,7 +63,7 @@ final class BookImporter {
     /// Returns `nil` when the book is already in the library.
     func importBook(from url: URL) async throws -> Book? {
         guard let format = BookFormat(url: url) else {
-            throw CocoaError(.fileReadUnsupportedScheme, userInfo: [NSLocalizedDescriptionKey: String(localized: "Only EPUB, PDF and TXT files are supported.")])
+            throw CocoaError(.fileReadUnsupportedScheme, userInfo: [NSLocalizedDescriptionKey: String(localized: "Only EPUB, FB2, PDF and TXT files are supported.")])
         }
 
         // Copy into a private temp location so security-scoped access can end quickly.
@@ -77,7 +77,8 @@ final class BookImporter {
 
         let fileSize = (try? temp.resourceValues(forKeys: [.fileSizeKey]).fileSize).map(Int64.init) ?? 0
         let bookID = UUID()
-        let fallbackName = url.deletingPathExtension().lastPathComponent
+        var fallbackName = url.deletingPathExtension().lastPathComponent
+        if fallbackName.lowercased().hasSuffix(".fb2") { fallbackName = String(fallbackName.dropLast(4)) } // book.fb2.zip
 
         let parsed = try await Task.detached(priority: .userInitiated) {
             try Self.parse(url: temp, format: format, bookID: bookID, fallbackName: fallbackName)
@@ -118,6 +119,20 @@ final class BookImporter {
             let result = try parser.parse()
             var content = result.content
             if content.title == "Untitled" || content.title == String(localized: "Untitled") { content.title = fallbackName }
+            return Parsed(
+                title: content.title,
+                author: content.author,
+                language: LanguageDetector.language(for: content),
+                cover: result.coverData.flatMap { ImageDownsampler.jpegData(from: $0, maxPixelSize: 900) },
+                totalWords: content.totalWords,
+                chapterCount: content.chapters.count,
+                pageCount: ReadingMath.pages(forWords: content.totalWords),
+                content: content
+            )
+        case .fb2:
+            let result = try FB2Parser.parse(url: url, imagesDirectory: ContentCache.imagesDirectory(for: bookID))
+            var content = result.content
+            if content.title == String(localized: "Untitled") { content.title = PlainTextParser.titleAndAuthor(fromFileName: fallbackName).0 }
             return Parsed(
                 title: content.title,
                 author: content.author,

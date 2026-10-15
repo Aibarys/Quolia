@@ -2,7 +2,7 @@
 
 **Read. Highlight. Remember.**
 
-Quolia is a quiet, native reading app for iPhone and iPad. Import your own EPUB, PDF and TXT books, read them in a calm reader, keep highlights and notes, and let Quolia bring important ideas back to you over time.
+Quolia is a quiet, native reading app for iPhone and iPad. Import your own EPUB, FB2, PDF and TXT books, read them in a calm reader, keep highlights and notes, and let Quolia bring important ideas back to you over time.
 
 Built with Swift, SwiftUI, SwiftData + CloudKit, TextKit, PDFKit, Vision, NaturalLanguage, AVFoundation, Translation and Foundation Models. There are no third-party dependencies.
 
@@ -50,7 +50,7 @@ Without iCloud, Quolia uses a local store automatically, so nothing breaks.
 | Area | What's there | Where |
 |---|---|---|
 | Library | Grid/list, covers (generated when a book has none), progress, last read, filters, search, sort, continue-reading card, swipe actions, context menus | `Features/Library` |
-| Import | EPUB / PDF / TXT through Files and iCloud Drive (file importer), AirDrop and "Open in Quolia" (document types + `onOpenURL`), the **Share Extension** (works even when Quolia is closed; shared text selections become TXT books), sample book | `Core/Services/BookImporter.swift`, `QuoliaShareExtension/`, `Core/Services/SharedInbox.swift` |
+| Import | EPUB / FB2 (also `.fb2.zip`) / PDF / TXT through Files and iCloud Drive (file importer), AirDrop and "Open in Quolia" (document types + `onOpenURL`), the **Share Extension** (works even when Quolia is closed; shared text selections become TXT books), sample book | `Core/Services/BookImporter.swift`, `QuoliaShareExtension/`, `Core/Services/SharedInbox.swift` |
 | Reader | Page mode (slide or curl) and scroll mode; font, size, line spacing, width, alignment, margins, brightness; Light / Sepia / Dark / Black OLED themes — **also for original-layout PDFs**; tap the center to show or hide the interface; chapter, %, location, minutes left in chapter and in book | `Features/Reader`, `Features/Reader/PDF/ThemedPDFPage.swift` |
 | Auto Scroll | Smooth display-link scrolling at up to 120 Hz, set in words per minute (slider + −/+), tap to pause or resume, stops at the end of a chapter | `Features/AutoScroll` |
 | Focus Mode | Line or paragraph focus with soft dimming; follows the reading line in scroll mode, step-by-step in page mode | `Features/Focus` |
@@ -76,7 +76,7 @@ Quolia/
   App/            entry point, router, model container, debug launch hooks
   Core/           SwiftData models, normalized content model, settings, services
   DesignSystem/   palette, typography, covers, cards, chips, glass surfaces, toasts
-  Engines/        EPUB (own ZIP + markup parser), PDF (PDFKit + Vision OCR), TXT
+  Engines/        EPUB (own ZIP + markup parser), FB2, PDF (PDFKit + Vision OCR), TXT
   Features/       Library, Reader, AutoScroll, Focus, ReadingFlow, Highlights, Notes,
                   Quotes, Dictionary, AI, QuoteCards, Stats, Goals, Remember,
                   Sessions, Speech, Sync, Settings, Onboarding
@@ -84,7 +84,7 @@ Quolia/
 
 Key decisions:
 
-- **One content model for every format.** EPUB, TXT and reflowed PDF all become `BookContent` (chapters → blocks → inline spans). The reader, highlights, focus, search, stats and AI work on that single shape.
+- **One content model for every format.** EPUB, FB2, TXT and reflowed PDF all become `BookContent` (chapters → blocks → inline spans). The reader, highlights, focus, search, stats and AI work on that single shape.
 - **Stable anchors.** Highlights and bookmarks are stored as *block + offset*, not screen positions, so they survive font, size, layout and device changes, and sync between iPhone and iPad.
 - **TextKit 1 reader.** Pagination uses one layout manager with one text container per page, so what's shown matches the pagination exactly. Highlights are drawn by a custom `NSLayoutManager` as display-only state, so editing them never re-lays out text or loses your place.
 - **Spoiler-safe AI.** `SpoilerSafeContext` builds the only text the model may see: everything up to the reader's position and nothing after it. When that text is too large, it uses an outline, the relevant earlier passages and the most recent text. This is covered by unit tests.
@@ -108,7 +108,7 @@ xcodebuild test -project Quolia.xcodeproj -scheme Quolia \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
 ```
 
-There are 16 unit tests. They cover ZIP/EPUB parsing, entity-tolerant markup, TXT encodings (including Windows-1251) and chapter detection, PDF paragraph reconstruction, progress math, anchor stability, the spoiler-safe context, spaced repetition, streaks/stats, and the Claude stream parser and request shape.
+There are 22 unit tests. They cover ZIP/EPUB and FB2 parsing, entity-tolerant markup, TXT encodings (including Windows-1251) and chapter detection, PDF paragraph reconstruction, progress math, anchor stability, per-page text layout, the spoiler-safe context, spaced repetition, streaks/stats, and the Claude stream parser and request shape.
 
 DEBUG builds accept launch arguments for jumping straight to a screen, for example `-seedDemoData`, `-tab stats`, `-openBook -readerLayout scroll -focus line -theme dark`, `-flow`, `-readerSheet settings|contents|ask|quote|define|flowSummary`, `-importFile <path>`, `-pdfDemoHighlight` and `-completeOnboarding`. Combine them with `-AppleLanguages "(ru)"` to check the Russian interface. `Scripts/shot.sh` launches the app with those arguments and saves a simulator screenshot.
 

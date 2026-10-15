@@ -16,7 +16,7 @@ struct FirstBookSheet: View {
                 Text("Add your first book")
                     .font(.qTitle)
                     .foregroundStyle(Color.qInk)
-                Text("Quolia reads EPUB, PDF and TXT files. Your books stay private and sync through your iCloud.")
+                Text("Quolia reads EPUB, FB2, PDF and TXT files. Your books stay private and sync through your iCloud.")
                     .font(.body)
                     .foregroundStyle(Color.qMuted)
             }

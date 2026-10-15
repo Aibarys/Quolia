@@ -131,7 +131,7 @@ struct PlainTextParser {
         return false
     }
 
-    private static func splitIntoParts(_ blocks: [ContentBlock]) -> [Chapter] {
+    static func splitIntoParts(_ blocks: [ContentBlock]) -> [Chapter] {
         var chapters: [Chapter] = []
         var current: [ContentBlock] = []
         var words = 0

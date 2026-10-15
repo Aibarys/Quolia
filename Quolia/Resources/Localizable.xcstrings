@@ -381,22 +381,6 @@
         }
       }
     },
-    "%lld of %lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$lld of %2$lld"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld из %lld"
-          }
-        }
-      }
-    },
     "%lld of %lld minutes" : {
       "localizations" : {
         "en" : {
@@ -504,12 +488,6 @@
         "ru" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ещё %lld стр. в главе"
-                }
-              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -517,6 +495,12 @@
                 }
               },
               "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ещё %lld стр. в главе"
+                }
+              },
+              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Ещё %lld стр. в главе"
@@ -665,6 +649,46 @@
         }
       }
     },
+    "AI" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ИИ"
+          }
+        }
+      }
+    },
+    "AI features are turned off. You can enable them in Settings." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Функции ИИ выключены. Их можно включить в настройках."
+          }
+        }
+      }
+    },
+    "AI isn't available" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ИИ недоступен"
+          }
+        }
+      }
+    },
+    "AI only ever sees the part of the book you've already read — never anything beyond your position, so it can't spoil what's ahead." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ИИ видит только ту часть книги, которую вы уже прочитали, — и ничего дальше вашей позиции, поэтому не испортит впечатление спойлерами."
+          }
+        }
+      }
+    },
     "Aa" : {
       "shouldTranslate" : false
     },
@@ -674,6 +698,36 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "О книге"
+          }
+        }
+      }
+    },
+    "Add Book" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить книгу"
+          }
+        }
+      }
+    },
+    "Add Note" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить заметку"
+          }
+        }
+      }
+    },
+    "Add Sample Book" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить книгу-пример"
           }
         }
       }
@@ -698,16 +752,6 @@
         }
       }
     },
-    "Add Book" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Добавить книгу"
-          }
-        }
-      }
-    },
     "Add bookmark" : {
       "localizations" : {
         "ru" : {
@@ -718,32 +762,12 @@
         }
       }
     },
-    "Add Note" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Добавить заметку"
-          }
-        }
-      }
-    },
     "Add note" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Добавить заметку"
-          }
-        }
-      }
-    },
-    "Add Sample Book" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Добавить книгу-пример"
           }
         }
       }
@@ -850,46 +874,6 @@
         }
       }
     },
-    "AI" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ИИ"
-          }
-        }
-      }
-    },
-    "AI features are turned off. You can enable them in Settings." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Функции ИИ выключены. Их можно включить в настройках."
-          }
-        }
-      }
-    },
-    "AI isn't available" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ИИ недоступен"
-          }
-        }
-      }
-    },
-    "AI only ever sees the part of the book you've already read — never anything beyond your position, so it can't spoil what's ahead." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ИИ видит только ту часть книги, которую вы уже прочитали, — и ничего дальше вашей позиции, поэтому не испортит впечатление спойлерами."
-          }
-        }
-      }
-    },
     "Alignment" : {
       "localizations" : {
         "ru" : {
@@ -957,54 +941,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Оформление"
-          }
-        }
-      }
-    },
-    "appearance.dark" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dark"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тёмное"
-          }
-        }
-      }
-    },
-    "appearance.light" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Light"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Светлое"
-          }
-        }
-      }
-    },
-    "appearance.system" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "System"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Как в системе"
           }
         }
       }
@@ -1079,12 +1015,12 @@
         }
       }
     },
-    "Ask about the book…" : {
+    "Ask AI" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Спросите о книге…"
+            "value" : "Спросить ИИ"
           }
         }
       }
@@ -1100,22 +1036,22 @@
         }
       }
     },
+    "Ask about the book…" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Спросите о книге…"
+          }
+        }
+      }
+    },
     "Ask about this passage…" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Спросите об этом отрывке…"
-          }
-        }
-      }
-    },
-    "Ask AI" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Спросить ИИ"
           }
         }
       }
@@ -1314,6 +1250,16 @@
         }
       }
     },
+    "CONTINUE READING" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ПРОДОЛЖИТЬ ЧТЕНИЕ"
+          }
+        }
+      }
+    },
     "Cancel" : {
       "localizations" : {
         "ru" : {
@@ -1475,40 +1421,12 @@
         }
       }
     },
-    "CONTINUE READING" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ПРОДОЛЖИТЬ ЧТЕНИЕ"
-          }
-        }
-      }
-    },
     "Continue Reading" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Продолжить чтение"
-          }
-        }
-      }
-    },
-    "continue.resume" : {
-      "comment" : "Continue reading a book from the library card",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resume"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Читать"
           }
         }
       }
@@ -1704,22 +1622,22 @@
         }
       }
     },
-    "Delete highlight" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удалить выделение"
-          }
-        }
-      }
-    },
     "Delete Note" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Удалить заметку"
+          }
+        }
+      }
+    },
+    "Delete highlight" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить выделение"
           }
         }
       }
@@ -2007,6 +1925,16 @@
         }
       }
     },
+    "Footnotes" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Примечания"
+          }
+        }
+      }
+    },
     "Format" : {
       "localizations" : {
         "ru" : {
@@ -2129,22 +2057,12 @@
         }
       }
     },
-    "iCloud Drive, On My iPhone, or any provider" : {
+    "Import EPUB, FB2, PDF or TXT books from Files, or AirDrop and share them to Quolia." : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud Drive, «На iPhone» или другой сервис"
-          }
-        }
-      }
-    },
-    "iCloud Sync" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Синхронизация iCloud"
+            "value" : "Импортируйте книги EPUB, FB2, PDF или TXT из «Файлов» или отправьте их в Quolia через AirDrop и «Поделиться»."
           }
         }
       }
@@ -2155,16 +2073,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Загружайте и читайте собственные книги."
-          }
-        }
-      }
-    },
-    "Import EPUB, PDF or TXT books from Files, or AirDrop and share them to Quolia." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Импортируйте книги EPUB, PDF или TXT из «Файлов» или отправьте их в Quolia через AirDrop и «Поделиться»."
           }
         }
       }
@@ -2420,16 +2328,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Средняя"
-          }
-        }
-      }
-    },
-    "min" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "мин"
           }
         }
       }
@@ -2802,12 +2700,12 @@
         }
       }
     },
-    "Only EPUB, PDF and TXT files are supported." : {
+    "Only EPUB, FB2, PDF and TXT files are supported." : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поддерживаются только файлы EPUB, PDF и TXT."
+            "value" : "Поддерживаются только файлы EPUB, FB2, PDF и TXT."
           }
         }
       }
@@ -2842,22 +2740,22 @@
         }
       }
     },
-    "Open in book" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Открыть в книге"
-          }
-        }
-      }
-    },
     "Open in Dictionary" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Открыть в словаре"
+          }
+        }
+      }
+    },
+    "Open in book" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть в книге"
           }
         }
       }
@@ -2879,6 +2777,19 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Другое"
+          }
+        }
+      }
+    },
+    "PDF" : {
+      "shouldTranslate" : false
+    },
+    "PDF pages" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Страниц в PDF"
           }
         }
       }
@@ -2905,6 +2816,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Страница %lld из %lld"
+          }
+        }
+      }
+    },
+    "Page %lld of %lld in chapter · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Page %1$lld of %2$lld in chapter · %3$@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Стр. %1$lld из %2$lld в главе · %3$@"
           }
         }
       }
@@ -3014,19 +2941,6 @@
         }
       }
     },
-    "PDF" : {
-      "shouldTranslate" : false
-    },
-    "PDF pages" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Страниц в PDF"
-          }
-        }
-      }
-    },
     "Pink" : {
       "localizations" : {
         "ru" : {
@@ -3111,12 +3025,12 @@
         }
       }
     },
-    "Quolia reads EPUB, PDF and TXT files. Your books stay private and sync through your iCloud." : {
+    "Quolia reads EPUB, FB2, PDF and TXT files. Your books stay private and sync through your iCloud." : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quolia открывает файлы EPUB, PDF и TXT. Ваши книги остаются личными и синхронизируются через iCloud."
+            "value" : "Quolia открывает файлы EPUB, FB2, PDF и TXT. Ваши книги остаются личными и синхронизируются через iCloud."
           }
         }
       }
@@ -3760,22 +3674,22 @@
         }
       }
     },
-    "Sort and filter" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сортировка и фильтры"
-          }
-        }
-      }
-    },
     "Sort By" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сортировать"
+          }
+        }
+      }
+    },
+    "Sort and filter" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сортировка и фильтры"
           }
         }
       }
@@ -3974,22 +3888,22 @@
         }
       }
     },
-    "Tag" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Тег"
-          }
-        }
-      }
-    },
     "TAGS" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "ТЕГИ"
+          }
+        }
+      }
+    },
+    "Tag" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тег"
           }
         }
       }
@@ -4045,6 +3959,16 @@
         }
       }
     },
+    "The End" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Конец"
+          }
+        }
+      }
+    },
     "The archive is damaged (%@)." : {
       "localizations" : {
         "ru" : {
@@ -4091,16 +4015,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Книга ещё загружается из iCloud. Попробуйте чуть позже."
-          }
-        }
-      }
-    },
-    "The End" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Конец"
           }
         }
       }
@@ -4175,36 +4089,6 @@
         }
       }
     },
-    "This book doesn't contain any readable text." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "В этой книге нет текста для чтения."
-          }
-        }
-      }
-    },
-    "This conversation got too long for the on-device model. Close it and ask a new question." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Разговор стал слишком длинным для модели на устройстве. Закройте его и задайте новый вопрос."
-          }
-        }
-      }
-    },
-    "This device doesn't support Apple Intelligence. You can use Claude instead in Settings → AI." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Это устройство не поддерживает Apple Intelligence. Вместо него можно выбрать Claude в разделе «Настройки → ИИ»."
-          }
-        }
-      }
-    },
     "This EPUB is missing its container description." : {
       "localizations" : {
         "ru" : {
@@ -4225,12 +4109,12 @@
         }
       }
     },
-    "This is why I keep a notebook." : {
+    "This FB2 file couldn't be read." : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поэтому я веду записную книжку."
+            "value" : "Не удалось прочитать файл FB2."
           }
         }
       }
@@ -4261,6 +4145,56 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Этот PDF защищён паролем."
+          }
+        }
+      }
+    },
+    "This archive doesn't contain an FB2 book." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В архиве нет книги FB2."
+          }
+        }
+      }
+    },
+    "This book doesn't contain any readable text." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В этой книге нет текста для чтения."
+          }
+        }
+      }
+    },
+    "This conversation got too long for the on-device model. Close it and ask a new question." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разговор стал слишком длинным для модели на устройстве. Закройте его и задайте новый вопрос."
+          }
+        }
+      }
+    },
+    "This device doesn't support Apple Intelligence. You can use Claude instead in Settings → AI." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это устройство не поддерживает Apple Intelligence. Вместо него можно выбрать Claude в разделе «Настройки → ИИ»."
+          }
+        }
+      }
+    },
+    "This is why I keep a notebook." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поэтому я веду записную книжку."
           }
         }
       }
@@ -4609,16 +4543,6 @@
         }
       }
     },
-    "wpm" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "сл/мин"
-          }
-        }
-      }
-    },
     "Yellow" : {
       "localizations" : {
         "ru" : {
@@ -4735,6 +4659,111 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ваш темп чтения — около %lld сл/мин."
+          }
+        }
+      }
+    },
+    "appearance.dark" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dark"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тёмное"
+          }
+        }
+      }
+    },
+    "appearance.light" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Light"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Светлое"
+          }
+        }
+      }
+    },
+    "appearance.system" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как в системе"
+          }
+        }
+      }
+    },
+    "continue.resume" : {
+      "comment" : "Continue reading a book from the library card",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resume"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Читать"
+          }
+        }
+      }
+    },
+    "iCloud Drive, On My iPhone, or any provider" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Drive, «На iPhone» или другой сервис"
+          }
+        }
+      }
+    },
+    "iCloud Sync" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Синхронизация iCloud"
+          }
+        }
+      }
+    },
+    "min" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "мин"
+          }
+        }
+      }
+    },
+    "wpm" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "сл/мин"
           }
         }
       }

@@ -46,6 +46,8 @@ final class TextReaderController: UIViewController {
 
     // Paged mode
     private(set) var pageController: UIPageViewController?
+    /// Pages alive in the page controller (current and prefetched), kept in sync with highlights.
+    private let livePages = NSHashTable<TextPageViewController>.weakObjects()
 
     // Focus
     let focusOverlay = FocusOverlayView()
@@ -181,8 +183,8 @@ final class TextReaderController: UIViewController {
         return result
     }
 
-    private func applyMarks(to layoutManager: NSLayoutManager, rendered: RenderedChapter) {
-        guard let layoutManager = layoutManager as? ReaderLayoutManager else { return }
+    /// Highlight and spotlight marks for a chapter, in chapter coordinates.
+    private func marks(for rendered: RenderedChapter) -> [ReaderLayoutManager.Mark] {
         var marks: [ReaderLayoutManager.Mark] = []
         for mark in state.marks[rendered.index] ?? [] {
             guard let range = rendered.range(for: mark.anchor) else { continue }
@@ -191,7 +193,11 @@ final class TextReaderController: UIViewController {
         if let spotlight, spotlight.chapter == rendered.index, let range = rendered.range(for: spotlight) {
             marks.append(.init(range: range, color: theme.accent.withAlphaComponent(0.30)))
         }
-        layoutManager.marks = marks
+        return marks
+    }
+
+    private func applyMarks(to layoutManager: NSLayoutManager, rendered: RenderedChapter) {
+        (layoutManager as? ReaderLayoutManager)?.marks = marks(for: rendered)
     }
 
     private func refreshMarks() {
@@ -202,15 +208,19 @@ final class TextReaderController: UIViewController {
         for layout in layoutCache.values {
             applyMarks(to: layout.layoutManager, rendered: layout.rendered)
         }
+        for page in livePages.allObjects {
+            page.applyMarks(marks(for: page.layout.rendered))
+        }
         if let page = currentPage {
             installNoteMarkers(textView: page.textView, host: page.view, rendered: page.layout.rendered,
-                               characterRange: page.characterRange)
+                               characterRange: page.characterRange, characterOffset: page.characterOffset)
         }
     }
 
     /// Margin indicators for highlights that carry notes. In scroll mode they live inside
     /// the scrolling text view; in paged mode inside the page, beside the text column.
-    private func installNoteMarkers(textView: UITextView, host: UIView, rendered: RenderedChapter, characterRange: NSRange?) {
+    private func installNoteMarkers(textView: UITextView, host: UIView, rendered: RenderedChapter, characterRange: NSRange?,
+                                    characterOffset: Int = 0) {
         host.subviews.compactMap { $0 as? NoteMarkerView }.forEach { $0.removeFromSuperview() }
         let layoutManager = textView.layoutManager
         let inset = textView.textContainerInset
@@ -219,7 +229,7 @@ final class TextReaderController: UIViewController {
         for mark in state.marks[rendered.index] ?? [] where mark.hasNote {
             guard let range = rendered.range(for: mark.anchor) else { continue }
             if let characterRange, !NSLocationInRange(range.location, characterRange) { continue }
-            let glyph = layoutManager.glyphIndexForCharacter(at: range.location)
+            let glyph = layoutManager.glyphIndexForCharacter(at: range.location - characterOffset)
             let line = layoutManager.lineFragmentUsedRect(forGlyphAt: glyph, effectiveRange: nil)
             let lineHeight = min(line.height, state.style.bodyFont.lineHeight)
             let y = origin.y + inset.top + line.minY + lineHeight / 2
@@ -355,8 +365,10 @@ final class TextReaderController: UIViewController {
         let controller = TextPageViewController(layout: layout, pageIndex: min(page, layout.pageCount - 1),
                                                 frame: frame, theme: theme, delegate: self)
         controller.loadViewIfNeeded()
+        controller.applyMarks(marks(for: layout.rendered))
+        livePages.add(controller)
         installNoteMarkers(textView: controller.textView, host: controller.view, rendered: layout.rendered,
-                           characterRange: controller.characterRange)
+                           characterRange: controller.characterRange, characterOffset: controller.characterOffset)
         return controller
     }
 
@@ -631,8 +643,9 @@ final class TextReaderController: UIViewController {
     private func highlightHit(at point: CGPoint) -> (UUID, CGRect)? {
         guard let textView = activeTextView else { return nil }
         let rendered: RenderedChapter
+        var offset = 0
         if let scrollRendered, textView === scrollTextView { rendered = scrollRendered }
-        else if let page = currentPage { rendered = page.layout.rendered }
+        else if let page = currentPage { rendered = page.layout.rendered; offset = page.characterOffset }
         else { return nil }
 
         let local = view.convert(point, to: textView)
@@ -642,11 +655,14 @@ final class TextReaderController: UIViewController {
         let glyph = layoutManager.glyphIndex(for: containerPoint, in: textView.textContainer, fractionOfDistanceThroughGlyph: &fraction)
         let glyphRect = layoutManager.boundingRect(forGlyphRange: NSRange(location: glyph, length: 1), in: textView.textContainer)
         guard glyphRect.insetBy(dx: -4, dy: -4).contains(containerPoint) else { return nil }
-        let character = layoutManager.characterIndexForGlyph(at: glyph)
+        let character = layoutManager.characterIndexForGlyph(at: glyph) + offset
+        let held = NSRange(location: offset, length: textView.textStorage.length)
 
         for mark in state.marks[rendered.index] ?? [] {
             guard let range = rendered.range(for: mark.anchor), NSLocationInRange(character, range) else { continue }
-            let glyphs = layoutManager.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
+            let visible = NSIntersectionRange(range, held)
+            let glyphs = layoutManager.glyphRange(forCharacterRange: NSRange(location: visible.location - offset, length: visible.length),
+                                                  actualCharacterRange: nil)
             var rect = layoutManager.boundingRect(forGlyphRange: glyphs, in: textView.textContainer)
             rect.origin.x += textView.textContainerInset.left
             rect.origin.y += textView.textContainerInset.top
@@ -657,15 +673,19 @@ final class TextReaderController: UIViewController {
 
     // MARK: - Selection
 
+    /// `range` is in the text view's coordinates (page-local in paged mode).
     func selectionInfo(_ textView: UITextView, range: NSRange) -> TextSelectionInfo? {
         let rendered: RenderedChapter
+        var offset = 0
         if textView === scrollTextView, let scrollRendered { rendered = scrollRendered }
         else if let page = pageController?.viewControllers?.compactMap({ $0 as? TextPageViewController }).first(where: { $0.textView === textView }) {
             rendered = page.layout.rendered
+            offset = page.characterOffset
         } else { return nil }
 
-        guard range.length > 0, NSMaxRange(range) <= rendered.length else { return nil }
-        let text = (rendered.attributed.string as NSString).substring(with: range)
+        let chapterRange = NSRange(location: range.location + offset, length: range.length)
+        guard range.length > 0, NSMaxRange(chapterRange) <= rendered.length else { return nil }
+        let text = (rendered.attributed.string as NSString).substring(with: chapterRange)
             .trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty else { return nil }
 
@@ -679,10 +699,10 @@ final class TextReaderController: UIViewController {
         }
         if rect.isNull { rect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 1, height: 1) }
 
-        let anchor = rendered.anchor(for: range)
+        let anchor = rendered.anchor(for: chapterRange)
         let overlapping = (state.marks[rendered.index] ?? []).filter { mark in
             guard let markRange = rendered.range(for: mark.anchor) else { return false }
-            return NSIntersectionRange(markRange, range).length > 0
+            return NSIntersectionRange(markRange, chapterRange).length > 0
         }.map(\.id)
         let context = content.chapters[rendered.index].block(anchor.startBlock)?.text ?? text
 

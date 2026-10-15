@@ -101,6 +101,8 @@ actor ContentLoader {
         case .epub:
             let parser = try EPUBParser(url: url, imagesDirectory: ContentCache.imagesDirectory(for: source.id))
             return try parser.parse().content
+        case .fb2:
+            return try FB2Parser.parse(url: url, imagesDirectory: ContentCache.imagesDirectory(for: source.id)).content
         case .txt:
             var content = try PlainTextParser.parse(url: url)
             content.title = source.title.isEmpty ? content.title : source.title

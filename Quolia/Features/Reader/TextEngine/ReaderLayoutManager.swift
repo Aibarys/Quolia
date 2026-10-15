@@ -114,4 +114,51 @@ final class ChapterLayout {
     func range(ofPage page: Int) -> NSRange {
         pageRanges.indices.contains(page) ? pageRanges[page] : NSRange(location: 0, length: 0)
     }
+
+    /// A standalone TextKit stack showing exactly one page. UIKit only supports text selection
+    /// in a text view bound to the first container of its layout manager, so each page lays out
+    /// its own copy of the text: from the page start to the end of the paragraph it breaks in,
+    /// which keeps line breaks and justification identical to the shared layout.
+    /// Returns nil if the result doesn't match the pagination; the page then uses the shared container.
+    func makePageStack(_ page: Int) -> PageStack? {
+        let pageRange = range(ofPage: page)
+        guard pageRange.length > 0 else { return nil }
+        let string = storage.string as NSString
+        let lastCharacter = NSRange(location: NSMaxRange(pageRange) - 1, length: 0)
+        let end = NSMaxRange(string.paragraphRange(for: lastCharacter))
+        let text = NSMutableAttributedString(attributedString:
+            storage.attributedSubstring(from: NSRange(location: pageRange.location, length: end - pageRange.location)))
+
+        // A page that starts mid-paragraph continues it: no first-line indent or space before.
+        if pageRange.location > 0, !Self.isParagraphSeparator(string.character(at: pageRange.location - 1)) {
+            let firstParagraph = (text.string as NSString).paragraphRange(for: NSRange(location: 0, length: 0))
+            if let style = text.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as? NSParagraphStyle,
+               let continued = style.mutableCopy() as? NSMutableParagraphStyle {
+                continued.firstLineHeadIndent = continued.headIndent
+                continued.paragraphSpacingBefore = 0
+                text.addAttribute(.paragraphStyle, value: continued, range: firstParagraph)
+            }
+        }
+
+        let (pageStorage, pageLayoutManager, container) = TextStack.make(attributed: text, containerSize: pageSize)
+        let shown = pageLayoutManager.characterRange(forGlyphRange: pageLayoutManager.glyphRange(for: container),
+                                                     actualGlyphRange: nil)
+        guard shown.location == 0, shown.length == pageRange.length else { return nil }
+        return PageStack(storage: pageStorage, layoutManager: pageLayoutManager, container: container,
+                         characterOffset: pageRange.location)
+    }
+
+    private static func isParagraphSeparator(_ character: unichar) -> Bool {
+        character == 0x0A || character == 0x0D || character == 0x2029 || character == 0x85
+    }
+}
+
+/// The TextKit stack behind one page's text view. Character `i` of `storage` is character
+/// `i + characterOffset` of the chapter.
+struct PageStack {
+    /// TextKit 1 ownership runs storage → layout manager → container, so the storage must be retained.
+    let storage: NSTextStorage
+    let layoutManager: ReaderLayoutManager
+    let container: NSTextContainer
+    let characterOffset: Int
 }
