@@ -6,6 +6,24 @@ Quolia is a quiet, native reading app for iPhone and iPad. Import your own EPUB,
 
 Built with Swift, SwiftUI, SwiftData + CloudKit, TextKit, PDFKit, Vision, NaturalLanguage, AVFoundation, Translation and Foundation Models. There are no third-party dependencies.
 
+## Screenshots
+
+| Library | Reader | Select text | Highlight |
+|:---:|:---:|:---:|:---:|
+| <img src="docs/screenshots/library.jpg" width="200" alt="Library with a continue-reading card"> | <img src="docs/screenshots/reader.jpg" width="200" alt="Reader with the interface shown"> | <img src="docs/screenshots/selection.jpg" width="200" alt="Text selection menu"> | <img src="docs/screenshots/highlight.jpg" width="200" alt="Highlight palette"> |
+
+| Focus Mode | Quotes & Notes | Remember | Stats |
+|:---:|:---:|:---:|:---:|
+| <img src="docs/screenshots/focus.jpg" width="200" alt="Line focus in the dark theme"> | <img src="docs/screenshots/notes.jpg" width="200" alt="Quotes and notes"> | <img src="docs/screenshots/remember.jpg" width="200" alt="Reading Memory card"> | <img src="docs/screenshots/stats.jpg" width="200" alt="Reading stats and goal ring"> |
+
+| Onboarding | Quote Cards | Reading Flow | In Russian |
+|:---:|:---:|:---:|:---:|
+| <img src="docs/screenshots/onboarding.jpg" width="200" alt="Onboarding"> | <img src="docs/screenshots/quote-card.jpg" width="200" alt="Quote card composer"> | <img src="docs/screenshots/reading-flow.jpg" width="200" alt="Reading Flow summary"> | <img src="docs/screenshots/russian-library.jpg" width="200" alt="Library in Russian"> |
+
+Original-layout PDFs follow the reader theme (light, dark, black, sepia), and highlights keep their colors:
+
+<img src="docs/screenshots/pdf-themes.jpg" width="620" alt="A PDF page in the light, dark, black and sepia themes with highlights">
+
 ## Getting started
 
 Requirements: Xcode 26+, iOS 18+ deployment target. On-device AI needs iOS 26 and Apple Intelligence.
