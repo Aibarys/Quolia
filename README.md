@@ -100,3 +100,7 @@ Assets: `Scripts/generate_assets.swift` draws the app icon and the sample cover.
 
 - In dark themes, original-layout PDFs are drawn inverted, so photos inside them look like negatives. To read a PDF with fonts and focus instead, use **Reflow as text**.
 - In the Simulator, Translation, system dictionaries and Apple Intelligence models may be unavailable. Quolia shows a friendly message in each case.
+
+## License
+
+Quolia is released under the [MIT License](LICENSE).
