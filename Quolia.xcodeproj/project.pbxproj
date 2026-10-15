@@ -1,0 +1,1224 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		085A19637811398A0FF57E66 /* ZipArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B4C0A6A0B59A77C91C6FA4 /* ZipArchive.swift */; };
+		087345D4CC19EEF89C38A8E3 /* ReaderSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8475C9E663B7D82D02E98D /* ReaderSheet.swift */; };
+		08C200FE14A49BF98CDDA28D /* ReaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5067C4A421013DABF20D569F /* ReaderViewModel.swift */; };
+		0A0A023E6CFA556AF6A77A2F /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B7CC4D23F4A07472D98034 /* Bookmark.swift */; };
+		0B8E8085643EFC3CBF39370A /* BookFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA3060599CB05F461408D57 /* BookFileStore.swift */; };
+		0D15512279147DC634E955CB /* EngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EB679C05989AA26968548A /* EngineTests.swift */; };
+		0E0677224E84B449B61AF4E0 /* HTMLContentExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A48C789CE4B1F133634643 /* HTMLContentExtractor.swift */; };
+		124169D6DF9B3EDBE359C129 /* HighlightPaletteOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB20A44CFAD7B59EB2CD498 /* HighlightPaletteOverlay.swift */; };
+		1A21644D0B2D20B6634844C5 /* ChapterRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC11790245AD2893F3FD1BE /* ChapterRenderer.swift */; };
+		20FAFC9E8FA395E38140E01B /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8B3900014F81677E3F806A /* KeychainStore.swift */; };
+		25E71762865602C0ED9CEB37 /* Primitives.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C5DA804BE87368B359E2755 /* Primitives.swift */; };
+		35E515DD3A53F1051F44708C /* DebugLaunch.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB415145EB5399E0B7F7E33 /* DebugLaunch.swift */; };
+		3AA260CEC81DDD791F358806 /* On Reading Slowly.epub in Resources */ = {isa = PBXBuildFile; fileRef = F2BDCF2247C40893CB97F692 /* On Reading Slowly.epub */; };
+		3AD76A9C9821A26F8E3297FF /* BookImportModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5999CCAD76ABC24E8246A15 /* BookImportModifier.swift */; };
+		3D779039908E698D11EC7305 /* BookSearchSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5600E9F514A173272C5F3E35 /* BookSearchSheet.swift */; };
+		3DCF03E3BDCA49DB97922B56 /* ReaderPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D4B006370A6571C37D4F02 /* ReaderPreferences.swift */; };
+		41D7AA93FCA191876966EEFE /* NoteEditorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8049EE5D8C702E8127B02AF /* NoteEditorSheet.swift */; };
+		4825C5C067B63B4F0264EDEF /* GoalSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A63760C9EA29DEA9C1A14638 /* GoalSheet.swift */; };
+		4C12178CFB0C0D46D4F582C1 /* TextReaderCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35621AA54A19EA4135C12CD8 /* TextReaderCanvas.swift */; };
+		4C6D4A02925E0A475E6FAC50 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040932D394BE87CC89F824BD /* LibraryView.swift */; };
+		4E3311B90C71CC54876C7438 /* SpoilerSafeContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72602FF952DE0430359A4ED9 /* SpoilerSafeContext.swift */; };
+		4ECD175F82472A4BA1BAC96B /* FlowViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A159486376196C968239AF /* FlowViews.swift */; };
+		4F5274B03668D0A2E271040A /* ReaderStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CE94412166EA5AC4485285 /* ReaderStyle.swift */; };
+		4FF68CFF12145DDBE9A312F1 /* DemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AEEB3C4C62991D4A34E38A /* DemoData.swift */; };
+		51B74D677460E77115F37547 /* MarkupParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1721FD8A4A9E631DCA33D01 /* MarkupParser.swift */; };
+		57B9828E2216F134A3E3333E /* QuoliaShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7C9CCD4A01A4B1FCB7E44323 /* QuoliaShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		586AFFC9FF7E8B4E4E0233D7 /* MemoryScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876F3C2D2D78E4F43A2D6AAB /* MemoryScheduler.swift */; };
+		5D806E66AD90EE852420ED47 /* BookDetailsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824A004F7B82D6467C326DBA /* BookDetailsSheet.swift */; };
+		67C5C982B2E78C36313CF52E /* ContentLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A66BAD5A0E1D12A3F1B2C1C /* ContentLoader.swift */; };
+		67E8197A2CD47A756E6B04B4 /* ImageDownsampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4311658DD28EDBF91AC27FB /* ImageDownsampler.swift */; };
+		6A147C86652C086E075B6495 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64514B2A5CE74961CA1A6B7B /* OnboardingView.swift */; };
+		6B604BC7D4858ABFC5E7814F /* RememberNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40A68AA96170E62BB766FF6 /* RememberNotifications.swift */; };
+		6C4310D9AAE1C83DD08FC36C /* PlainTextParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86521F2A1D1EA21DF8040D78 /* PlainTextParser.swift */; };
+		6D7FB62965A2EBCDAF196031 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77B42ED39C0539940F78190 /* Book.swift */; };
+		6EB23180353A0FDCBFB42B8C /* ShareCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338AAB4B8CEA1EBDA6CF1F9B /* ShareCard.swift */; };
+		7093F54E3D2EEF4997CBDE03 /* SharedInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7133CDAB14B39851A3CD9DC /* SharedInbox.swift */; };
+		737B684B8927B4EF83E77573 /* HighlightService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4325F98C87E0885D1E81678 /* HighlightService.swift */; };
+		76BD7927D87E6793749DC82E /* WordLookupSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB992A627E6218F8CBF7A71 /* WordLookupSheet.swift */; };
+		79F262C0D535EDC25BA6B4B9 /* ClaudeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540CDEE974960F8C80811266 /* ClaudeProvider.swift */; };
+		7A80265090D681C876EB6348 /* ReaderChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1544238BA75984996EF0988B /* ReaderChrome.swift */; };
+		7C51D0D11F4D17B517E1C4F8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21194955CAACB958E4F89DB /* ShareViewController.swift */; };
+		8017962924B7D6B6339FF6E1 /* AskBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F61B2A29149E0A70777BAF6 /* AskBookView.swift */; };
+		803A8F63CBAB77320662375B /* TextReaderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1E5A67324D877C5E13698C /* TextReaderController.swift */; };
+		84DD3AE56A9544198F8C6292 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E33961CF2317C4215F60D6D6 /* Localizable.xcstrings */; };
+		878B64D62578CA3DBDA80D3A /* RememberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CEB8D127A664E43A021A19 /* RememberView.swift */; };
+		89DB1A579A770DAA9C8C79A4 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 906AC430AA42F0F02043C2C6 /* StatsView.swift */; };
+		89F46A1BB021011BBA9B5EA7 /* BookImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92576EAE6DC967CF50A7EA2C /* BookImporter.swift */; };
+		8B18305BC9ACF429FD596A6B /* ReaderBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66406F0C2E1DE18F0B8BB440 /* ReaderBridge.swift */; };
+		8C250F7397203D0A20F24061 /* Highlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8CF16B9EFFE80E6AFC9EB6 /* Highlight.swift */; };
+		8F7ACC18CCAF672874457EF4 /* ReaderSettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C563982D954153E1B38879F /* ReaderSettingsSheet.swift */; };
+		919BCCC59B52CE481A3492A0 /* QuoteCardComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AB7F7EFE894EE7C2C2B76B /* QuoteCardComposer.swift */; };
+		92D8F47A99AA3C4832DC31A6 /* EPUBParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5851BF8190DA2DE669F9F43F /* EPUBParser.swift */; };
+		92E829FA85B3C9559F53B0E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31EA45297B532497B7FEAF27 /* Assets.xcassets */; };
+		95CE50362A90E06E1D0A15E0 /* LanguageDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FE88FF8BA5228109FC062B /* LanguageDetector.swift */; };
+		9D2F05C27CC0A1FF1E8DC58D /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDA4CEA1037827AEBEF07357 /* Toast.swift */; };
+		A26402B38D0C4F6FD3D54633 /* ContentsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9371E2FA6900DDC2113B3363 /* ContentsSheet.swift */; };
+		A309739DCCEA6DAEF5059298 /* TextReaderController+Focus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0F7BA9E4D9E12B427E80BC /* TextReaderController+Focus.swift */; };
+		A4A76061E505C4554C5623D4 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B583D40465128C15AA2A06CB /* AppRouter.swift */; };
+		A8B9553BADE487513E5550A0 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FCD91CACF340591BDDB7C4 /* Haptics.swift */; };
+		ABB8EF50BC5257F679F162F3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A4DBFA7A2DE0F69EE9510812 /* InfoPlist.strings */; };
+		ADDA55497BAC5EE0EAAF3211 /* PDFBookParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032ABEFA1C4EAB3DA5C0CE36 /* PDFBookParser.swift */; };
+		B22BE2FFE0A08E54E7CEC2FF /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7562FE9DB343E7E48F28D720 /* Theme.swift */; };
+		B6F4F665308568C4F391DA63 /* ReaderSubviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8A94649ED811B85336E06E /* ReaderSubviews.swift */; };
+		BAFDA07A15B77C3DFF870825 /* ThemedPDFPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BC45A98001062D1D11E4B4F /* ThemedPDFPage.swift */; };
+		BE6899BDD2B0BD42DCC3B0BA /* SavedWordsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDA3E4839CAEC7510B90F81 /* SavedWordsList.swift */; };
+		BE6DF191F712F3B8AB7E36BA /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7562FE9DB343E7E48F28D720 /* Theme.swift */; };
+		BECDAD7E0FC988BF1E7CFBA2 /* AppleIntelligenceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA2D5311E862601FA949FB4B /* AppleIntelligenceProvider.swift */; };
+		BFA1FD0C2EC354D8FFA8C8C9 /* ModelContainerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBC293AB2CB33CA78CAD8427 /* ModelContainerFactory.swift */; };
+		C14F21EE2FB1D6C900A597E7 /* ModelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBA9571C638418E4261A7C1 /* ModelTypes.swift */; };
+		C5A508D72E51810D47A029F8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D185408E3127A9A93BA3EF07 /* SettingsView.swift */; };
+		CE861D6F01D57B3437A2975A /* BookContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B622612C24E955BE34D0FE /* BookContent.swift */; };
+		D119A365FFB3E671E4244CE2 /* SyncMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D29CE3EF0BDF2AF96F7A375 /* SyncMonitor.swift */; };
+		D350E083C1589DEE9A017AE5 /* AutoScrollControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587A4FC555A4047CB455D2AC /* AutoScrollControls.swift */; };
+		D9DA99D42359A000DA0267F9 /* ReadingStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8E8CC58CC90D394F0FE507 /* ReadingStats.swift */; };
+		DBBA6F0ED3943BC01DC7180F /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BBC80F1A1BEC95F83C5A09AA /* Localizable.xcstrings */; };
+		DDDC4F8C7B49D1AEB7788E47 /* BookViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43B5D3AECAEDED7B1E7C0EC /* BookViews.swift */; };
+		DE18245486FDE858A4F4E946 /* LibraryFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FDE11B95E7D099D6B19287 /* LibraryFilter.swift */; };
+		DE2FB07F2739DCCED7359AB4 /* BookCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D3838EDE04118C1CC957BB /* BookCoverView.swift */; };
+		DF17C7E53A6AD79E1585DCD5 /* ContentIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A941810BEA58B82C0EA5D9B /* ContentIndex.swift */; };
+		E020DE025AAA78BD3CD27674 /* AutoScrollEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04CCE71FB8D9450F477CB54 /* AutoScrollEngine.swift */; };
+		E4E3C2F0EFD8C1E70192A7A2 /* ReadingSessionTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5C6A10ADDB1A46800A6708 /* ReadingSessionTracker.swift */; };
+		E53A0A85F7F7F560B7688A6E /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0851A49102243AA25DEC98B7 /* AppSettings.swift */; };
+		E5B310F5ED244E548EBE7E69 /* KnowledgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84307D14275FF89B25B5DE2 /* KnowledgeView.swift */; };
+		E7F5318374D6E5B4FFA946CD /* AIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8880264705FC10906B86CF90 /* AIService.swift */; };
+		E93A62A5240DA3FF74776122 /* FirstBookSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4240930383E59BD005CA6564 /* FirstBookSheet.swift */; };
+		EC996BE9A5F57AE849F00FFD /* PDFReaderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD7436827051B6501241D3CE /* PDFReaderController.swift */; };
+		ED134611E8B7DB924668C7CD /* SharedInbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7133CDAB14B39851A3CD9DC /* SharedInbox.swift */; };
+		F097D3113C40B9214E244653 /* QuoliaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC85E44E8858779086D039E7 /* QuoliaApp.swift */; };
+		F45D480D6AB331B11B2633E0 /* FocusOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D20D299D035BA9EAA167FF /* FocusOverlayView.swift */; };
+		F4D8803F02AD6E686918D021 /* ReaderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC0B68204811577AB74EAC9 /* ReaderScreen.swift */; };
+		F7CD443B3724891DD8778447 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D5514C20162E37C92C26F54 /* RootView.swift */; };
+		FED0E909E4DB5F80BEC7BBEC /* SpeechController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4F2486B8AE8FB1812CCB7AF /* SpeechController.swift */; };
+		FF415F8F03D41489769900B5 /* ReaderLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2C8D7D044977F0A4432699 /* ReaderLayoutManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		45091A0BD01781D4C7139084 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E26694DF3007CEE11AD82279 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D3D5ABA964FE15287DA968A2;
+			remoteInfo = QuoliaShareExtension;
+		};
+		D0D16B20736060CB3647F9BD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E26694DF3007CEE11AD82279 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC847F5C9E0ED3154E1616F1;
+			remoteInfo = Quolia;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EF10C56137BE2D9704B10BE0 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				57B9828E2216F134A3E3333E /* QuoliaShareExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		032ABEFA1C4EAB3DA5C0CE36 /* PDFBookParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFBookParser.swift; sourceTree = "<group>"; };
+		040932D394BE87CC89F824BD /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
+		0851A49102243AA25DEC98B7 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		08FCD91CACF340591BDDB7C4 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		0E8B3900014F81677E3F806A /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		1544238BA75984996EF0988B /* ReaderChrome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderChrome.swift; sourceTree = "<group>"; };
+		17AB7F7EFE894EE7C2C2B76B /* QuoteCardComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteCardComposer.swift; sourceTree = "<group>"; };
+		1A941810BEA58B82C0EA5D9B /* ContentIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentIndex.swift; sourceTree = "<group>"; };
+		1B2C8D7D044977F0A4432699 /* ReaderLayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderLayoutManager.swift; sourceTree = "<group>"; };
+		1BC45A98001062D1D11E4B4F /* ThemedPDFPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemedPDFPage.swift; sourceTree = "<group>"; };
+		1C5DA804BE87368B359E2755 /* Primitives.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Primitives.swift; sourceTree = "<group>"; };
+		1F0F7BA9E4D9E12B427E80BC /* TextReaderController+Focus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextReaderController+Focus.swift"; sourceTree = "<group>"; };
+		25B622612C24E955BE34D0FE /* BookContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookContent.swift; sourceTree = "<group>"; };
+		29D3838EDE04118C1CC957BB /* BookCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookCoverView.swift; sourceTree = "<group>"; };
+		2C563982D954153E1B38879F /* ReaderSettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderSettingsSheet.swift; sourceTree = "<group>"; };
+		2D5514C20162E37C92C26F54 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		2F8A94649ED811B85336E06E /* ReaderSubviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderSubviews.swift; sourceTree = "<group>"; };
+		31EA45297B532497B7FEAF27 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		338AAB4B8CEA1EBDA6CF1F9B /* ShareCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCard.swift; sourceTree = "<group>"; };
+		34CE94412166EA5AC4485285 /* ReaderStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderStyle.swift; sourceTree = "<group>"; };
+		35621AA54A19EA4135C12CD8 /* TextReaderCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextReaderCanvas.swift; sourceTree = "<group>"; };
+		3FC0B68204811577AB74EAC9 /* ReaderScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderScreen.swift; sourceTree = "<group>"; };
+		4240930383E59BD005CA6564 /* FirstBookSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstBookSheet.swift; sourceTree = "<group>"; };
+		45DB93B05A4D6B2F7ACC3607 /* Quolia.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Quolia.entitlements; sourceTree = "<group>"; };
+		5067C4A421013DABF20D569F /* ReaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderViewModel.swift; sourceTree = "<group>"; };
+		52FE88FF8BA5228109FC062B /* LanguageDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageDetector.swift; sourceTree = "<group>"; };
+		540CDEE974960F8C80811266 /* ClaudeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeProvider.swift; sourceTree = "<group>"; };
+		5600E9F514A173272C5F3E35 /* BookSearchSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearchSheet.swift; sourceTree = "<group>"; };
+		5851BF8190DA2DE669F9F43F /* EPUBParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPUBParser.swift; sourceTree = "<group>"; };
+		587A4FC555A4047CB455D2AC /* AutoScrollControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoScrollControls.swift; sourceTree = "<group>"; };
+		5D5C6A10ADDB1A46800A6708 /* ReadingSessionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingSessionTracker.swift; sourceTree = "<group>"; };
+		5DC11790245AD2893F3FD1BE /* ChapterRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterRenderer.swift; sourceTree = "<group>"; };
+		5F61B2A29149E0A70777BAF6 /* AskBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskBookView.swift; sourceTree = "<group>"; };
+		64514B2A5CE74961CA1A6B7B /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		65D4B006370A6571C37D4F02 /* ReaderPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderPreferences.swift; sourceTree = "<group>"; };
+		66406F0C2E1DE18F0B8BB440 /* ReaderBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderBridge.swift; sourceTree = "<group>"; };
+		6A66BAD5A0E1D12A3F1B2C1C /* ContentLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLoader.swift; sourceTree = "<group>"; };
+		72602FF952DE0430359A4ED9 /* SpoilerSafeContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpoilerSafeContext.swift; sourceTree = "<group>"; };
+		73AEEB3C4C62991D4A34E38A /* DemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoData.swift; sourceTree = "<group>"; };
+		7562FE9DB343E7E48F28D720 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		7C9CCD4A01A4B1FCB7E44323 /* QuoliaShareExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = QuoliaShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D1E5A67324D877C5E13698C /* TextReaderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextReaderController.swift; sourceTree = "<group>"; };
+		7EBA9571C638418E4261A7C1 /* ModelTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTypes.swift; sourceTree = "<group>"; };
+		81D20D299D035BA9EAA167FF /* FocusOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusOverlayView.swift; sourceTree = "<group>"; };
+		824A004F7B82D6467C326DBA /* BookDetailsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailsSheet.swift; sourceTree = "<group>"; };
+		86521F2A1D1EA21DF8040D78 /* PlainTextParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainTextParser.swift; sourceTree = "<group>"; };
+		86CEB8D127A664E43A021A19 /* RememberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RememberView.swift; sourceTree = "<group>"; };
+		876F3C2D2D78E4F43A2D6AAB /* MemoryScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryScheduler.swift; sourceTree = "<group>"; };
+		883BBC5C6B99CD36B5CB2A2A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8880264705FC10906B86CF90 /* AIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIService.swift; sourceTree = "<group>"; };
+		8FB20A44CFAD7B59EB2CD498 /* HighlightPaletteOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightPaletteOverlay.swift; sourceTree = "<group>"; };
+		906AC430AA42F0F02043C2C6 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		92576EAE6DC967CF50A7EA2C /* BookImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookImporter.swift; sourceTree = "<group>"; };
+		9371E2FA6900DDC2113B3363 /* ContentsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsSheet.swift; sourceTree = "<group>"; };
+		99B3BF507853CD69082910AF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		99FDE11B95E7D099D6B19287 /* LibraryFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryFilter.swift; sourceTree = "<group>"; };
+		9AA3060599CB05F461408D57 /* BookFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookFileStore.swift; sourceTree = "<group>"; };
+		9D29CE3EF0BDF2AF96F7A375 /* SyncMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncMonitor.swift; sourceTree = "<group>"; };
+		A4F2486B8AE8FB1812CCB7AF /* SpeechController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechController.swift; sourceTree = "<group>"; };
+		A5999CCAD76ABC24E8246A15 /* BookImportModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookImportModifier.swift; sourceTree = "<group>"; };
+		A63760C9EA29DEA9C1A14638 /* GoalSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSheet.swift; sourceTree = "<group>"; };
+		A66A9DA915E099DAA9584402 /* QuoliaTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = QuoliaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A77B42ED39C0539940F78190 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		A8049EE5D8C702E8127B02AF /* NoteEditorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditorSheet.swift; sourceTree = "<group>"; };
+		ABDA3E4839CAEC7510B90F81 /* SavedWordsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedWordsList.swift; sourceTree = "<group>"; };
+		AD7436827051B6501241D3CE /* PDFReaderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFReaderController.swift; sourceTree = "<group>"; };
+		B04CCE71FB8D9450F477CB54 /* AutoScrollEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoScrollEngine.swift; sourceTree = "<group>"; };
+		B0E8276320DB3ED9E79C418D /* QuoliaShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QuoliaShareExtension.entitlements; sourceTree = "<group>"; };
+		B583D40465128C15AA2A06CB /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
+		B5B7CC4D23F4A07472D98034 /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
+		B84307D14275FF89B25B5DE2 /* KnowledgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnowledgeView.swift; sourceTree = "<group>"; };
+		BBC293AB2CB33CA78CAD8427 /* ModelContainerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelContainerFactory.swift; sourceTree = "<group>"; };
+		BBC80F1A1BEC95F83C5A09AA /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		BC85E44E8858779086D039E7 /* QuoliaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoliaApp.swift; sourceTree = "<group>"; };
+		C11434F5928C2E30FC3A8610 /* Quolia.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Quolia.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1721FD8A4A9E631DCA33D01 /* MarkupParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkupParser.swift; sourceTree = "<group>"; };
+		C1EB679C05989AA26968548A /* EngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngineTests.swift; sourceTree = "<group>"; };
+		C4311658DD28EDBF91AC27FB /* ImageDownsampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownsampler.swift; sourceTree = "<group>"; };
+		C7B4C0A6A0B59A77C91C6FA4 /* ZipArchive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipArchive.swift; sourceTree = "<group>"; };
+		CAB415145EB5399E0B7F7E33 /* DebugLaunch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLaunch.swift; sourceTree = "<group>"; };
+		CB8E8CC58CC90D394F0FE507 /* ReadingStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingStats.swift; sourceTree = "<group>"; };
+		CF8475C9E663B7D82D02E98D /* ReaderSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderSheet.swift; sourceTree = "<group>"; };
+		D185408E3127A9A93BA3EF07 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		D21194955CAACB958E4F89DB /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		D43B5D3AECAEDED7B1E7C0EC /* BookViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookViews.swift; sourceTree = "<group>"; };
+		D7133CDAB14B39851A3CD9DC /* SharedInbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedInbox.swift; sourceTree = "<group>"; };
+		E33961CF2317C4215F60D6D6 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		E40A68AA96170E62BB766FF6 /* RememberNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RememberNotifications.swift; sourceTree = "<group>"; };
+		E4325F98C87E0885D1E81678 /* HighlightService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightService.swift; sourceTree = "<group>"; };
+		E9A48C789CE4B1F133634643 /* HTMLContentExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLContentExtractor.swift; sourceTree = "<group>"; };
+		EA2D5311E862601FA949FB4B /* AppleIntelligenceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceProvider.swift; sourceTree = "<group>"; };
+		EE8CF16B9EFFE80E6AFC9EB6 /* Highlight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Highlight.swift; sourceTree = "<group>"; };
+		F0A159486376196C968239AF /* FlowViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowViews.swift; sourceTree = "<group>"; };
+		F2BDCF2247C40893CB97F692 /* On Reading Slowly.epub */ = {isa = PBXFileReference; path = "On Reading Slowly.epub"; sourceTree = "<group>"; };
+		FAB992A627E6218F8CBF7A71 /* WordLookupSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordLookupSheet.swift; sourceTree = "<group>"; };
+		FDA4CEA1037827AEBEF07357 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		1E18AF01529C449A7C43D544 = {
+			isa = PBXGroup;
+			children = (
+				F3FD7B08E79FA7196467DCB1 /* Quolia */,
+				8E282F11787425CBB1EC1158 /* QuoliaShareExtension */,
+				63AFD1AF7663336F1C2C29FB /* QuoliaTests */,
+				E48DCB89804944A69A788784 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		21D85B109F970487B753C94F /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+				A63760C9EA29DEA9C1A14638 /* GoalSheet.swift */,
+			);
+			path = Goals;
+			sourceTree = "<group>";
+		};
+		21EA3C450FE611C286EDA31C /* Speech */ = {
+			isa = PBXGroup;
+			children = (
+				A4F2486B8AE8FB1812CCB7AF /* SpeechController.swift */,
+			);
+			path = Speech;
+			sourceTree = "<group>";
+		};
+		2E503232490D415FBDDA92A2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A4DBFA7A2DE0F69EE9510812 /* InfoPlist.strings */,
+				31EA45297B532497B7FEAF27 /* Assets.xcassets */,
+				E33961CF2317C4215F60D6D6 /* Localizable.xcstrings */,
+				F2BDCF2247C40893CB97F692 /* On Reading Slowly.epub */,
+				45DB93B05A4D6B2F7ACC3607 /* Quolia.entitlements */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		3653DB62105F5F1FD9379E84 /* Text */ = {
+			isa = PBXGroup;
+			children = (
+				52FE88FF8BA5228109FC062B /* LanguageDetector.swift */,
+				86521F2A1D1EA21DF8040D78 /* PlainTextParser.swift */,
+			);
+			path = Text;
+			sourceTree = "<group>";
+		};
+		39C053FA4DA9AEDB0E0ACCA8 /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				CB8E8CC58CC90D394F0FE507 /* ReadingStats.swift */,
+				906AC430AA42F0F02043C2C6 /* StatsView.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		3A03991E2728D4849A0D2823 /* Quotes */ = {
+			isa = PBXGroup;
+			children = (
+				B84307D14275FF89B25B5DE2 /* KnowledgeView.swift */,
+			);
+			path = Quotes;
+			sourceTree = "<group>";
+		};
+		3A048F9065298B6A9EF16AB6 /* Highlights */ = {
+			isa = PBXGroup;
+			children = (
+				8FB20A44CFAD7B59EB2CD498 /* HighlightPaletteOverlay.swift */,
+				E4325F98C87E0885D1E81678 /* HighlightService.swift */,
+			);
+			path = Highlights;
+			sourceTree = "<group>";
+		};
+		3BECC6F4B1381AB015A82BC5 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				29D3838EDE04118C1CC957BB /* BookCoverView.swift */,
+				1C5DA804BE87368B359E2755 /* Primitives.swift */,
+				FDA4CEA1037827AEBEF07357 /* Toast.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		44A9A489C16DC989CB90A1CE /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				25B622612C24E955BE34D0FE /* BookContent.swift */,
+				1A941810BEA58B82C0EA5D9B /* ContentIndex.swift */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		4D46F3F350C622208A3F4514 /* AI */ = {
+			isa = PBXGroup;
+			children = (
+				8880264705FC10906B86CF90 /* AIService.swift */,
+				EA2D5311E862601FA949FB4B /* AppleIntelligenceProvider.swift */,
+				5F61B2A29149E0A70777BAF6 /* AskBookView.swift */,
+				540CDEE974960F8C80811266 /* ClaudeProvider.swift */,
+				72602FF952DE0430359A4ED9 /* SpoilerSafeContext.swift */,
+			);
+			path = AI;
+			sourceTree = "<group>";
+		};
+		5069E585B6122B56FCD18ABE /* PDF */ = {
+			isa = PBXGroup;
+			children = (
+				AD7436827051B6501241D3CE /* PDFReaderController.swift */,
+				1BC45A98001062D1D11E4B4F /* ThemedPDFPage.swift */,
+			);
+			path = PDF;
+			sourceTree = "<group>";
+		};
+		58C7F5CFC292F6063AC9F615 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				4240930383E59BD005CA6564 /* FirstBookSheet.swift */,
+				64514B2A5CE74961CA1A6B7B /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		63AFD1AF7663336F1C2C29FB /* QuoliaTests */ = {
+			isa = PBXGroup;
+			children = (
+				C1EB679C05989AA26968548A /* EngineTests.swift */,
+			);
+			path = QuoliaTests;
+			sourceTree = "<group>";
+		};
+		67D9F203B22409B139C82489 /* Notes */ = {
+			isa = PBXGroup;
+			children = (
+				A8049EE5D8C702E8127B02AF /* NoteEditorSheet.swift */,
+			);
+			path = Notes;
+			sourceTree = "<group>";
+		};
+		688B6F78410D207ADB250BD9 /* PDF */ = {
+			isa = PBXGroup;
+			children = (
+				032ABEFA1C4EAB3DA5C0CE36 /* PDFBookParser.swift */,
+			);
+			path = PDF;
+			sourceTree = "<group>";
+		};
+		71CA0372B71FDE53687B50CF /* App */ = {
+			isa = PBXGroup;
+			children = (
+				B583D40465128C15AA2A06CB /* AppRouter.swift */,
+				CAB415145EB5399E0B7F7E33 /* DebugLaunch.swift */,
+				73AEEB3C4C62991D4A34E38A /* DemoData.swift */,
+				BBC293AB2CB33CA78CAD8427 /* ModelContainerFactory.swift */,
+				BC85E44E8858779086D039E7 /* QuoliaApp.swift */,
+				2D5514C20162E37C92C26F54 /* RootView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		720CD4F17DAF9946F1610A71 /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				9D29CE3EF0BDF2AF96F7A375 /* SyncMonitor.swift */,
+			);
+			path = Sync;
+			sourceTree = "<group>";
+		};
+		72EC8FEF66B0146CF3CC2DB6 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				44A9A489C16DC989CB90A1CE /* Content */,
+				CD451D02FFEC5492C795C3E0 /* Models */,
+				A7FA5E522D34C0EBACC1FDC7 /* Services */,
+				BC744492242C3540996DD9CA /* Settings */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		785A59C8795F67301DDA9D88 /* Panels */ = {
+			isa = PBXGroup;
+			children = (
+				5600E9F514A173272C5F3E35 /* BookSearchSheet.swift */,
+				9371E2FA6900DDC2113B3363 /* ContentsSheet.swift */,
+				2C563982D954153E1B38879F /* ReaderSettingsSheet.swift */,
+			);
+			path = Panels;
+			sourceTree = "<group>";
+		};
+		7D4FF83F36760F30C26A6F6A /* Reader */ = {
+			isa = PBXGroup;
+			children = (
+				7E6E9E4DC2D8B3BE345447AB /* Chrome */,
+				785A59C8795F67301DDA9D88 /* Panels */,
+				5069E585B6122B56FCD18ABE /* PDF */,
+				8E58375B39DB5DF9F705FD90 /* TextEngine */,
+				3FC0B68204811577AB74EAC9 /* ReaderScreen.swift */,
+				CF8475C9E663B7D82D02E98D /* ReaderSheet.swift */,
+				5067C4A421013DABF20D569F /* ReaderViewModel.swift */,
+			);
+			path = Reader;
+			sourceTree = "<group>";
+		};
+		7E6E9E4DC2D8B3BE345447AB /* Chrome */ = {
+			isa = PBXGroup;
+			children = (
+				1544238BA75984996EF0988B /* ReaderChrome.swift */,
+			);
+			path = Chrome;
+			sourceTree = "<group>";
+		};
+		80E63759E507C4683F8D9251 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				3BECC6F4B1381AB015A82BC5 /* Components */,
+				7562FE9DB343E7E48F28D720 /* Theme.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		82FF65D8506CB60311E394DF /* ReadingFlow */ = {
+			isa = PBXGroup;
+			children = (
+				F0A159486376196C968239AF /* FlowViews.swift */,
+			);
+			path = ReadingFlow;
+			sourceTree = "<group>";
+		};
+		8370D645A0CD10C1534F56F8 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				4D46F3F350C622208A3F4514 /* AI */,
+				954C8D14E904376056F7D0C4 /* AutoScroll */,
+				F601A75E5F1DC96D0DE27F55 /* Dictionary */,
+				B8033390BC614667BD85444A /* Focus */,
+				21D85B109F970487B753C94F /* Goals */,
+				3A048F9065298B6A9EF16AB6 /* Highlights */,
+				DBC6867B62D51DCA4F8EE54B /* Library */,
+				67D9F203B22409B139C82489 /* Notes */,
+				58C7F5CFC292F6063AC9F615 /* Onboarding */,
+				869C2A7A945388DEEFDB719A /* QuoteCards */,
+				3A03991E2728D4849A0D2823 /* Quotes */,
+				7D4FF83F36760F30C26A6F6A /* Reader */,
+				82FF65D8506CB60311E394DF /* ReadingFlow */,
+				F5F13FD86CA35AAE2929A588 /* Remember */,
+				E695E93DD9033894AB7BAB6A /* Sessions */,
+				9D5A95578D39B622550F035C /* Settings */,
+				21EA3C450FE611C286EDA31C /* Speech */,
+				39C053FA4DA9AEDB0E0ACCA8 /* Stats */,
+				720CD4F17DAF9946F1610A71 /* Sync */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		869C2A7A945388DEEFDB719A /* QuoteCards */ = {
+			isa = PBXGroup;
+			children = (
+				17AB7F7EFE894EE7C2C2B76B /* QuoteCardComposer.swift */,
+			);
+			path = QuoteCards;
+			sourceTree = "<group>";
+		};
+		8E282F11787425CBB1EC1158 /* QuoliaShareExtension */ = {
+			isa = PBXGroup;
+			children = (
+				BBC80F1A1BEC95F83C5A09AA /* Localizable.xcstrings */,
+				B0E8276320DB3ED9E79C418D /* QuoliaShareExtension.entitlements */,
+				338AAB4B8CEA1EBDA6CF1F9B /* ShareCard.swift */,
+				D21194955CAACB958E4F89DB /* ShareViewController.swift */,
+			);
+			path = QuoliaShareExtension;
+			sourceTree = "<group>";
+		};
+		8E58375B39DB5DF9F705FD90 /* TextEngine */ = {
+			isa = PBXGroup;
+			children = (
+				5DC11790245AD2893F3FD1BE /* ChapterRenderer.swift */,
+				66406F0C2E1DE18F0B8BB440 /* ReaderBridge.swift */,
+				1B2C8D7D044977F0A4432699 /* ReaderLayoutManager.swift */,
+				34CE94412166EA5AC4485285 /* ReaderStyle.swift */,
+				2F8A94649ED811B85336E06E /* ReaderSubviews.swift */,
+				35621AA54A19EA4135C12CD8 /* TextReaderCanvas.swift */,
+				7D1E5A67324D877C5E13698C /* TextReaderController.swift */,
+			);
+			path = TextEngine;
+			sourceTree = "<group>";
+		};
+		925FB50461A1DC89F0D891DF /* EPUB */ = {
+			isa = PBXGroup;
+			children = (
+				5851BF8190DA2DE669F9F43F /* EPUBParser.swift */,
+				E9A48C789CE4B1F133634643 /* HTMLContentExtractor.swift */,
+				C1721FD8A4A9E631DCA33D01 /* MarkupParser.swift */,
+				C7B4C0A6A0B59A77C91C6FA4 /* ZipArchive.swift */,
+			);
+			path = EPUB;
+			sourceTree = "<group>";
+		};
+		954C8D14E904376056F7D0C4 /* AutoScroll */ = {
+			isa = PBXGroup;
+			children = (
+				587A4FC555A4047CB455D2AC /* AutoScrollControls.swift */,
+				B04CCE71FB8D9450F477CB54 /* AutoScrollEngine.swift */,
+			);
+			path = AutoScroll;
+			sourceTree = "<group>";
+		};
+		9D5A95578D39B622550F035C /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D185408E3127A9A93BA3EF07 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		A7FA5E522D34C0EBACC1FDC7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9AA3060599CB05F461408D57 /* BookFileStore.swift */,
+				92576EAE6DC967CF50A7EA2C /* BookImporter.swift */,
+				6A66BAD5A0E1D12A3F1B2C1C /* ContentLoader.swift */,
+				08FCD91CACF340591BDDB7C4 /* Haptics.swift */,
+				C4311658DD28EDBF91AC27FB /* ImageDownsampler.swift */,
+				0E8B3900014F81677E3F806A /* KeychainStore.swift */,
+				D7133CDAB14B39851A3CD9DC /* SharedInbox.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		B8033390BC614667BD85444A /* Focus */ = {
+			isa = PBXGroup;
+			children = (
+				81D20D299D035BA9EAA167FF /* FocusOverlayView.swift */,
+				1F0F7BA9E4D9E12B427E80BC /* TextReaderController+Focus.swift */,
+			);
+			path = Focus;
+			sourceTree = "<group>";
+		};
+		BC744492242C3540996DD9CA /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				0851A49102243AA25DEC98B7 /* AppSettings.swift */,
+				65D4B006370A6571C37D4F02 /* ReaderPreferences.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		C341D21F29C97827F4725A2A /* Engines */ = {
+			isa = PBXGroup;
+			children = (
+				925FB50461A1DC89F0D891DF /* EPUB */,
+				688B6F78410D207ADB250BD9 /* PDF */,
+				3653DB62105F5F1FD9379E84 /* Text */,
+			);
+			path = Engines;
+			sourceTree = "<group>";
+		};
+		CD451D02FFEC5492C795C3E0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A77B42ED39C0539940F78190 /* Book.swift */,
+				B5B7CC4D23F4A07472D98034 /* Bookmark.swift */,
+				EE8CF16B9EFFE80E6AFC9EB6 /* Highlight.swift */,
+				7EBA9571C638418E4261A7C1 /* ModelTypes.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DBC6867B62D51DCA4F8EE54B /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				824A004F7B82D6467C326DBA /* BookDetailsSheet.swift */,
+				A5999CCAD76ABC24E8246A15 /* BookImportModifier.swift */,
+				D43B5D3AECAEDED7B1E7C0EC /* BookViews.swift */,
+				99FDE11B95E7D099D6B19287 /* LibraryFilter.swift */,
+				040932D394BE87CC89F824BD /* LibraryView.swift */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		E48DCB89804944A69A788784 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C11434F5928C2E30FC3A8610 /* Quolia.app */,
+				7C9CCD4A01A4B1FCB7E44323 /* QuoliaShareExtension.appex */,
+				A66A9DA915E099DAA9584402 /* QuoliaTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E695E93DD9033894AB7BAB6A /* Sessions */ = {
+			isa = PBXGroup;
+			children = (
+				5D5C6A10ADDB1A46800A6708 /* ReadingSessionTracker.swift */,
+			);
+			path = Sessions;
+			sourceTree = "<group>";
+		};
+		F3FD7B08E79FA7196467DCB1 /* Quolia */ = {
+			isa = PBXGroup;
+			children = (
+				71CA0372B71FDE53687B50CF /* App */,
+				72EC8FEF66B0146CF3CC2DB6 /* Core */,
+				80E63759E507C4683F8D9251 /* DesignSystem */,
+				C341D21F29C97827F4725A2A /* Engines */,
+				8370D645A0CD10C1534F56F8 /* Features */,
+				2E503232490D415FBDDA92A2 /* Resources */,
+			);
+			path = Quolia;
+			sourceTree = "<group>";
+		};
+		F5F13FD86CA35AAE2929A588 /* Remember */ = {
+			isa = PBXGroup;
+			children = (
+				876F3C2D2D78E4F43A2D6AAB /* MemoryScheduler.swift */,
+				E40A68AA96170E62BB766FF6 /* RememberNotifications.swift */,
+				86CEB8D127A664E43A021A19 /* RememberView.swift */,
+			);
+			path = Remember;
+			sourceTree = "<group>";
+		};
+		F601A75E5F1DC96D0DE27F55 /* Dictionary */ = {
+			isa = PBXGroup;
+			children = (
+				ABDA3E4839CAEC7510B90F81 /* SavedWordsList.swift */,
+				FAB992A627E6218F8CBF7A71 /* WordLookupSheet.swift */,
+			);
+			path = Dictionary;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5213C28F643999E94108E3CA /* QuoliaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE5D8B4B4A07E2B004D6A0F8 /* Build configuration list for PBXNativeTarget "QuoliaTests" */;
+			buildPhases = (
+				78A74000D45B321092E6FCFA /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5DE9D256E8A7F52D044B7231 /* PBXTargetDependency */,
+			);
+			name = QuoliaTests;
+			packageProductDependencies = (
+			);
+			productName = QuoliaTests;
+			productReference = A66A9DA915E099DAA9584402 /* QuoliaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D3D5ABA964FE15287DA968A2 /* QuoliaShareExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BDB42EAFA6FD18681799EBD7 /* Build configuration list for PBXNativeTarget "QuoliaShareExtension" */;
+			buildPhases = (
+				4FCF32673B4268742FE54142 /* Sources */,
+				C0E233C1657127B44F9561F1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = QuoliaShareExtension;
+			packageProductDependencies = (
+			);
+			productName = QuoliaShareExtension;
+			productReference = 7C9CCD4A01A4B1FCB7E44323 /* QuoliaShareExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		EC847F5C9E0ED3154E1616F1 /* Quolia */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 27BD4443A3093556525632B7 /* Build configuration list for PBXNativeTarget "Quolia" */;
+			buildPhases = (
+				191D1DACBDBD799ECFAC5DD1 /* Sources */,
+				BC52A722365607F525220BF9 /* Resources */,
+				EF10C56137BE2D9704B10BE0 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D93FFAF6813626D2294D8B40 /* PBXTargetDependency */,
+			);
+			name = Quolia;
+			packageProductDependencies = (
+			);
+			productName = Quolia;
+			productReference = C11434F5928C2E30FC3A8610 /* Quolia.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E26694DF3007CEE11AD82279 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					5213C28F643999E94108E3CA = {
+						DevelopmentTeam = "";
+					};
+					D3D5ABA964FE15287DA968A2 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					EC847F5C9E0ED3154E1616F1 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = AC5FE366DC112CBA2EA48A4F /* Build configuration list for PBXProject "Quolia" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+				ru,
+			);
+			mainGroup = 1E18AF01529C449A7C43D544;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = E48DCB89804944A69A788784 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EC847F5C9E0ED3154E1616F1 /* Quolia */,
+				D3D5ABA964FE15287DA968A2 /* QuoliaShareExtension */,
+				5213C28F643999E94108E3CA /* QuoliaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BC52A722365607F525220BF9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				92E829FA85B3C9559F53B0E9 /* Assets.xcassets in Resources */,
+				ABB8EF50BC5257F679F162F3 /* InfoPlist.strings in Resources */,
+				84DD3AE56A9544198F8C6292 /* Localizable.xcstrings in Resources */,
+				3AA260CEC81DDD791F358806 /* On Reading Slowly.epub in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0E233C1657127B44F9561F1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DBBA6F0ED3943BC01DC7180F /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		191D1DACBDBD799ECFAC5DD1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E7F5318374D6E5B4FFA946CD /* AIService.swift in Sources */,
+				A4A76061E505C4554C5623D4 /* AppRouter.swift in Sources */,
+				E53A0A85F7F7F560B7688A6E /* AppSettings.swift in Sources */,
+				BECDAD7E0FC988BF1E7CFBA2 /* AppleIntelligenceProvider.swift in Sources */,
+				8017962924B7D6B6339FF6E1 /* AskBookView.swift in Sources */,
+				D350E083C1589DEE9A017AE5 /* AutoScrollControls.swift in Sources */,
+				E020DE025AAA78BD3CD27674 /* AutoScrollEngine.swift in Sources */,
+				6D7FB62965A2EBCDAF196031 /* Book.swift in Sources */,
+				CE861D6F01D57B3437A2975A /* BookContent.swift in Sources */,
+				DE2FB07F2739DCCED7359AB4 /* BookCoverView.swift in Sources */,
+				5D806E66AD90EE852420ED47 /* BookDetailsSheet.swift in Sources */,
+				0B8E8085643EFC3CBF39370A /* BookFileStore.swift in Sources */,
+				3AD76A9C9821A26F8E3297FF /* BookImportModifier.swift in Sources */,
+				89F46A1BB021011BBA9B5EA7 /* BookImporter.swift in Sources */,
+				3D779039908E698D11EC7305 /* BookSearchSheet.swift in Sources */,
+				DDDC4F8C7B49D1AEB7788E47 /* BookViews.swift in Sources */,
+				0A0A023E6CFA556AF6A77A2F /* Bookmark.swift in Sources */,
+				1A21644D0B2D20B6634844C5 /* ChapterRenderer.swift in Sources */,
+				79F262C0D535EDC25BA6B4B9 /* ClaudeProvider.swift in Sources */,
+				DF17C7E53A6AD79E1585DCD5 /* ContentIndex.swift in Sources */,
+				67C5C982B2E78C36313CF52E /* ContentLoader.swift in Sources */,
+				A26402B38D0C4F6FD3D54633 /* ContentsSheet.swift in Sources */,
+				35E515DD3A53F1051F44708C /* DebugLaunch.swift in Sources */,
+				4FF68CFF12145DDBE9A312F1 /* DemoData.swift in Sources */,
+				92D8F47A99AA3C4832DC31A6 /* EPUBParser.swift in Sources */,
+				E93A62A5240DA3FF74776122 /* FirstBookSheet.swift in Sources */,
+				4ECD175F82472A4BA1BAC96B /* FlowViews.swift in Sources */,
+				F45D480D6AB331B11B2633E0 /* FocusOverlayView.swift in Sources */,
+				4825C5C067B63B4F0264EDEF /* GoalSheet.swift in Sources */,
+				0E0677224E84B449B61AF4E0 /* HTMLContentExtractor.swift in Sources */,
+				A8B9553BADE487513E5550A0 /* Haptics.swift in Sources */,
+				8C250F7397203D0A20F24061 /* Highlight.swift in Sources */,
+				124169D6DF9B3EDBE359C129 /* HighlightPaletteOverlay.swift in Sources */,
+				737B684B8927B4EF83E77573 /* HighlightService.swift in Sources */,
+				67E8197A2CD47A756E6B04B4 /* ImageDownsampler.swift in Sources */,
+				20FAFC9E8FA395E38140E01B /* KeychainStore.swift in Sources */,
+				E5B310F5ED244E548EBE7E69 /* KnowledgeView.swift in Sources */,
+				95CE50362A90E06E1D0A15E0 /* LanguageDetector.swift in Sources */,
+				DE18245486FDE858A4F4E946 /* LibraryFilter.swift in Sources */,
+				4C6D4A02925E0A475E6FAC50 /* LibraryView.swift in Sources */,
+				51B74D677460E77115F37547 /* MarkupParser.swift in Sources */,
+				586AFFC9FF7E8B4E4E0233D7 /* MemoryScheduler.swift in Sources */,
+				BFA1FD0C2EC354D8FFA8C8C9 /* ModelContainerFactory.swift in Sources */,
+				C14F21EE2FB1D6C900A597E7 /* ModelTypes.swift in Sources */,
+				41D7AA93FCA191876966EEFE /* NoteEditorSheet.swift in Sources */,
+				6A147C86652C086E075B6495 /* OnboardingView.swift in Sources */,
+				ADDA55497BAC5EE0EAAF3211 /* PDFBookParser.swift in Sources */,
+				EC996BE9A5F57AE849F00FFD /* PDFReaderController.swift in Sources */,
+				6C4310D9AAE1C83DD08FC36C /* PlainTextParser.swift in Sources */,
+				25E71762865602C0ED9CEB37 /* Primitives.swift in Sources */,
+				F097D3113C40B9214E244653 /* QuoliaApp.swift in Sources */,
+				919BCCC59B52CE481A3492A0 /* QuoteCardComposer.swift in Sources */,
+				8B18305BC9ACF429FD596A6B /* ReaderBridge.swift in Sources */,
+				7A80265090D681C876EB6348 /* ReaderChrome.swift in Sources */,
+				FF415F8F03D41489769900B5 /* ReaderLayoutManager.swift in Sources */,
+				3DCF03E3BDCA49DB97922B56 /* ReaderPreferences.swift in Sources */,
+				F4D8803F02AD6E686918D021 /* ReaderScreen.swift in Sources */,
+				8F7ACC18CCAF672874457EF4 /* ReaderSettingsSheet.swift in Sources */,
+				087345D4CC19EEF89C38A8E3 /* ReaderSheet.swift in Sources */,
+				4F5274B03668D0A2E271040A /* ReaderStyle.swift in Sources */,
+				B6F4F665308568C4F391DA63 /* ReaderSubviews.swift in Sources */,
+				08C200FE14A49BF98CDDA28D /* ReaderViewModel.swift in Sources */,
+				E4E3C2F0EFD8C1E70192A7A2 /* ReadingSessionTracker.swift in Sources */,
+				D9DA99D42359A000DA0267F9 /* ReadingStats.swift in Sources */,
+				6B604BC7D4858ABFC5E7814F /* RememberNotifications.swift in Sources */,
+				878B64D62578CA3DBDA80D3A /* RememberView.swift in Sources */,
+				F7CD443B3724891DD8778447 /* RootView.swift in Sources */,
+				BE6899BDD2B0BD42DCC3B0BA /* SavedWordsList.swift in Sources */,
+				C5A508D72E51810D47A029F8 /* SettingsView.swift in Sources */,
+				7093F54E3D2EEF4997CBDE03 /* SharedInbox.swift in Sources */,
+				FED0E909E4DB5F80BEC7BBEC /* SpeechController.swift in Sources */,
+				4E3311B90C71CC54876C7438 /* SpoilerSafeContext.swift in Sources */,
+				89DB1A579A770DAA9C8C79A4 /* StatsView.swift in Sources */,
+				D119A365FFB3E671E4244CE2 /* SyncMonitor.swift in Sources */,
+				4C12178CFB0C0D46D4F582C1 /* TextReaderCanvas.swift in Sources */,
+				A309739DCCEA6DAEF5059298 /* TextReaderController+Focus.swift in Sources */,
+				803A8F63CBAB77320662375B /* TextReaderController.swift in Sources */,
+				BE6DF191F712F3B8AB7E36BA /* Theme.swift in Sources */,
+				BAFDA07A15B77C3DFF870825 /* ThemedPDFPage.swift in Sources */,
+				9D2F05C27CC0A1FF1E8DC58D /* Toast.swift in Sources */,
+				76BD7927D87E6793749DC82E /* WordLookupSheet.swift in Sources */,
+				085A19637811398A0FF57E66 /* ZipArchive.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4FCF32673B4268742FE54142 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EB23180353A0FDCBFB42B8C /* ShareCard.swift in Sources */,
+				7C51D0D11F4D17B517E1C4F8 /* ShareViewController.swift in Sources */,
+				ED134611E8B7DB924668C7CD /* SharedInbox.swift in Sources */,
+				B22BE2FFE0A08E54E7CEC2FF /* Theme.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78A74000D45B321092E6FCFA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0D15512279147DC634E955CB /* EngineTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5DE9D256E8A7F52D044B7231 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC847F5C9E0ED3154E1616F1 /* Quolia */;
+			targetProxy = D0D16B20736060CB3647F9BD /* PBXContainerItemProxy */;
+		};
+		D93FFAF6813626D2294D8B40 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D3D5ABA964FE15287DA968A2 /* QuoliaShareExtension */;
+			targetProxy = 45091A0BD01781D4C7139084 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A4DBFA7A2DE0F69EE9510812 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				99B3BF507853CD69082910AF /* en */,
+				883BBC5C6B99CD36B5CB2A2A /* ru */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		36B040608F255BB9AC97B8FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.quolia.reader.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Quolia.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Quolia";
+			};
+			name = Debug;
+		};
+		42260A77FE699B6B2563F0EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		50B7B0998F70447CF8BD8463 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = QuoliaShareExtension/QuoliaShareExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = QuoliaShareExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.quolia.reader.share;
+				PRODUCT_NAME = QuoliaShareExtension;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		5455CEC7E3D49A91994F031E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.quolia.reader.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Quolia.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Quolia";
+			};
+			name = Release;
+		};
+		68C9FF358484F1371BFDFF3F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = QuoliaShareExtension/QuoliaShareExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = QuoliaShareExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.quolia.reader.share;
+				PRODUCT_NAME = QuoliaShareExtension;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8A0AE6F678300ADB1716EF71 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Quolia/Resources/Quolia.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Quolia/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.quolia.reader;
+				PRODUCT_NAME = Quolia;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		98D991C249E1BE8397B85BAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AAEDF8706CA0878B395914B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Quolia/Resources/Quolia.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Quolia/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.quolia.reader;
+				PRODUCT_NAME = Quolia;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		27BD4443A3093556525632B7 /* Build configuration list for PBXNativeTarget "Quolia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A0AE6F678300ADB1716EF71 /* Debug */,
+				AAEDF8706CA0878B395914B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AC5FE366DC112CBA2EA48A4F /* Build configuration list for PBXProject "Quolia" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				42260A77FE699B6B2563F0EA /* Debug */,
+				98D991C249E1BE8397B85BAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BDB42EAFA6FD18681799EBD7 /* Build configuration list for PBXNativeTarget "QuoliaShareExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				68C9FF358484F1371BFDFF3F /* Debug */,
+				50B7B0998F70447CF8BD8463 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CE5D8B4B4A07E2B004D6A0F8 /* Build configuration list for PBXNativeTarget "QuoliaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				36B040608F255BB9AC97B8FF /* Debug */,
+				5455CEC7E3D49A91994F031E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E26694DF3007CEE11AD82279 /* Project object */;
+}

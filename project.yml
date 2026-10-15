@@ -1,0 +1,192 @@
+name: Quolia
+options:
+  bundleIdPrefix: com.quolia
+  developmentLanguage: en
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+  generateEmptyDirectories: false
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    TARGETED_DEVICE_FAMILY: "1,2"
+    DEVELOPMENT_TEAM: ""
+    SWIFT_STRICT_CONCURRENCY: minimal
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    SWIFT_EMIT_LOC_STRINGS: YES
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+    STRING_CATALOG_GENERATE_SYMBOLS: NO
+
+targets:
+  Quolia:
+    type: application
+    platform: iOS
+    sources:
+      - path: Quolia
+        excludes:
+          - "Resources/Info.plist"
+    dependencies:
+      - target: QuoliaShareExtension
+    entitlements:
+      path: Quolia/Resources/Quolia.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.quolia.reader
+        com.apple.developer.icloud-container-identifiers:
+          - iCloud.com.quolia.reader
+        com.apple.developer.icloud-services:
+          - CloudKit
+          - CloudDocuments
+        com.apple.developer.ubiquity-container-identifiers:
+          - iCloud.com.quolia.reader
+        com.apple.developer.ubiquity-kvstore-identifier: $(TeamIdentifierPrefix)$(CFBundleIdentifier)
+        aps-environment: development
+    info:
+      path: Quolia/Resources/Info.plist
+      properties:
+        CFBundleDisplayName: Quolia
+        CFBundleDevelopmentRegion: en
+        CFBundleLocalizations:
+          - en
+          - ru
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSApplicationCategoryType: public.app-category.books
+        ITSAppUsesNonExemptEncryption: false
+        LSSupportsOpeningDocumentsInPlace: false
+        UISupportsDocumentBrowser: false
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UILaunchScreen:
+          UIColorName: LaunchBackground
+        UIBackgroundModes:
+          - remote-notification
+          - audio
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        CFBundleURLTypes:
+          - CFBundleURLName: com.quolia.reader
+            CFBundleURLSchemes:
+              - quolia
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: EPUB Book
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes:
+              - org.idpf.epub-container
+          - CFBundleTypeName: PDF Document
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes:
+              - com.adobe.pdf
+          - CFBundleTypeName: Plain Text
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes:
+              - public.plain-text
+        UTImportedTypeDeclarations:
+          - UTTypeIdentifier: org.idpf.epub-container
+            UTTypeDescription: EPUB Book
+            UTTypeConformsTo:
+              - public.data
+              - public.archive
+              - public.composite-content
+            UTTypeTagSpecification:
+              public.filename-extension:
+                - epub
+              public.mime-type:
+                - application/epub+zip
+        NSUbiquitousContainers:
+          iCloud.com.quolia.reader:
+            NSUbiquitousContainerIsDocumentScopePublic: false
+            NSUbiquitousContainerName: Quolia
+            NSUbiquitousContainerSupportedFolderLevels: Any
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.quolia.reader
+        PRODUCT_NAME: Quolia
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_PREVIEWS: YES
+        SUPPORTS_MACCATALYST: NO
+
+  QuoliaShareExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: QuoliaShareExtension
+        excludes:
+          - "Info.plist"
+      - path: Quolia/Core/Services/SharedInbox.swift
+      - path: Quolia/DesignSystem/Theme.swift
+    entitlements:
+      path: QuoliaShareExtension/QuoliaShareExtension.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.quolia.reader
+    info:
+      path: QuoliaShareExtension/Info.plist
+      properties:
+        CFBundleDisplayName: Quolia
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleDevelopmentRegion: en
+        CFBundleLocalizations:
+          - en
+          - ru
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.share-services
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).ShareViewController
+          NSExtensionAttributes:
+            NSExtensionActivationRule: >-
+              SUBQUERY (extensionItems, $extensionItem,
+              SUBQUERY ($extensionItem.attachments, $attachment,
+              ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "org.idpf.epub-container"
+              || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "com.adobe.pdf"
+              || ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "public.plain-text"
+              ).@count >= 1).@count >= 1
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.quolia.reader.share
+        PRODUCT_NAME: QuoliaShareExtension
+        CODE_SIGN_STYLE: Automatic
+        SKIP_INSTALL: YES
+        APPLICATION_EXTENSION_API_ONLY: YES
+
+  QuoliaTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: QuoliaTests
+    dependencies:
+      - target: Quolia
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.quolia.reader.tests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/Quolia.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Quolia
+        BUNDLE_LOADER: $(TEST_HOST)
+
+schemes:
+  Quolia:
+    build:
+      targets:
+        Quolia: all
+        QuoliaTests: [test]
+    test:
+      targets:
+        - QuoliaTests
+    run:
+      config: Debug
