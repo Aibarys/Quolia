@@ -19,8 +19,9 @@ enum ModelContainerFactory {
         let isCloudBacked: Bool
     }
 
-    /// Uses the CloudKit private database when the user is signed in to iCloud
-    /// and sync is enabled; otherwise a local store with the same schema.
+    /// Uses the CloudKit private database when sync is enabled; otherwise a local store with the
+    /// same schema. CloudKit doesn't need iCloud Drive, and without an iCloud account the store
+    /// works locally and starts syncing once the user signs in.
     static func make(iCloudEnabled: Bool, inMemory: Bool = false) -> Result {
         // The store lives in Application Support, which doesn't exist on first launch.
         let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
@@ -33,15 +34,12 @@ enum ModelContainerFactory {
 
         #if DEBUG
         if ProcessInfo.processInfo.arguments.contains("-initCloudKitSchema") {
-            if iCloudEnabled, FileManager.default.ubiquityIdentityToken != nil {
-                initializeCloudKitSchema()
-            } else {
-                schemaLog("skipped: iCloud is off in Quolia settings or not signed in on this device")
-            }
+            schemaLog("requested")
+            if iCloudEnabled { initializeCloudKitSchema() } else { schemaLog("skipped: sync is off in Quolia settings") }
         }
         #endif
 
-        if iCloudEnabled, FileManager.default.ubiquityIdentityToken != nil {
+        if iCloudEnabled {
             let config = ModelConfiguration("Quolia", schema: schema,
                                             cloudKitDatabase: .private(BookFileStore.containerIdentifier))
             if let container = try? ModelContainer(for: schema, configurations: config) {
@@ -88,9 +86,19 @@ enum ModelContainerFactory {
         }
     }
 
-    /// Unbuffered, so `devicectl --console` shows it right away.
+    /// Also written to Library/Caches/cloudkit-schema.log, which can be read from a device with
+    /// `devicectl device copy from --domain-type appDataContainer`.
     private static func schemaLog(_ message: String) {
-        FileHandle.standardError.write(Data("QuoliaCloudKitSchema: \(message)\n".utf8))
+        let line = "QuoliaCloudKitSchema: \(Date.now.ISO8601Format()) \(message)\n"
+        FileHandle.standardError.write(Data(line.utf8))
+        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0].appendingPathComponent("cloudkit-schema.log")
+        if let handle = try? FileHandle(forWritingTo: url) {
+            handle.seekToEndOfFile()
+            handle.write(Data(line.utf8))
+            try? handle.close()
+        } else {
+            try? Data(line.utf8).write(to: url)
+        }
     }
     #endif
 }
