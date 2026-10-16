@@ -36,7 +36,7 @@ open Quolia.xcodeproj
 
 To run on a device or turn on sync:
 
-1. Choose your **Team** under *Signing & Capabilities*.
+1. Set `DEVELOPMENT_TEAM` in `project.yml` to your team ID (or choose your **Team** under *Signing & Capabilities*).
 2. Change the identifiers to your own:
    - bundle IDs `com.quolia.reader` and `com.quolia.reader.share` (`project.yml`);
    - the iCloud container `iCloud.com.quolia.reader` (`project.yml`, `BookFileStore.containerIdentifier`);

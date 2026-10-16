@@ -1,14 +1,18 @@
 import Foundation
 import SwiftData
+#if DEBUG
+import CoreData
+#endif
 
 enum ModelContainerFactory {
-    static let schema = Schema([
+    static let modelTypes: [any PersistentModel.Type] = [
         Book.self,
         Highlight.self,
         Bookmark.self,
         ReadingSession.self,
         SavedWord.self,
-    ])
+    ]
+    static let schema = Schema(modelTypes)
 
     struct Result {
         let container: ModelContainer
@@ -27,6 +31,16 @@ enum ModelContainerFactory {
             return Result(container: try! ModelContainer(for: schema, configurations: config), isCloudBacked: false)
         }
 
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-initCloudKitSchema") {
+            if iCloudEnabled, FileManager.default.ubiquityIdentityToken != nil {
+                initializeCloudKitSchema()
+            } else {
+                schemaLog("skipped: iCloud is off in Quolia settings or not signed in on this device")
+            }
+        }
+        #endif
+
         if iCloudEnabled, FileManager.default.ubiquityIdentityToken != nil {
             let config = ModelConfiguration("Quolia", schema: schema,
                                             cloudKitDatabase: .private(BookFileStore.containerIdentifier))
@@ -43,4 +57,40 @@ enum ModelContainerFactory {
         let memory = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)
         return Result(container: try! ModelContainer(for: schema, configurations: memory), isCloudBacked: false)
     }
+
+    #if DEBUG
+    /// With the `-initCloudKitSchema` launch argument, creates every record type in the CloudKit
+    /// development environment, so the schema can be deployed to Production before a release.
+    /// SwiftData only creates types as records appear, and has no API for this, so it uses Core Data
+    /// with a throwaway store.
+    private static func initializeCloudKitSchema() {
+        guard let model = NSManagedObjectModel.makeManagedObjectModel(for: modelTypes) else {
+            schemaLog("failed: couldn't build a Core Data model from the SwiftData types")
+            return
+        }
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("CloudKitSchema-\(UUID().uuidString).store")
+        let description = NSPersistentStoreDescription(url: url)
+        description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: BookFileStore.containerIdentifier)
+        description.shouldAddStoreAsynchronously = false
+        let container = NSPersistentCloudKitContainer(name: "CloudKitSchema", managedObjectModel: model)
+        container.persistentStoreDescriptions = [description]
+        var loadError: Error?
+        container.loadPersistentStores { _, error in loadError = error }
+        do {
+            if let loadError { throw loadError }
+            try container.initializeCloudKitSchema()
+            schemaLog("initialized \(model.entities.map { $0.name ?? "?" }.sorted().joined(separator: ", "))")
+        } catch {
+            schemaLog("failed: \(error)")
+        }
+        for store in container.persistentStoreCoordinator.persistentStores {
+            try? container.persistentStoreCoordinator.remove(store)
+        }
+    }
+
+    /// Unbuffered, so `devicectl --console` shows it right away.
+    private static func schemaLog(_ message: String) {
+        FileHandle.standardError.write(Data("QuoliaCloudKitSchema: \(message)\n".utf8))
+    }
+    #endif
 }
