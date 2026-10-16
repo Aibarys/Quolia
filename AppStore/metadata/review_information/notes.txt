@@ -1,0 +1,8 @@
+No account or sign-in is needed.
+
+To try the app right away, choose "Try a sample book" after onboarding, or "Try the sample book" in the empty Library. The sample book, "On Reading Slowly", is original text written for Quolia.
+
+- Select text in the reader to highlight it, add a note, look up a word or ask the AI.
+- AI features use Apple Intelligence on supported devices. Claude is optional and needs the user's own Anthropic API key (Settings → AI); it is not required to review the app.
+- iCloud sync uses the user's private iCloud account; the app works fully without it.
+- The app does not collect any data. Privacy policy: https://github.com/Aibarys/Quolia/blob/main/PRIVACY.md

@@ -219,8 +219,11 @@ private struct ScrollEdgeFade: View {
             LinearGradient(colors: [theme.backgroundColor, theme.backgroundColor.opacity(0)], startPoint: .top, endPoint: .bottom)
                 .frame(height: 110)
             Spacer()
-            LinearGradient(colors: [theme.backgroundColor.opacity(0), theme.backgroundColor], startPoint: .top, endPoint: .bottom)
-                .frame(height: 70)
+            // Solid under the position label, so text scrolling beneath it never shows through.
+            LinearGradient(stops: [.init(color: theme.backgroundColor.opacity(0), location: 0),
+                                   .init(color: theme.backgroundColor, location: 0.55)],
+                           startPoint: .top, endPoint: .bottom)
+                .frame(height: 120)
         }
         .ignoresSafeArea()
     }

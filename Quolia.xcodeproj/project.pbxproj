@@ -25,6 +25,7 @@
 		3AD76A9C9821A26F8E3297FF /* BookImportModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5999CCAD76ABC24E8246A15 /* BookImportModifier.swift */; };
 		3D779039908E698D11EC7305 /* BookSearchSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5600E9F514A173272C5F3E35 /* BookSearchSheet.swift */; };
 		3DCF03E3BDCA49DB97922B56 /* ReaderPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D4B006370A6571C37D4F02 /* ReaderPreferences.swift */; };
+		3F3DCCDD6B3D6BB0D2A54D48 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 889B3F011EDD16F3CF055EB3 /* PrivacyInfo.xcprivacy */; };
 		41D7AA93FCA191876966EEFE /* NoteEditorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8049EE5D8C702E8127B02AF /* NoteEditorSheet.swift */; };
 		4825C5C067B63B4F0264EDEF /* GoalSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A63760C9EA29DEA9C1A14638 /* GoalSheet.swift */; };
 		4C12178CFB0C0D46D4F582C1 /* TextReaderCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35621AA54A19EA4135C12CD8 /* TextReaderCanvas.swift */; };
@@ -33,6 +34,7 @@
 		4ECD175F82472A4BA1BAC96B /* FlowViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A159486376196C968239AF /* FlowViews.swift */; };
 		4F5274B03668D0A2E271040A /* ReaderStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CE94412166EA5AC4485285 /* ReaderStyle.swift */; };
 		4FF68CFF12145DDBE9A312F1 /* DemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AEEB3C4C62991D4A34E38A /* DemoData.swift */; };
+		503E51D2AEA7BAFADDD29CCB /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5D65C953DB893CE6F20E8122 /* PrivacyInfo.xcprivacy */; };
 		51B74D677460E77115F37547 /* MarkupParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1721FD8A4A9E631DCA33D01 /* MarkupParser.swift */; };
 		57B9828E2216F134A3E3333E /* QuoliaShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7C9CCD4A01A4B1FCB7E44323 /* QuoliaShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		586AFFC9FF7E8B4E4E0233D7 /* MemoryScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876F3C2D2D78E4F43A2D6AAB /* MemoryScheduler.swift */; };
@@ -173,6 +175,7 @@
 		5851BF8190DA2DE669F9F43F /* EPUBParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPUBParser.swift; sourceTree = "<group>"; };
 		587A4FC555A4047CB455D2AC /* AutoScrollControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoScrollControls.swift; sourceTree = "<group>"; };
 		5D5C6A10ADDB1A46800A6708 /* ReadingSessionTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingSessionTracker.swift; sourceTree = "<group>"; };
+		5D65C953DB893CE6F20E8122 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		5DC11790245AD2893F3FD1BE /* ChapterRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterRenderer.swift; sourceTree = "<group>"; };
 		5F61B2A29149E0A70777BAF6 /* AskBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskBookView.swift; sourceTree = "<group>"; };
 		64514B2A5CE74961CA1A6B7B /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -195,6 +198,7 @@
 		876F3C2D2D78E4F43A2D6AAB /* MemoryScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryScheduler.swift; sourceTree = "<group>"; };
 		883BBC5C6B99CD36B5CB2A2A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8880264705FC10906B86CF90 /* AIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIService.swift; sourceTree = "<group>"; };
+		889B3F011EDD16F3CF055EB3 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		8FB20A44CFAD7B59EB2CD498 /* HighlightPaletteOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightPaletteOverlay.swift; sourceTree = "<group>"; };
 		906AC430AA42F0F02043C2C6 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		92576EAE6DC967CF50A7EA2C /* BookImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookImporter.swift; sourceTree = "<group>"; };
@@ -280,6 +284,7 @@
 				31EA45297B532497B7FEAF27 /* Assets.xcassets */,
 				E33961CF2317C4215F60D6D6 /* Localizable.xcstrings */,
 				F2BDCF2247C40893CB97F692 /* On Reading Slowly.epub */,
+				5D65C953DB893CE6F20E8122 /* PrivacyInfo.xcprivacy */,
 				45DB93B05A4D6B2F7ACC3607 /* Quolia.entitlements */,
 			);
 			path = Resources;
@@ -515,6 +520,7 @@
 			isa = PBXGroup;
 			children = (
 				BBC80F1A1BEC95F83C5A09AA /* Localizable.xcstrings */,
+				889B3F011EDD16F3CF055EB3 /* PrivacyInfo.xcprivacy */,
 				B0E8276320DB3ED9E79C418D /* QuoliaShareExtension.entitlements */,
 				338AAB4B8CEA1EBDA6CF1F9B /* ShareCard.swift */,
 				D21194955CAACB958E4F89DB /* ShareViewController.swift */,
@@ -811,6 +817,7 @@
 				ABB8EF50BC5257F679F162F3 /* InfoPlist.strings in Resources */,
 				84DD3AE56A9544198F8C6292 /* Localizable.xcstrings in Resources */,
 				3AA260CEC81DDD791F358806 /* On Reading Slowly.epub in Resources */,
+				503E51D2AEA7BAFADDD29CCB /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -819,6 +826,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBBA6F0ED3943BC01DC7180F /* Localizable.xcstrings in Resources */,
+				3F3DCCDD6B3D6BB0D2A54D48 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -95,6 +95,15 @@ func cover() -> NSBitmapImageRep {
     }
 }
 
+/// The App Store rejects a main app icon with an alpha channel; this redraws it without one.
+func opaque(_ rep: NSBitmapImageRep) -> NSBitmapImageRep {
+    let image = rep.cgImage!
+    let context = CGContext(data: nil, width: image.width, height: image.height, bitsPerComponent: 8, bytesPerRow: 0,
+                            space: CGColorSpace(name: CGColorSpace.sRGB)!, bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)!
+    context.draw(image, in: CGRect(x: 0, y: 0, width: image.width, height: image.height))
+    return NSBitmapImageRep(cgImage: context.makeImage()!)
+}
+
 func write(_ rep: NSBitmapImageRep, _ path: String, type: NSBitmapImageRep.FileType) {
     let url = root.appendingPathComponent(path)
     try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
@@ -103,6 +112,6 @@ func write(_ rep: NSBitmapImageRep, _ path: String, type: NSBitmapImageRep.FileT
     print("wrote \(path)")
 }
 
-write(icon(dark: false), "Quolia/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png", type: .png)
+write(opaque(icon(dark: false)), "Quolia/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon.png", type: .png)
 write(icon(dark: true), "Quolia/Resources/Assets.xcassets/AppIcon.appiconset/AppIcon-Dark.png", type: .png)
 write(cover(), "Scripts/SampleBook/OEBPS/images/cover.jpg", type: .jpeg)

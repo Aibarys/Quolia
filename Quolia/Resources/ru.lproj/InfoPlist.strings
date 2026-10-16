@@ -3,3 +3,4 @@
 "PDF Document" = "Документ PDF";
 "Plain Text" = "Простой текст";
 "FictionBook" = "Книга FB2";
+"NSPhotoLibraryAddUsageDescription" = "Quolia сохраняет в Фото карточки цитат, которые вы решили сохранить.";

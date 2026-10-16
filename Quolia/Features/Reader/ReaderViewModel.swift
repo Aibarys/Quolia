@@ -137,7 +137,7 @@ final class ReaderViewModel {
                 case "ask": activeSheet = .ask(AIRequest())
                 case "chromeHidden": isChromeVisible = false
                 case "quote":
-                    let text = book.allHighlights.first?.text ?? "A thought revisited becomes a thought kept."
+                    let text = DebugLaunch.value("-quoteText") ?? book.allHighlights.first?.text ?? "A thought revisited becomes a thought kept."
                     activeSheet = .quoteCard(QuoteDraft(text: text, bookTitle: book.title, author: book.author, chapterTitle: chapterTitle))
                 case "define":
                     activeSheet = .define(WordLookupRequest(term: "garden", context: content?.chapter(chapterIndex)?.block(1)?.text,

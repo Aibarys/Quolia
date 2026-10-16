@@ -94,6 +94,8 @@
 	<string>public.app-category.books</string>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<false/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Quolia saves the quote cards you choose to save to your photo library.</string>
 	<key>NSUbiquitousContainers</key>
 	<dict>
 		<key>iCloud.com.quolia.reader</key>

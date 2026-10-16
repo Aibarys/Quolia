@@ -57,6 +57,8 @@ targets:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         LSApplicationCategoryType: public.app-category.books
         ITSAppUsesNonExemptEncryption: false
+        # "Save Image" in the share sheet (quote cards) needs this, or the app is terminated.
+        NSPhotoLibraryAddUsageDescription: Quolia saves the quote cards you choose to save to your photo library.
         LSSupportsOpeningDocumentsInPlace: false
         UISupportsDocumentBrowser: false
         UIApplicationSceneManifest:

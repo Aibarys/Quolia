@@ -1,0 +1,39 @@
+Quolia is a quiet reading app for iPhone and iPad. Read your own books in a calm reader, highlight what matters, write down your thoughts — and get them back when it counts.
+
+YOUR BOOKS, ANY FORMAT
+• EPUB, FB2 (including .fb2.zip), PDF and TXT.
+• Import from Files and iCloud Drive, AirDrop, Open In and the Share sheet.
+• Tap a footnote mark to read the note right on the page.
+• Ads that download sites add to books are removed automatically.
+
+CALM READING
+• Pages or scrolling, with slide or curl page turns.
+• Font, size, spacing, text width, alignment and hyphenation.
+• Light, Sepia, Dark and Black OLED themes — even for PDFs.
+• Page of the whole book, and time left in the chapter and the book.
+• Focus Mode keeps the current line or paragraph bright.
+• Auto Scroll at your own speed, and Reading Flow for distraction-free sessions.
+• Listen to the book with the spoken paragraph highlighted.
+
+HIGHLIGHTS AND NOTES
+• Five colors, notes and tags for any passage.
+• Continue a selection onto the next page.
+• All your quotes, notes, bookmarks and saved words in one place, with search and filters.
+• Export to Markdown (for Notes, Obsidian, Notion) or PDF.
+• Beautiful quote cards for stories and posts.
+
+REMEMBER
+• Quolia brings your highlights back with spaced repetition: "6 months ago you highlighted this".
+• An optional daily reminder.
+
+DICTIONARY AND AI
+• Meaning, translation and pronunciation in a couple of taps.
+• Explain, Simplify, Summarize and Ask the Book — spoiler-safe: the AI only sees the text up to where you are.
+• Apple Intelligence runs on your device by default. Claude is optional, with your own API key.
+
+STATS AND GOALS
+• Minutes read, streaks, finished books and a daily goal.
+
+PRIVATE
+• No accounts, no ads, no analytics.
+• Your library, highlights and progress sync through your own iCloud.

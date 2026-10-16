@@ -66,7 +66,8 @@ enum DebugLaunch {
             try? await Task.sleep(for: .milliseconds(400))
             let books = (try? context.fetch(FetchDescriptor<Book>())) ?? []
             if let book = books.first(where: { $0.title.localizedCaseInsensitiveContains(title) }) {
-                router.open(book)
+                // `-openChapter <n>` starts at a chapter instead of the saved position.
+                router.open(book, at: value("-openChapter").flatMap(Int.init).map { ReadingLocator(chapter: $0) })
             }
         }
 
