@@ -21,6 +21,8 @@ final class TextReaderController: UIViewController {
     weak var delegate: TextReaderDelegate?
     /// Passage to reveal and spotlight once the first layout is ready.
     var initialSpotlight: TextAnchor?
+    /// Book whose page counts are cached on disk.
+    var bookID: UUID?
 
     let content: BookContent
     let imagesDirectory: URL
@@ -46,6 +48,11 @@ final class TextReaderController: UIViewController {
 
     // Paged mode
     private(set) var pageController: UIPageViewController?
+    private var pageCountKey: String?
+    private var pageCountTask: Task<Void, Never>?
+    /// The part of a selection already made on earlier pages, in chapter coordinates. A selection
+    /// on a later page of the same chapter extends it (text views can't share one selection).
+    private var continuedSelection: (chapter: Int, range: NSRange)?
     /// Pages alive in the page controller (current and prefetched), kept in sync with highlights.
     private let livePages = NSHashTable<TextPageViewController>.weakObjects()
 
@@ -172,11 +179,11 @@ final class TextReaderController: UIViewController {
 
     // MARK: - Rendering
 
+    private var textWidth: CGFloat { state.style.textWidth(forWidth: view.bounds.width) }
+    private var maxImageHeight: CGFloat { max(view.bounds.height - safeTop - safeBottom - 140, 160) }
+
     func rendered(_ index: Int) -> RenderedChapter {
         if let cached = renderedCache[index] { return cached }
-        let width = view.bounds.width
-        let textWidth = state.style.textWidth(forWidth: width)
-        let maxImageHeight = max(view.bounds.height - safeTop - safeBottom - 140, 160)
         let result = ChapterRenderer.render(content.chapters[index], style: state.style, imagesDirectory: imagesDirectory,
                                             contentWidth: textWidth, maxImageHeight: maxImageHeight)
         renderedCache[index] = result
@@ -192,6 +199,9 @@ final class TextReaderController: UIViewController {
         }
         if let spotlight, spotlight.chapter == rendered.index, let range = rendered.range(for: spotlight) {
             marks.append(.init(range: range, color: theme.accent.withAlphaComponent(0.30)))
+        }
+        if let continued = continuedSelection, continued.chapter == rendered.index {
+            marks.append(.init(range: continued.range, color: theme.accent.withAlphaComponent(0.22)))
         }
         return marks
     }
@@ -269,6 +279,8 @@ final class TextReaderController: UIViewController {
     private func showScroll(chapter: Int, locator: ReadingLocator?, atEnd: Bool = false) {
         teardownPaged()
         teardownScroll()
+        cancelPageCount()
+        cancelContinuedSelection()
         chapterIndex = chapter
         let rendered = rendered(chapter)
         let width = view.bounds.width
@@ -375,6 +387,7 @@ final class TextReaderController: UIViewController {
     private func showPaged(chapter: Int, locator: ReadingLocator?, atEnd: Bool = false) {
         teardownScroll()
         teardownPaged()
+        cancelContinuedSelection()
         chapterIndex = chapter
 
         let curl = state.pageTurn == .curl
@@ -408,6 +421,47 @@ final class TextReaderController: UIViewController {
         pagedFocusIndex = atEnd ? Int.max : 0
         lastReported = nil
         pageDidChange()
+        countBookPages()
+    }
+
+    /// Counts every chapter's pages in the background, for "page 412 of 1130". Uses exactly the
+    /// inputs of the visible layout, so the counts match the pages the reader turns.
+    private func countBookPages() {
+        let size = pageSize, width = textWidth, maxImageHeight = maxImageHeight
+        let key = "\(BookContent.schemaVersion)|\(state.style.signature)|\(Int(size.width))x\(Int(size.height))|\(Int(width))|\(Int(maxImageHeight))"
+        guard key != pageCountKey else { return }
+        cancelPageCount()
+        pageCountKey = key
+        let chapters = content.chapters
+        if let bookID, let cached = PageCountCache.counts(for: bookID, key: key), cached.count == chapters.count {
+            delegate?.textReader(didCountBookPages: cached)
+            return
+        }
+        let style = state.style, images = imagesDirectory, scale = UIScreen.main.scale, bookID = bookID
+        pageCountTask = Task.detached(priority: .utility) { [weak self] in
+            var counts: [Int] = []
+            for chapter in chapters {
+                if Task.isCancelled { return }
+                counts.append(autoreleasepool {
+                    let rendered = ChapterRenderer.render(chapter, style: style, imagesDirectory: images, contentWidth: width,
+                                                          maxImageHeight: maxImageHeight, scale: scale)
+                    return ChapterLayout(rendered: rendered, pageSize: size).pageCount
+                })
+            }
+            if let bookID { PageCountCache.save(counts, for: bookID, key: key) }
+            await MainActor.run { [weak self] in
+                guard let self, self.pageCountKey == key, !Task.isCancelled else { return }
+                self.delegate?.textReader(didCountBookPages: counts)
+            }
+        }
+    }
+
+    private func cancelPageCount() {
+        pageCountTask?.cancel()
+        pageCountTask = nil
+        guard pageCountKey != nil else { return }
+        pageCountKey = nil
+        delegate?.textReader(didCountBookPages: nil)
     }
 
     func turnPage(forward: Bool) {
@@ -698,6 +752,35 @@ final class TextReaderController: UIViewController {
 
     // MARK: - Selection
 
+    /// True when the selection (in the page's own coordinates) reaches the page's last line and
+    /// the chapter goes on, so the passage may continue on the next page.
+    private func canContinueSelection(_ range: NSRange, on page: TextPageViewController) -> Bool {
+        guard page.pageIndex + 1 < page.layout.pageCount else { return false }
+        let layoutManager = page.textView.layoutManager
+        let glyphs = layoutManager.glyphRange(for: page.textView.textContainer)
+        guard glyphs.length > 0 else { return false }
+        var lastLine = NSRange()
+        _ = layoutManager.lineFragmentRect(forGlyphAt: NSMaxRange(glyphs) - 1, effectiveRange: &lastLine)
+        return NSMaxRange(range) > layoutManager.characterIndexForGlyph(at: lastLine.location)
+    }
+
+    /// Keeps the selection made so far and turns the page, so its end can be picked there.
+    private func continueSelection(_ info: TextSelectionInfo, on page: TextPageViewController) {
+        guard let range = page.layout.rendered.range(for: info.anchor) else { return }
+        continuedSelection = (page.layout.chapterIndex, range)
+        clearSelection()
+        refreshMarks()
+        delegate?.textReader(didContinueSelection: true)
+        turnPage(forward: true)
+    }
+
+    func cancelContinuedSelection() {
+        guard continuedSelection != nil else { return }
+        continuedSelection = nil
+        refreshMarks()
+        delegate?.textReader(didContinueSelection: false)
+    }
+
     /// `range` is in the text view's coordinates (page-local in paged mode).
     func selectionInfo(_ textView: UITextView, range: NSRange) -> TextSelectionInfo? {
         let rendered: RenderedChapter
@@ -708,8 +791,13 @@ final class TextReaderController: UIViewController {
             offset = page.characterOffset
         } else { return nil }
 
-        let chapterRange = NSRange(location: range.location + offset, length: range.length)
+        var chapterRange = NSRange(location: range.location + offset, length: range.length)
         guard range.length > 0, NSMaxRange(chapterRange) <= rendered.length else { return nil }
+        // A selection on a later page completes one started on an earlier page.
+        if let continued = continuedSelection, continued.chapter == rendered.index,
+           chapterRange.location >= continued.range.location, NSMaxRange(chapterRange) > NSMaxRange(continued.range) {
+            chapterRange = NSRange(location: continued.range.location, length: NSMaxRange(chapterRange) - continued.range.location)
+        }
         let text = (rendered.attributed.string as NSString).substring(with: chapterRange)
             .trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty else { return nil }
@@ -760,12 +848,19 @@ extension TextReaderController: UITextViewDelegate {
             UIAction(title: title, image: UIImage(systemName: symbol), attributes: attributes) { [weak self] _ in
                 self?.delegate?.textReader(perform: command, selection: info)
                 if case .copy = command {} else { self?.clearSelection() }
+                self?.cancelContinuedSelection()
             }
         }
 
         var children: [UIMenuElement] = [action(String(localized: "Highlight", comment: "Text selection menu"), "highlighter", .highlight)]
         if !info.overlappingHighlights.isEmpty {
             children.append(action(String(localized: "Remove", comment: "Text selection menu"), "eraser", attributes: .destructive, .removeHighlights(info.overlappingHighlights)))
+        }
+        if let page = currentPage, page.textView === textView, canContinueSelection(range, on: page) {
+            children.append(UIAction(title: String(localized: "Continue", comment: "Text selection menu: continue the selection on the next page"),
+                                     image: UIImage(systemName: "arrow.right.to.line")) { [weak self] _ in
+                self?.continueSelection(info, on: page)
+            })
         }
         children += [
             action(String(localized: "Note", comment: "Text selection menu"), "note.text.badge.plus", .note),

@@ -436,12 +436,6 @@
         "ru" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Из них %lld уже есть в библиотеке."
-                }
-              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -449,6 +443,12 @@
                 }
               },
               "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Из них %lld уже есть в библиотеке."
+                }
+              },
+              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Из них %lld уже есть в библиотеке."
@@ -1464,6 +1464,7 @@
       }
     },
     "Continue" : {
+      "comment" : "Text selection menu: continue the selection on the next page",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -2898,6 +2899,22 @@
         }
       }
     },
+    "Page %lld of %lld · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Page %1$lld of %2$lld · %3$@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Стр. %1$lld из %2$lld · %3$@"
+          }
+        }
+      }
+    },
     "Page %lld · %@" : {
       "localizations" : {
         "en" : {
@@ -3569,6 +3586,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Выделите текст во время чтения, чтобы сохранить цитату."
+          }
+        }
+      }
+    },
+    "Select where it ends" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выделите конец фрагмента"
           }
         }
       }
@@ -4871,6 +4898,16 @@
         }
       }
     },
+    "“%@” is already in your library — added a copy." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«%@» уже есть в библиотеке — добавлена копия."
+          }
+        }
+      }
+    },
     "“A thought revisited becomes a thought kept.”" : {
       "localizations" : {
         "ru" : {
@@ -4903,16 +4940,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "≈ %1$lld сл/мин · ваш обычный темп — %2$lld"
-          }
-        }
-      }
-    },
-    "“%@” is already in your library — added a copy." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "«%@» уже есть в библиотеке — добавлена копия."
           }
         }
       }

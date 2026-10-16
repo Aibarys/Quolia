@@ -103,6 +103,16 @@ private struct ReaderContentView: View {
                 .transition(.opacity)
         }
 
+        if model.isContinuingSelection {
+            VStack {
+                ContinueSelectionBanner { model.commands?.cancelContinuedSelection() }
+                    .padding(.top, 8)
+                Spacer()
+            }
+            .transition(.move(edge: .top).combined(with: .opacity))
+            .zIndex(2)
+        }
+
         if model.isChromeVisible && !model.isFlowActive {
             ReaderChrome(model: model, theme: theme, onClose: close)
                 .transition(.opacity)
@@ -174,6 +184,29 @@ private struct ReaderContentView: View {
     private func close() {
         model.close()
         dismiss()
+    }
+}
+
+/// Shown while a selection continues onto the next page: the reader picks where it ends.
+private struct ContinueSelectionBanner: View {
+    let onCancel: () -> Void
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "text.cursor")
+                .foregroundStyle(Color.qAccent)
+            Text("Select where it ends")
+                .font(.subheadline.weight(.medium))
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+            Button("Cancel", action: onCancel)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Color.qAccent)
+        }
+        .padding(.horizontal, 18)
+        .padding(.vertical, 10)
+        .floatingSurface(Capsule(), interactive: false)
+        .padding(.horizontal, 20)
     }
 }
 

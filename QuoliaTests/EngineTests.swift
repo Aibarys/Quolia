@@ -209,6 +209,16 @@ final class PositionTests: XCTestCase {
         XCTAssertNil(rendered.attributed.attribute(.quoliaFootnote, at: 3, effectiveRange: nil))
     }
 
+    func testPageCountCacheKeepsCountsPerLayout() {
+        let id = UUID()
+        defer { ContentCache.remove(id) }
+        XCTAssertNil(PageCountCache.counts(for: id, key: "a"))
+        PageCountCache.save([12, 30], for: id, key: "a")
+        PageCountCache.save([20, 41], for: id, key: "b")
+        XCTAssertEqual(PageCountCache.counts(for: id, key: "a"), [12, 30])
+        XCTAssertEqual(PageCountCache.counts(for: id, key: "b"), [20, 41])
+    }
+
     func testSameBookIdentityIgnoresNameOrderAndPunctuation() {
         XCTAssertEqual(BookImporter.identity(title: "Шум и ярость", author: "Уильям Фолкнер"),
                        BookImporter.identity(title: "Шум и ярость.", author: "Фолкнер Уильям"))

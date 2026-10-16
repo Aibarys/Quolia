@@ -37,6 +37,10 @@ final class ReaderViewModel {
     private(set) var visibleRange = VisibleRange(start: .start, end: .start)
     private(set) var pageInChapter: Int?
     private(set) var pagesInChapter: Int?
+    /// Pages in each chapter with the current layout, counted in the background (paged mode).
+    var bookPageCounts: [Int]?
+    /// A selection started on an earlier page waits for its end on a later one.
+    var isContinuingSelection = false
     private(set) var progress: Double
     private(set) var pdfPage = 0
     private(set) var pdfPageCount = 0
@@ -212,6 +216,15 @@ final class ReaderViewModel {
         let total = ReadingMath.pages(forWords: index.totalWords)
         let current = min(Int(Double(index.wordsBefore(visibleRange.start, content: content)) / ReadingMath.wordsPerPage) + 1, total)
         return String(localized: "Page \(current) of \(total)")
+    }
+
+    /// The current page across the whole book, once every chapter has been paginated.
+    var bookPage: (current: Int, total: Int)? {
+        guard let counts = bookPageCounts, let page = pageInChapter else { return nil }
+        let chapter = visibleRange.start.chapter
+        guard counts.indices.contains(chapter) else { return nil }
+        let total = counts.reduce(0, +)
+        return (min(counts.prefix(chapter).reduce(0, +) + page + 1, total), total)
     }
 
     var pagesLeftInChapterText: String? {

@@ -62,6 +62,31 @@ enum ContentCache {
     }
 }
 
+/// How many pages each chapter has for a given layout (font, size, margins, screen), so the
+/// book's page total shows up instantly the next time the book is opened with that layout.
+enum PageCountCache {
+    private static func url(for id: UUID) -> URL {
+        ContentCache.directory(for: id).appendingPathComponent("page-counts.json")
+    }
+
+    private static func load(_ id: UUID) -> [String: [Int]] {
+        guard let data = try? Data(contentsOf: url(for: id)) else { return [:] }
+        return (try? JSONDecoder().decode([String: [Int]].self, from: data)) ?? [:]
+    }
+
+    static func counts(for id: UUID, key: String) -> [Int]? {
+        load(id)[key]
+    }
+
+    static func save(_ counts: [Int], for id: UUID, key: String) {
+        var all = load(id)
+        if all.count >= 12 { all.removeAll() } // a handful of layouts is plenty
+        all[key] = counts
+        try? FileManager.default.createDirectory(at: ContentCache.directory(for: id), withIntermediateDirectories: true)
+        if let data = try? JSONEncoder().encode(all) { try? data.write(to: url(for: id), options: .atomic) }
+    }
+}
+
 /// Loads `BookContent` for a book: memory → disk cache → parse.
 actor ContentLoader {
     static let shared = ContentLoader()

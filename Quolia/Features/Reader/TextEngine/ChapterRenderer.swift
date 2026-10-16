@@ -65,8 +65,9 @@ struct RenderedChapter {
 }
 
 enum ChapterRenderer {
+    /// Safe to call off the main thread when `scale` is passed explicitly.
     static func render(_ chapter: Chapter, style: ReaderStyle, imagesDirectory: URL?,
-                       contentWidth: CGFloat, maxImageHeight: CGFloat) -> RenderedChapter {
+                       contentWidth: CGFloat, maxImageHeight: CGFloat, scale: CGFloat = UIScreen.main.scale) -> RenderedChapter {
         let output = NSMutableAttributedString()
         var ranges: [NSRange] = []
         ranges.reserveCapacity(chapter.blocks.count)
@@ -149,7 +150,7 @@ enum ChapterRenderer {
 
             let start = output.length
             if block.kind == .image {
-                if let attachment = imageAttachment(block, directory: imagesDirectory, width: contentWidth, maxHeight: maxImageHeight) {
+                if let attachment = imageAttachment(block, directory: imagesDirectory, width: contentWidth, maxHeight: maxImageHeight, scale: scale) {
                     let attachmentString = NSMutableAttributedString(attachment: attachment)
                     attachmentString.addAttribute(.paragraphStyle, value: paragraph, range: NSRange(location: 0, length: attachmentString.length))
                     output.append(attachmentString)
@@ -241,10 +242,10 @@ enum ChapterRenderer {
         }
     }
 
-    private static func imageAttachment(_ block: ContentBlock, directory: URL?, width: CGFloat, maxHeight: CGFloat) -> NSTextAttachment? {
+    private static func imageAttachment(_ block: ContentBlock, directory: URL?, width: CGFloat, maxHeight: CGFloat,
+                                        scale: CGFloat) -> NSTextAttachment? {
         guard let name = block.image, let directory else { return nil }
         let path = directory.appendingPathComponent(name).path
-        let scale = UIScreen.main.scale
         guard let image = ImageDownsampler.image(atPath: path, maxPixelSize: Int(max(width, maxHeight) * scale)) else { return nil }
         let pixelSize = image.size
         guard pixelSize.width > 0, pixelSize.height > 0 else { return nil }

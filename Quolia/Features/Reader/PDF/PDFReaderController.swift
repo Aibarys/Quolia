@@ -280,6 +280,8 @@ extension PDFReaderController: ReaderCommands {
     }
 
     func clearSelection() { pdfView.clearSelection() }
+    /// PDF selections already span pages.
+    func cancelContinuedSelection() {}
 }
 
 struct PDFReaderCanvas: UIViewControllerRepresentable {

@@ -12,6 +12,7 @@ struct TextReaderCanvas: UIViewControllerRepresentable {
         let controller = TextReaderController(content: content, imagesDirectory: model.imagesDirectory,
                                               state: state, locator: model.startLocator)
         controller.initialSpotlight = model.initialSpotlight
+        controller.bookID = model.book.id
         controller.delegate = context.coordinator
         model.commands = controller
         return controller
@@ -30,6 +31,14 @@ struct TextReaderCanvas: UIViewControllerRepresentable {
 
         func textReader(didMoveTo range: VisibleRange, page: Int?, pageCount: Int?) {
             model.textDidMove(to: range, page: page, pageCount: pageCount)
+        }
+
+        func textReader(didContinueSelection active: Bool) {
+            withAnimation(.qSpring) { model.isContinuingSelection = active }
+        }
+
+        func textReader(didCountBookPages counts: [Int]?) {
+            model.bookPageCounts = counts
         }
 
         func textReaderDidTapCenter() {

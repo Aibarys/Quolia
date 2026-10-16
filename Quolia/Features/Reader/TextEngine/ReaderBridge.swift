@@ -64,10 +64,14 @@ enum SelectionCommand {
 @MainActor
 protocol TextReaderDelegate: AnyObject {
     func textReader(didMoveTo range: VisibleRange, page: Int?, pageCount: Int?)
+    /// Pages in each chapter with the current layout (paged mode), or nil while unknown.
+    func textReader(didCountBookPages counts: [Int]?)
     func textReaderDidTapCenter()
     func textReader(didTapHighlight id: UUID, rect: CGRect)
     func textReader(didTapNoteMarker id: UUID)
     func textReader(didTapFootnote key: String)
+    /// A selection is being continued on the next pages (paged mode).
+    func textReader(didContinueSelection active: Bool)
     func textReader(perform command: SelectionCommand, selection: TextSelectionInfo)
     func textReaderAutoScrollDidReachEnd()
     func textReaderDidInteract()
@@ -83,6 +87,7 @@ protocol ReaderCommands: AnyObject {
     func turnPage(forward: Bool)
     func changeChapter(by delta: Int)
     func clearSelection()
+    func cancelContinuedSelection()
 }
 
 extension TextReaderController: ReaderCommands {}
