@@ -261,6 +261,58 @@
         }
       }
     },
+    "%lld highlights" : {
+      "localizations" : {
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld выделение"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld выделения"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld выделений"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld выделения"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld highlight"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld highlights"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld min to your %lld-minute goal" : {
       "localizations" : {
         "en" : {
@@ -374,6 +426,58 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld минуты в день"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld notes" : {
+      "localizations" : {
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld заметка"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld заметки"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld заметок"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld заметки"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld note"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld notes"
                 }
               }
             }
@@ -1867,6 +1971,46 @@
         }
       }
     },
+    "Export" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Экспорт"
+          }
+        }
+      }
+    },
+    "Export as Markdown" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Экспорт в Markdown"
+          }
+        }
+      }
+    },
+    "Export as PDF" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Экспорт в PDF"
+          }
+        }
+      }
+    },
+    "Exported from Quolia on %@" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Экспорт из Quolia, %@"
+          }
+        }
+      }
+    },
     "Fast and capable" : {
       "localizations" : {
         "ru" : {
@@ -2076,6 +2220,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Выделения"
+          }
+        }
+      }
+    },
+    "Highlights & Notes" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выделения и заметки"
+          }
+        }
+      }
+    },
+    "Highlights and Notes" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выделения и заметки"
           }
         }
       }
@@ -2665,6 +2829,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Заметка"
+          }
+        }
+      }
+    },
+    "Note:" : {
+      "comment" : "Label before a note in an export",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заметка:"
           }
         }
       }

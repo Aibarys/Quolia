@@ -119,6 +119,9 @@ struct KnowledgeView: View {
             .navigationTitle("Quotes & Notes")
             .searchable(text: $search, prompt: "Search quotes, notes, tags")
             .toolbar {
+                if section == .highlights || section == .notes, !filteredHighlights.isEmpty {
+                    ToolbarItem(placement: .topBarTrailing) { exportMenu }
+                }
                 if section != .words {
                     ToolbarItem(placement: .topBarTrailing) { filterMenu }
                 }
@@ -219,6 +222,16 @@ struct KnowledgeView: View {
     }
 
     // MARK: - Filters
+
+    /// Exports what the list shows: the current section, filters and search.
+    private var exportMenu: some View {
+        Menu {
+            HighlightExportButtons(groups: HighlightExporter.groups(from: filteredHighlights))
+        } label: {
+            Image(systemName: "square.and.arrow.up")
+        }
+        .accessibilityLabel("Export")
+    }
 
     private var filterMenu: some View {
         Menu {

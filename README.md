@@ -55,7 +55,7 @@ Without iCloud, Quolia uses a local store automatically, so nothing breaks.
 | Auto Scroll | Smooth display-link scrolling at up to 120 Hz, set in words per minute (slider + −/+), tap to pause or resume, stops at the end of a chapter | `Features/AutoScroll` |
 | Focus Mode | Line or paragraph focus with soft dimming; follows the reading line in scroll mode, step-by-step in page mode | `Features/Focus` |
 | Highlights & Notes | Selection menu (Highlight, Note, Copy, Translate, Define, Share, Ask AI), selections that continue onto the next page, 5 colors, floating palette, note markers in the margin, note cards, tags | `Features/Highlights`, `Features/Notes` |
-| Quotes & Notes | Highlights, notes, bookmarks and saved words; search; filter by book, tag or color; sort; tap to open the book at that passage | `Features/Quotes` |
+| Quotes & Notes | Highlights, notes, bookmarks and saved words; search; filter by book, tag or color; sort; tap to open the book at that passage; export what's shown (or a book's highlights from its details) as Markdown for Notes, Obsidian or Notion, or as a PDF | `Features/Quotes` |
 | Bookmarks | Book, chapter, position and a preview of the text | `Features/Reader`, `HighlightService` |
 | Reading Flow | Hides the interface, turns on Focus, starts Auto Scroll at your last speed, keeps the screen awake, and tracks the session; shows a summary at the end | `Features/ReadingFlow` |
 | Stats & Goals | Minutes today with a goal ring, streak, pages, books finished, total time, this week, an activity heatmap; goals of 10/20/30/custom minutes | `Features/Stats`, `Features/Goals` |
@@ -108,7 +108,7 @@ xcodebuild test -project Quolia.xcodeproj -scheme Quolia \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
 ```
 
-There are 30 unit tests. They cover ZIP/EPUB and FB2 parsing, footnotes, download-site ad removal, entity-tolerant markup, TXT encodings (including Windows-1251) and chapter detection, PDF paragraph reconstruction, progress math, anchor stability, per-page text layout, the spoiler-safe context, spaced repetition, streaks/stats, and the Claude stream parser and request shape.
+There are 35 unit tests. They cover ZIP/EPUB and FB2 parsing, footnotes, download-site ad removal, Markdown and PDF export, entity-tolerant markup, TXT encodings (including Windows-1251) and chapter detection, PDF paragraph reconstruction, progress math, anchor stability, per-page text layout, the spoiler-safe context, spaced repetition, streaks/stats, and the Claude stream parser and request shape.
 
 DEBUG builds accept launch arguments for jumping straight to a screen, for example `-seedDemoData`, `-tab stats`, `-openBook -readerLayout scroll -focus line -theme dark`, `-flow`, `-readerSheet settings|contents|ask|quote|define|flowSummary`, `-importFile <path>`, `-pdfDemoHighlight` and `-completeOnboarding`. Combine them with `-AppleLanguages "(ru)"` to check the Russian interface. `Scripts/shot.sh` launches the app with those arguments and saves a simulator screenshot.
 

@@ -41,6 +41,14 @@ struct BookDetailsSheet: View {
                     }
                 }
 
+                if !book.allHighlights.isEmpty {
+                    Section {
+                        HighlightExportButtons(groups: HighlightExporter.groups(from: book.allHighlights))
+                    } header: {
+                        Text("Highlights & Notes")
+                    }
+                }
+
                 Section("About") {
                     LabeledContent("Progress", value: book.progress.formatted(.percent.precision(.fractionLength(0))))
                     if book.totalWords > 0 {
