@@ -154,6 +154,70 @@ final class PositionTests: XCTestCase {
         }
     }
 
+    func testHTMLNoteReferencesBecomeFootnotes() throws {
+        let html = """
+        <html><body><p>Text<a epub:type="noteref" href="#fn1">1</a>, and <a href="#sec">see the section</a>.</p>
+        <p>More<a href="#fn2"><sup>2</sup></a>.</p>
+        <aside epub:type="footnote" id="fn1"><p><a href="#r1">1</a> First note. ↩︎</p></aside>
+        <p><a id="fn2" href="#r2">2.</a> Second note.</p><h2 id="sec">Section</h2></body></html>
+        """
+        let root = MarkupParser.parse(html)
+        var ids: [String: MarkupNode] = [:]
+        var stack = [root]
+        while let node = stack.popLast() {
+            for element in node.elements {
+                if let id = element["id"] { ids[id] = element }
+                stack.append(element)
+            }
+        }
+        let resolver = FootnoteResolver { ids[$0] }
+        let extractor = HTMLContentExtractor(resolveImage: { _ in nil }, resolveNote: { href, label, explicit in
+            resolver.resolve(key: String(href.dropFirst()), label: label, explicit: explicit)
+        })
+        let blocks = extractor.extract(from: root)
+        XCTAssertEqual(blocks[0].spans.filter { $0.style == .noteRef }.map(\.target), ["fn1"])
+        XCTAssertEqual(blocks[1].spans.filter { $0.style == .noteRef }.map(\.target), ["fn2"])
+        XCTAssertEqual(resolver.footnotes["fn1"]?.text, "First note.")
+        XCTAssertEqual(resolver.footnotes["fn2"]?.text, "Second note.")
+        XCTAssertNil(resolver.footnotes["sec"])
+    }
+
+    @MainActor
+    func testOmittedBlocksKeepBlockIndicesStable() {
+        let chapter = Chapter(id: 0, title: "C", blocks: [
+            .omitted, ContentBlock(kind: .paragraph, text: "alpha"), .omitted, ContentBlock(kind: .paragraph, text: "beta"), .omitted,
+        ])
+        let style = ReaderStyle(preferences: ReaderPreferences(), theme: .light)
+        let rendered = ChapterRenderer.render(chapter, style: style, imagesDirectory: nil, contentWidth: 300, maxImageHeight: 400)
+        XCTAssertEqual(rendered.attributed.string, "alpha\nbeta")
+        XCTAssertEqual(rendered.blockRanges.count, 5)
+        let string = rendered.attributed.string as NSString
+        XCTAssertEqual(string.substring(with: rendered.blockRanges[1]), "alpha")
+        XCTAssertEqual(string.substring(with: rendered.blockRanges[3]), "beta")
+        XCTAssertEqual(rendered.blockIndex(containing: 0), 1)
+        XCTAssertEqual(rendered.blockIndex(containing: rendered.blockRanges[3].location), 3)
+        XCTAssertEqual(rendered.blockIndex(containing: 5), 1, "the newline after alpha belongs to alpha")
+    }
+
+    @MainActor
+    func testRendererMarksFootnoteReferences() {
+        let block = ContentBlock(kind: .paragraph, text: "Word1.", spans: [InlineSpan(location: 4, length: 1, style: .noteRef, target: "n1")])
+        let style = ReaderStyle(preferences: ReaderPreferences(), theme: .light)
+        let rendered = ChapterRenderer.render(Chapter(id: 0, title: "C", blocks: [block]), style: style, imagesDirectory: nil,
+                                              contentWidth: 300, maxImageHeight: 400)
+        XCTAssertEqual(rendered.attributed.attribute(.quoliaFootnote, at: 4, effectiveRange: nil) as? String, "n1")
+        XCTAssertNil(rendered.attributed.attribute(.quoliaFootnote, at: 3, effectiveRange: nil))
+    }
+
+    func testSameBookIdentityIgnoresNameOrderAndPunctuation() {
+        XCTAssertEqual(BookImporter.identity(title: "Шум и ярость", author: "Уильям Фолкнер"),
+                       BookImporter.identity(title: "Шум и ярость.", author: "Фолкнер Уильям"))
+        XCTAssertEqual(BookImporter.identity(title: "Ёлка", author: ""), BookImporter.identity(title: "елка", author: ""))
+        XCTAssertNotEqual(BookImporter.identity(title: "Шум и ярость", author: "Уильям Фолкнер"),
+                          BookImporter.identity(title: "Шум и ярость", author: "Другой Автор"))
+        XCTAssertNil(BookImporter.identity(title: "Untitled", author: ""))
+    }
+
     func testSpoilerSafeContextNeverPassesFrontier() {
         let content = makeContent()
         let frontier = ReadingLocator(chapter: 1, block: 0, offset: 9) // "eta theta"

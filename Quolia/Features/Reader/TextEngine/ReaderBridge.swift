@@ -67,6 +67,7 @@ protocol TextReaderDelegate: AnyObject {
     func textReaderDidTapCenter()
     func textReader(didTapHighlight id: UUID, rect: CGRect)
     func textReader(didTapNoteMarker id: UUID)
+    func textReader(didTapFootnote key: String)
     func textReader(perform command: SelectionCommand, selection: TextSelectionInfo)
     func textReaderAutoScrollDidReachEnd()
     func textReaderDidInteract()

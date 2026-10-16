@@ -39,7 +39,7 @@ enum DebugLaunch {
         try? context.save()
     }
 
-    static func apply(router: AppRouter, settings: AppSettings, context: ModelContext) async {
+    static func apply(router: AppRouter, settings: AppSettings, toasts: ToastCenter, context: ModelContext) async {
         if let layout = value("-readerLayout").flatMap(ReaderLayout.init(rawValue:)) { settings.reader.layout = layout }
         if let focus = value("-focus").flatMap(FocusMode.init(rawValue:)) { settings.reader.focusMode = focus }
         if let theme = value("-theme").flatMap(ReaderTheme.init(rawValue:)) {
@@ -57,6 +57,7 @@ enum DebugLaunch {
         if !files.isEmpty {
             let outcome = await BookImporter(context: context).importBooks(from: files)
             print("DebugLaunch import:", outcome.summary ?? "nothing")
+            toasts.show(outcome, context: context)
         }
 
         if has("-pdfDemoHighlight") { addPDFDemoHighlights(context: context) }

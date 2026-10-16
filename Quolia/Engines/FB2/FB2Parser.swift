@@ -4,7 +4,8 @@ import Foundation
 ///
 /// Sections become chapters (nested sections are flattened, keeping their titles
 /// as headings), epigraphs and citations become quotes, poems keep their lines,
-/// embedded images are extracted, and footnotes become a final chapter.
+/// embedded images are extracted, and footnotes become a final chapter. Note
+/// references become tappable footnotes, and download-site ads are removed.
 struct FB2Parser {
     enum FB2Error: LocalizedError {
         case unreadable
@@ -28,6 +29,8 @@ struct FB2Parser {
     let imagesDirectory: URL
     private var binaries: [String: (data: Data, type: String)] = [:]
     private var extractedImages: [String: String] = [:]
+    private var elementsByID: [String: MarkupNode] = [:]
+    private var footnotes: FootnoteResolver?
 
     init(imagesDirectory: URL) {
         self.imagesDirectory = imagesDirectory
@@ -62,9 +65,12 @@ struct FB2Parser {
 
         // Content
         try? FileManager.default.createDirectory(at: imagesDirectory, withIntermediateDirectories: true)
+        Self.indexIDs(book, into: &elementsByID)
+        let index = elementsByID
+        footnotes = FootnoteResolver { index[$0] }
         let bodies = book.elements.filter { $0.name == "body" }
         let mainBody = bodies.first { $0["name"] == nil } ?? bodies.first
-        var chapters = mainBody.map { makeChapters(body: $0, bookTitle: title) } ?? []
+        var chapters = mainBody.map { makeChapters(body: $0, bookTitle: title, authors: authors) } ?? []
 
         for notes in bodies where notes !== mainBody {
             var blocks: [ContentBlock] = []
@@ -78,15 +84,28 @@ struct FB2Parser {
         }
 
         guard chapters.contains(where: { $0.wordCount > 0 }) else { throw FB2Error.emptyBook }
-        let content = BookContent(title: title, author: authors.joined(separator: ", "), language: language, chapters: chapters)
+        var content = BookContent(title: title, author: authors.joined(separator: ", "), language: language, chapters: chapters)
+        content.footnotes = footnotes?.footnotes ?? [:]
+        LibraryBoilerplate.clean(&content)
         return Result(content: content, coverData: coverData)
+    }
+
+    private static func indexIDs(_ node: MarkupNode, into index: inout [String: MarkupNode]) {
+        for element in node.elements where element.name != "binary" {
+            if let id = element["id"], index[id] == nil { index[id] = element }
+            indexIDs(element, into: &index)
+        }
     }
 
     // MARK: - Chapters
 
-    private mutating func makeChapters(body: MarkupNode, bookTitle: String) -> [Chapter] {
+    private mutating func makeChapters(body: MarkupNode, bookTitle: String, authors: [String]) -> [Chapter] {
         var chapters: [Chapter] = []
         var pending: [ContentBlock] = []
+
+        func titlePage(_ node: MarkupNode?, requiresAuthor: Bool) -> ContentBlock? {
+            node.flatMap { Self.titlePageBlock($0, bookTitle: bookTitle, authors: authors, requiresAuthor: requiresAuthor) }
+        }
 
         func visit(_ section: MarkupNode, parentTitle: String?, depth: Int, parser: inout FB2Parser) {
             let ownTitle = Self.chapterTitle(of: section, bookTitle: bookTitle)
@@ -94,7 +113,11 @@ struct FB2Parser {
             if children.isEmpty {
                 var blocks = pending
                 pending = []
-                blocks += parser.convert(section, headingLevel: 2, skipSections: true)
+                var sectionBlocks = parser.convert(section, headingLevel: 2, skipSections: true)
+                if let title = titlePage(section.child("title"), requiresAuthor: true), sectionBlocks.first?.kind == .heading {
+                    sectionBlocks[0] = title
+                }
+                blocks += sectionBlocks
                 guard !blocks.isEmpty else { return }
                 let title = ownTitle ?? parentTitle ?? String(localized: "Section \(chapters.count + 1)")
                 chapters.append(Chapter(id: chapters.count, title: title, blocks: blocks))
@@ -103,6 +126,8 @@ struct FB2Parser {
                 for child in section.elements {
                     if child.name == "section" {
                         visit(child, parentTitle: ownTitle ?? parentTitle, depth: depth + 1, parser: &parser)
+                    } else if child.name == "title", let title = titlePage(child, requiresAuthor: true) {
+                        pending.append(title)
                     } else {
                         pending += parser.convert(child, headingLevel: 1, skipSections: true)
                     }
@@ -113,6 +138,8 @@ struct FB2Parser {
         for child in body.elements {
             if child.name == "section" {
                 visit(child, parentTitle: nil, depth: 0, parser: &self)
+            } else if child.name == "title", let title = titlePage(child, requiresAuthor: false) {
+                pending.append(title)
             } else {
                 pending += convert(child, headingLevel: 1, skipSections: true)
             }
@@ -145,11 +172,11 @@ struct FB2Parser {
         case "subtitle":
             return Self.inline(node).map { ContentBlock(kind: .heading, text: $0.text, level: 3, spans: $0.spans) }.map { [$0] } ?? []
         case "p":
-            return Self.inline(node).map { [ContentBlock(kind: .paragraph, text: $0.text, spans: $0.spans)] } ?? []
+            return Self.inline(node, footnotes: footnotes).map { [ContentBlock(kind: .paragraph, text: $0.text, spans: $0.spans)] } ?? []
         case "epigraph", "cite", "annotation":
             return node.elements.flatMap { child -> [ContentBlock] in
                 switch child.name {
-                case "p": return Self.inline(child).map { [ContentBlock(kind: .quote, text: $0.text, spans: $0.spans)] } ?? []
+                case "p": return Self.inline(child, footnotes: footnotes).map { [ContentBlock(kind: .quote, text: $0.text, spans: $0.spans)] } ?? []
                 case "text-author": return Self.inline(child).map { [ContentBlock(kind: .caption, text: "— " + $0.text)] } ?? []
                 default: return convert(child, headingLevel: 3, skipSections: true)
                 }
@@ -240,20 +267,56 @@ struct FB2Parser {
         return title.nonEmpty
     }
 
+    /// A title made only of the author's name and the book's title ("Уильям Фолкнер / Шум и ярость")
+    /// becomes a title page. Inside sections the author must be there too, so a story that shares
+    /// the book's name keeps an ordinary heading.
+    private static func titlePageBlock(_ node: MarkupNode, bookTitle: String, authors: [String], requiresAuthor: Bool) -> ContentBlock? {
+        let lines = node.elements.compactMap { inline($0)?.text }
+        guard !lines.isEmpty, lines.count <= 4 else { return nil }
+        var text = ""
+        var spans: [InlineSpan] = []
+        var hasTitle = false, hasAuthor = false
+        for line in lines {
+            let isTitle = !bookTitle.isEmpty && normalizedName(line) == normalizedName(bookTitle)
+            let isAuthor = !isTitle && authors.contains { nameWords($0) == nameWords(line) }
+            guard isTitle || isAuthor else { return nil }
+            hasTitle = hasTitle || isTitle
+            hasAuthor = hasAuthor || isAuthor
+            if !text.isEmpty { text += "\n" }
+            if isAuthor { spans.append(InlineSpan(location: text.utf16.count, length: line.utf16.count, style: .byline)) }
+            text += line
+        }
+        guard hasTitle, hasAuthor || !requiresAuthor else { return nil }
+        return ContentBlock(kind: .title, text: text, spans: spans)
+    }
+
+    private static func normalizedName(_ text: String) -> String {
+        text.lowercased().replacingOccurrences(of: "ё", with: "е")
+            .components(separatedBy: CharacterSet.letters.union(.decimalDigits).inverted)
+            .filter { !$0.isEmpty }.joined(separator: " ")
+    }
+
+    /// Name words in any order: "Фолкнер Уильям" matches "Уильям Фолкнер".
+    private static func nameWords(_ name: String) -> Set<String> {
+        Set(normalizedName(name).split(separator: " ").map(String.init))
+    }
+
     /// Titles hold one or more `<p>`; lines are kept.
     private static func titleText(_ node: MarkupNode) -> String {
         let lines = node.elements.compactMap { inline($0)?.text }
         return lines.isEmpty ? node.textContent : lines.joined(separator: "\n")
     }
 
-    /// Collects text and inline styles from a paragraph-like element.
-    static func inline(_ node: MarkupNode) -> (text: String, spans: [InlineSpan])? {
-        var collector = InlineCollector()
+    /// Collects text and inline styles from a paragraph-like element. With `footnotes`,
+    /// links to notes become tappable note references.
+    static func inline(_ node: MarkupNode, footnotes: FootnoteResolver? = nil) -> (text: String, spans: [InlineSpan])? {
+        var collector = InlineCollector(footnotes: footnotes)
         collector.walk(node)
         return collector.finish()
     }
 
     private struct InlineCollector {
+        let footnotes: FootnoteResolver?
         var text = ""
         var length = 0
         var spans: [InlineSpan] = []
@@ -278,6 +341,17 @@ struct FB2Parser {
                     walk(child)
                     if let style, length > start {
                         spans.append(InlineSpan(location: start, length: length - start, style: style))
+                    }
+                    if child.name == "a", length > start, let footnotes, let href = child["href"], href.hasPrefix("#") {
+                        let label = (text as NSString).substring(with: NSRange(location: start, length: length - start))
+                        let explicit = child["type"] == "note"
+                        if let key = footnotes.resolve(key: String(href.dropFirst()), label: label, explicit: explicit) {
+                            spans.append(InlineSpan(location: start, length: length - start, style: .noteRef, target: key))
+                            // Plain "1" links read better raised, like printed footnote marks.
+                            if !explicit, FootnoteResolver.isMark(label.trimmingCharacters(in: .whitespaces)) {
+                                spans.append(InlineSpan(location: start, length: length - start, style: .superscript))
+                            }
+                        }
                     }
                 case .document:
                     walk(child)
@@ -304,7 +378,8 @@ struct FB2Parser {
             guard !text.isEmpty else { return nil }
             let clipped = spans.compactMap { span -> InlineSpan? in
                 let end = min(span.location + span.length, length)
-                return end > span.location ? InlineSpan(location: span.location, length: end - span.location, style: span.style) : nil
+                return end > span.location
+                    ? InlineSpan(location: span.location, length: end - span.location, style: span.style, target: span.target) : nil
             }
             return (text, clipped)
         }

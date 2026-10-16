@@ -603,6 +603,12 @@ final class TextReaderController: UIViewController {
             if let footer, hit.isDescendant(of: footer) { return }
         }
 
+        if !state.autoScrollMode, let key = footnoteHit(at: point) {
+            Haptics.selection()
+            delegate?.textReader(didTapFootnote: key)
+            return
+        }
+
         if !state.autoScrollMode, let (id, rect) = highlightHit(at: point) {
             Haptics.selection()
             delegate?.textReader(didTapHighlight: id, rect: rect)
@@ -638,6 +644,25 @@ final class TextReaderController: UIViewController {
     }
 
     private var activeTextView: UITextView? { scrollTextView ?? currentPage?.textView }
+
+    /// The footnote reference under `point`. Marks are tiny, so the target extends around them.
+    private func footnoteHit(at point: CGPoint) -> String? {
+        guard let textView = activeTextView, textView.textStorage.length > 0 else { return nil }
+        let local = view.convert(point, to: textView)
+        let containerPoint = CGPoint(x: local.x - textView.textContainerInset.left, y: local.y - textView.textContainerInset.top)
+        let layoutManager = textView.layoutManager
+        let storage = textView.textStorage
+        let glyph = layoutManager.glyphIndex(for: containerPoint, in: textView.textContainer)
+        let character = layoutManager.characterIndexForGlyph(at: glyph)
+        for candidate in [character, character - 1, character + 1] where candidate >= 0 && candidate < storage.length {
+            var effective = NSRange()
+            guard let key = storage.attribute(.quoliaFootnote, at: candidate, effectiveRange: &effective) as? String else { continue }
+            let glyphs = layoutManager.glyphRange(forCharacterRange: effective, actualCharacterRange: nil)
+            let rect = layoutManager.boundingRect(forGlyphRange: glyphs, in: textView.textContainer)
+            if rect.insetBy(dx: -16, dy: -14).contains(containerPoint) { return key }
+        }
+        return nil
+    }
 
     /// Returns the highlight under `point` and its bounds in view coordinates.
     private func highlightHit(at point: CGPoint) -> (UUID, CGRect)? {

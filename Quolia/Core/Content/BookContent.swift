@@ -4,12 +4,14 @@ import Foundation
 /// EPUB, FB2, TXT and (reflowed) PDF engines all produce this model, so the reader,
 /// highlights, focus mode, search, stats and AI only ever deal with one shape.
 struct BookContent: Codable, Sendable {
-    static let schemaVersion = 3
+    static let schemaVersion = 4
 
     var title: String
     var author: String
     var language: String?
     var chapters: [Chapter]
+    /// Notes that note-reference spans point to, keyed by `InlineSpan.target`.
+    var footnotes: [String: Footnote] = [:]
 
     var totalWords: Int { chapters.reduce(0) { $0 + $1.wordCount } }
 
@@ -52,6 +54,11 @@ struct ContentBlock: Codable, Sendable, Hashable {
         case caption
         case image
         case separator
+        /// Title page lines (author and book title); `.byline` spans mark the author.
+        case title
+        /// Removed during import (e.g. a download site's ad). Kept as an empty placeholder
+        /// so later block indices, and the highlights anchored to them, stay stable.
+        case omitted
     }
 
     var kind: Kind
@@ -75,7 +82,10 @@ struct ContentBlock: Codable, Sendable, Hashable {
         self.wordCount = TextStats.wordCount(text)
     }
 
-    var isTextual: Bool { kind != .image && kind != .separator }
+    var isTextual: Bool { kind != .image && kind != .separator && kind != .omitted }
+
+    /// An empty placeholder for a block removed during import.
+    static var omitted: ContentBlock { ContentBlock(kind: .omitted, text: "") }
 }
 
 struct InlineSpan: Codable, Sendable, Hashable {
@@ -84,14 +94,26 @@ struct InlineSpan: Codable, Sendable, Hashable {
         case bold
         case code
         case superscript
+        /// A link to a footnote; `target` is its key in `BookContent.footnotes`.
+        case noteRef
+        /// The author's name on a title page.
+        case byline
     }
 
     /// UTF-16 range within the block's text.
     var location: Int
     var length: Int
     var style: Style
+    var target: String?
 
     var range: NSRange { NSRange(location: location, length: length) }
+}
+
+/// The text of a footnote, shown in place when its reference is tapped.
+struct Footnote: Codable, Sendable, Hashable {
+    /// The reference mark as printed in the text ("1", "*").
+    var label: String
+    var text: String
 }
 
 enum TextStats {

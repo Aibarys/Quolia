@@ -73,8 +73,17 @@ enum ChapterRenderer {
 
         let theme = style.theme
         let size = style.fontSize
+        // The newline ending the previous block, appended once the next visible block starts.
+        var pendingSeparator: NSAttributedString?
 
-        for (index, block) in chapter.blocks.enumerated() {
+        for block in chapter.blocks {
+            guard block.kind != .omitted else {
+                // Nothing to show; a zero-length range at the next block's start keeps indices stable.
+                ranges.append(NSRange(location: output.length + (pendingSeparator == nil ? 0 : 1), length: 0))
+                continue
+            }
+            if let separator = pendingSeparator { output.append(separator) }
+            let isFirst = output.length == 0
             let paragraph = NSMutableParagraphStyle()
             paragraph.lineSpacing = style.lineSpacing
             paragraph.paragraphSpacing = style.paragraphSpacing
@@ -94,7 +103,7 @@ enum ChapterRenderer {
                 font = style.preferences.font.uiFont(size: (size * scale).rounded(), bold: true)
                 paragraph.alignment = .natural
                 paragraph.hyphenationFactor = 0
-                paragraph.paragraphSpacingBefore = index == 0 ? size * 0.4 : size * 1.4
+                paragraph.paragraphSpacingBefore = isFirst ? size * 0.4 : size * 1.4
                 paragraph.paragraphSpacing = size * 0.9
                 paragraph.lineSpacing = style.lineSpacing * 0.5
             case .quote:
@@ -127,6 +136,15 @@ enum ChapterRenderer {
                 paragraph.alignment = .center
                 paragraph.paragraphSpacingBefore = size * 0.5
                 paragraph.paragraphSpacing = size
+            case .title:
+                font = style.preferences.font.uiFont(size: (size * 1.75).rounded())
+                paragraph.alignment = .center
+                paragraph.hyphenationFactor = 0
+                paragraph.lineSpacing = style.lineSpacing * 0.4
+                paragraph.paragraphSpacingBefore = isFirst ? size * 2.4 : size * 3
+                paragraph.paragraphSpacing = size * 2.6
+            case .omitted:
+                break
             }
 
             let start = output.length
@@ -144,20 +162,22 @@ enum ChapterRenderer {
                     .foregroundColor: color,
                     .paragraphStyle: paragraph,
                 ])
-                if block.kind != .heading { applySpans(block.spans, to: piece, style: style, base: font) }
+                if block.kind == .title {
+                    styleTitlePage(piece, block: block, style: style, paragraph: paragraph)
+                } else if block.kind != .heading {
+                    applySpans(block.spans, to: piece, style: style, base: font)
+                }
                 output.append(piece)
             }
             ranges.append(NSRange(location: start, length: output.length - start))
-
-            if index < chapter.blocks.count - 1 {
-                output.append(NSAttributedString(string: "\n", attributes: [.font: font, .paragraphStyle: paragraph]))
-            }
+            let lastParagraph = output.attribute(.paragraphStyle, at: max(output.length - 1, 0), effectiveRange: nil) ?? paragraph
+            pendingSeparator = NSAttributedString(string: "\n", attributes: [.font: font, .paragraphStyle: lastParagraph])
         }
 
         if output.length == 0 {
             output.append(NSAttributedString(string: " ", attributes: [.font: style.bodyFont]))
-            ranges = [NSRange(location: 0, length: 0)]
         }
+        if ranges.isEmpty { ranges = [NSRange(location: 0, length: 0)] }
         return RenderedChapter(index: chapter.id, attributed: output, blockRanges: ranges, wordCount: chapter.wordCount)
     }
 
@@ -184,7 +204,40 @@ enum ChapterRenderer {
             case .superscript:
                 string.addAttribute(.font, value: base.withSize(base.pointSize * 0.68), range: range)
                 string.addAttribute(.baselineOffset, value: base.pointSize * 0.32, range: range)
+            case .noteRef:
+                guard let target = span.target else { continue }
+                string.addAttribute(.quoliaFootnote, value: target, range: range)
+                string.addAttribute(.foregroundColor, value: style.theme.accent, range: range)
+            case .byline:
+                break
             }
+        }
+    }
+
+    /// Title page: centered lines, the book title large and the author's name small and spaced.
+    private static func styleTitlePage(_ piece: NSMutableAttributedString, block: ContentBlock, style: ReaderStyle,
+                                       paragraph: NSParagraphStyle) {
+        let size = style.fontSize
+        let lines = (piece.string as NSString).components(separatedBy: "\n")
+        var location = 0
+        for (index, line) in lines.enumerated() {
+            let range = NSRange(location: location, length: (line as NSString).length)
+            location = NSMaxRange(range) + 1
+            guard let lineStyle = paragraph.mutableCopy() as? NSMutableParagraphStyle else { continue }
+            // Spacing before belongs to the first line and after to the last; lines in between stay close.
+            if index > 0 { lineStyle.paragraphSpacingBefore = 0 }
+            if index < lines.count - 1 { lineStyle.paragraphSpacing = size * 0.7 }
+            let paragraphRange = NSRange(location: range.location, length: min(range.length + 1, piece.length - range.location))
+            piece.addAttribute(.paragraphStyle, value: lineStyle, range: paragraphRange)
+        }
+        for span in block.spans where span.style == .byline {
+            let range = NSRange(location: span.location, length: min(span.length, piece.length - span.location))
+            guard range.location >= 0, range.length > 0 else { continue }
+            piece.addAttributes([
+                .font: style.preferences.font.uiFont(size: (size * 0.95).rounded()),
+                .foregroundColor: style.theme.secondaryText,
+                .kern: size * 0.08,
+            ], range: range)
         }
     }
 

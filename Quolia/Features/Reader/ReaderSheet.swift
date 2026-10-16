@@ -41,6 +41,7 @@ enum ReaderSheet: Identifiable {
     case define(WordLookupRequest)
     case quoteCard(QuoteDraft)
     case flowSummary(FlowSummary)
+    case footnote(Footnote)
 
     var id: String {
         switch self {
@@ -53,6 +54,7 @@ enum ReaderSheet: Identifiable {
         case .define(let request): "define-\(request.id)"
         case .quoteCard(let draft): "quote-\(draft.id)"
         case .flowSummary(let summary): "flow-\(summary.id)"
+        case .footnote(let footnote): "footnote-\(footnote.hashValue)"
         }
     }
 }

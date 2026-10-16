@@ -79,7 +79,9 @@ struct PlainTextParser {
         }
 
         let language = LanguageDetector.dominantLanguage(of: String(normalized.prefix(4_000)))
-        return BookContent(title: title, author: author, language: language, chapters: chapters)
+        var content = BookContent(title: title, author: author, language: language, chapters: chapters)
+        LibraryBoilerplate.clean(&content)
+        return content
     }
 
     /// Paragraphs are separated by blank lines when the file uses them;

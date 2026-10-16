@@ -51,6 +51,11 @@ struct TextReaderCanvas: UIViewControllerRepresentable {
             model.activeSheet = .noteCard(highlight)
         }
 
+        func textReader(didTapFootnote key: String) {
+            guard let footnote = model.content?.footnotes[key] else { return }
+            model.activeSheet = .footnote(footnote)
+        }
+
         func textReader(perform command: SelectionCommand, selection: TextSelectionInfo) {
             model.handle(command, selection: selection)
         }

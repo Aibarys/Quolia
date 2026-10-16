@@ -6,6 +6,8 @@ import Foundation
 struct HTMLContentExtractor {
     /// Called for every `<img>` to map a document-relative `src` to an image file name.
     var resolveImage: (String) -> String?
+    /// Called for links with a fragment: `(href, link text, marked as noteref)` → footnote key, if it is one.
+    var resolveNote: ((String, String, Bool) -> String?)? = nil
 
     private static let blockElements: Set<String> = [
         "p", "div", "h1", "h2", "h3", "h4", "h5", "h6", "blockquote", "li", "pre", "figure", "figcaption",
@@ -85,7 +87,7 @@ struct HTMLContentExtractor {
                 let start = max(span.location - leading, 0)
                 let end = min(span.location + span.length - leading, length)
                 guard end > start else { return nil }
-                return InlineSpan(location: start, length: end - start, style: span.style)
+                return InlineSpan(location: start, length: end - start, style: span.style, target: span.target)
             }
 
             // Headings win over enclosing contexts (e.g. a heading inside a blockquote).
@@ -203,6 +205,17 @@ struct HTMLContentExtractor {
         walk(node, builder: &builder, page: page)
         if let style, builder.length > start {
             builder.spans.append(InlineSpan(location: start, length: builder.length - start, style: style))
+        }
+        if name == "a", builder.length > start, let resolveNote, let href = node["href"], href.contains("#") {
+            let range = NSRange(location: start, length: builder.length - start)
+            let label = (builder.text as NSString).substring(with: range)
+            if let key = resolveNote(href, label, epubType.contains("noteref")) {
+                builder.spans.append(InlineSpan(location: start, length: range.length, style: .noteRef, target: key))
+                let raised = builder.spans.contains { $0.style == .superscript && NSIntersectionRange($0.range, range).length > 0 }
+                if !raised, FootnoteResolver.isMark(label.trimmingCharacters(in: .whitespaces)) {
+                    builder.spans.append(InlineSpan(location: start, length: range.length, style: .superscript))
+                }
+            }
         }
     }
 

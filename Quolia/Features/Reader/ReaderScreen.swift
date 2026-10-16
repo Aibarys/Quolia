@@ -166,6 +166,8 @@ private struct ReaderContentView: View {
             FlowSummaryView(summary: summary, bookTitle: model.book.title) {
                 model.activeSheet = nil
             }
+        case .footnote(let footnote):
+            FootnoteSheet(footnote: footnote)
         }
     }
 

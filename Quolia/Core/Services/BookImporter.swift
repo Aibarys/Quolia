@@ -1,20 +1,33 @@
 import Foundation
 import SwiftData
+import SwiftUI
 
 /// Imports EPUB, FB2, PDF and TXT files from Files, iCloud Drive, AirDrop or the Share Sheet.
 @MainActor
 final class BookImporter {
     struct Outcome {
         var imported: [Book] = []
+        /// Imported books whose title and author match a book already in the library
+        /// (another edition or file of the same book).
+        var copies: [Book] = []
         var duplicates: [String] = []
         var failures: [(name: String, message: String)] = []
 
         var summary: String? {
             var parts: [String] = []
-            if imported.count == 1 {
-                parts.append(String(localized: "Added “\(imported[0].title)”"))
-            } else if imported.count > 1 {
-                parts.append(String(localized: "Added \(imported.count) books"))
+            if copies.count == 1, imported.count == 1 {
+                parts.append(String(localized: "“\(copies[0].title)” is already in your library — added a copy."))
+            } else {
+                if imported.count == 1 {
+                    parts.append(String(localized: "Added “\(imported[0].title)”"))
+                } else if imported.count > 1 {
+                    parts.append(String(localized: "Added \(imported.count) books"))
+                }
+                if copies.count == 1 {
+                    parts.append(String(localized: "“\(copies[0].title)” is already in your library — added a copy."))
+                } else if copies.count > 1 {
+                    parts.append(String(localized: "\(copies.count) of them were already in your library."))
+                }
             }
             if duplicates.count == 1 {
                 parts.append(String(localized: "“\(duplicates[0])” is already in your library"))
@@ -47,8 +60,9 @@ final class BookImporter {
         var outcome = Outcome()
         for url in urls {
             do {
-                if let book = try await importBook(from: url) {
+                if let (book, isCopy) = try await importBook(from: url) {
                     outcome.imported.append(book)
+                    if isCopy { outcome.copies.append(book) }
                 } else {
                     outcome.duplicates.append(url.deletingPathExtension().lastPathComponent)
                 }
@@ -60,8 +74,9 @@ final class BookImporter {
         return outcome
     }
 
-    /// Returns `nil` when the book is already in the library.
-    func importBook(from url: URL) async throws -> Book? {
+    /// Returns `nil` when this exact file is already in the library. `isCopy` is true when
+    /// another file of the same book (same title and author) is.
+    func importBook(from url: URL) async throws -> (book: Book, isCopy: Bool)? {
         guard let format = BookFormat(url: url) else {
             throw CocoaError(.fileReadUnsupportedScheme, userInfo: [NSLocalizedDescriptionKey: String(localized: "Only EPUB, FB2, PDF and TXT files are supported.")])
         }
@@ -88,6 +103,7 @@ final class BookImporter {
             ContentCache.remove(bookID)
             return nil
         }
+        let isCopy = hasSameBook(title: parsed.title, author: parsed.author)
 
         let fileName = try BookFileStore.shared.store(fileAt: temp, format: format)
         ContentCache.save(parsed.content, for: bookID)
@@ -102,7 +118,7 @@ final class BookImporter {
         book.pageCount = parsed.pageCount
         context.insert(book)
         try? context.save()
-        return book
+        return (book, isCopy)
     }
 
     private func isDuplicate(title: String, author: String, format: BookFormat, size: Int64) -> Bool {
@@ -110,6 +126,24 @@ final class BookImporter {
         let descriptor = FetchDescriptor<Book>(predicate: #Predicate { $0.title == title && $0.author == author && $0.formatRaw == formatRaw })
         let matches = (try? context.fetch(descriptor)) ?? []
         return matches.contains { $0.fileSize == size || size == 0 }
+    }
+
+    /// Another book with the same title and author, in any format or edition.
+    private func hasSameBook(title: String, author: String) -> Bool {
+        guard let key = Self.identity(title: title, author: author) else { return false }
+        let books = (try? context.fetch(FetchDescriptor<Book>())) ?? []
+        return books.contains { Self.identity(title: $0.title, author: $0.author) == key }
+    }
+
+    /// Title and author, ignoring case, punctuation, "ё"/"е" and the order of name parts.
+    nonisolated static func identity(title: String, author: String) -> String? {
+        func words(_ text: String) -> [String] {
+            text.lowercased().replacingOccurrences(of: "ё", with: "е")
+                .components(separatedBy: CharacterSet.alphanumerics.inverted).filter { !$0.isEmpty }
+        }
+        let titleWords = words(title)
+        guard !titleWords.isEmpty, title != "Untitled", title != String(localized: "Untitled") else { return nil }
+        return titleWords.joined(separator: " ") + "|" + words(author).sorted().joined(separator: " ")
     }
 
     nonisolated private static func parse(url: URL, format: BookFormat, bookID: UUID, fallbackName: String) throws -> Parsed {
@@ -182,5 +216,26 @@ extension BookImporter {
         Task { await ContentLoader.shared.invalidate(id) }
         context.delete(book)
         try? context.save()
+    }
+}
+
+extension ToastCenter {
+    /// Reports an import. When a book was added a second time, offers to remove the new copy.
+    func show(_ outcome: BookImporter.Outcome, context: ModelContext) {
+        guard let summary = outcome.summary else { return }
+        let symbol = outcome.failures.isEmpty ? "books.vertical.fill" : "exclamationmark.triangle.fill"
+        guard !outcome.copies.isEmpty else {
+            show(summary, symbol: symbol)
+            return
+        }
+        let copies = outcome.copies
+        let title = copies.count == 1
+            ? String(localized: "Remove Copy", comment: "Toast action after importing a book that was already in the library")
+            : String(localized: "Remove Copies", comment: "Toast action after importing books that were already in the library")
+        show(summary, symbol: symbol, duration: .seconds(10), action: .init(title: title) {
+            withAnimation(.qSpring) {
+                for book in copies { BookImporter.delete(book, context: context) }
+            }
+        })
     }
 }

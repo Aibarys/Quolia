@@ -58,9 +58,7 @@ struct RootView: View {
         defer { isImportingInbox = false }
         let outcome = await BookImporter(context: context).importBooks(from: files)
         files.forEach(SharedInbox.remove)
-        if let summary = outcome.summary {
-            toasts.show(summary, symbol: outcome.failures.isEmpty ? "books.vertical.fill" : "exclamationmark.triangle.fill")
-        }
+        toasts.show(outcome, context: context)
         if !settings.hasCompletedOnboarding, !outcome.imported.isEmpty {
             settings.hasCompletedOnboarding = true
         }
@@ -72,9 +70,7 @@ struct RootView: View {
                 let outcome = await BookImporter(context: context).importBooks(from: [url])
                 // Clean up the system Inbox copy left by AirDrop / "Open in".
                 if url.path.contains("/Inbox/") { try? FileManager.default.removeItem(at: url) }
-                if let summary = outcome.summary {
-                    toasts.show(summary, symbol: outcome.failures.isEmpty ? "books.vertical.fill" : "exclamationmark.triangle.fill")
-                }
+                toasts.show(outcome, context: context)
                 if !settings.hasCompletedOnboarding, !outcome.imported.isEmpty {
                     settings.hasCompletedOnboarding = true
                 }

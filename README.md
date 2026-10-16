@@ -50,8 +50,8 @@ Without iCloud, Quolia uses a local store automatically, so nothing breaks.
 | Area | What's there | Where |
 |---|---|---|
 | Library | Grid/list, covers (generated when a book has none), progress, last read, filters, search, sort, continue-reading card, swipe actions, context menus | `Features/Library` |
-| Import | EPUB / FB2 (also `.fb2.zip`) / PDF / TXT through Files and iCloud Drive (file importer), AirDrop and "Open in Quolia" (document types + `onOpenURL`), the **Share Extension** (works even when Quolia is closed; shared text selections become TXT books), sample book | `Core/Services/BookImporter.swift`, `QuoliaShareExtension/`, `Core/Services/SharedInbox.swift` |
-| Reader | Page mode (slide or curl) and scroll mode; font, size, line spacing, width, alignment, margins, brightness; Light / Sepia / Dark / Black OLED themes — **also for original-layout PDFs**; tap the center to show or hide the interface; chapter, %, location, minutes left in chapter and in book | `Features/Reader`, `Features/Reader/PDF/ThemedPDFPage.swift` |
+| Import | EPUB / FB2 (also `.fb2.zip`) / PDF / TXT through Files and iCloud Drive (file importer), AirDrop and "Open in Quolia" (document types + `onOpenURL`), the **Share Extension** (works even when Quolia is closed; shared text selections become TXT books), sample book. Download-site ads are removed, and adding the same book twice offers to remove the new copy | `Core/Services/BookImporter.swift`, `QuoliaShareExtension/`, `Core/Services/SharedInbox.swift` |
+| Reader | Page mode (slide or curl) and scroll mode; font, size, line spacing, width, alignment, margins, brightness; Light / Sepia / Dark / Black OLED themes — **also for original-layout PDFs**; tap the center to show or hide the interface; tap a footnote mark to read the note in place; chapter, %, location, minutes left in chapter and in book | `Features/Reader`, `Features/Reader/PDF/ThemedPDFPage.swift` |
 | Auto Scroll | Smooth display-link scrolling at up to 120 Hz, set in words per minute (slider + −/+), tap to pause or resume, stops at the end of a chapter | `Features/AutoScroll` |
 | Focus Mode | Line or paragraph focus with soft dimming; follows the reading line in scroll mode, step-by-step in page mode | `Features/Focus` |
 | Highlights & Notes | Selection menu (Highlight, Note, Copy, Translate, Define, Share, Ask AI), 5 colors, floating palette, note markers in the margin, note cards, tags | `Features/Highlights`, `Features/Notes` |
@@ -108,7 +108,7 @@ xcodebuild test -project Quolia.xcodeproj -scheme Quolia \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
 ```
 
-There are 22 unit tests. They cover ZIP/EPUB and FB2 parsing, entity-tolerant markup, TXT encodings (including Windows-1251) and chapter detection, PDF paragraph reconstruction, progress math, anchor stability, per-page text layout, the spoiler-safe context, spaced repetition, streaks/stats, and the Claude stream parser and request shape.
+There are 29 unit tests. They cover ZIP/EPUB and FB2 parsing, footnotes, download-site ad removal, entity-tolerant markup, TXT encodings (including Windows-1251) and chapter detection, PDF paragraph reconstruction, progress math, anchor stability, per-page text layout, the spoiler-safe context, spaced repetition, streaks/stats, and the Claude stream parser and request shape.
 
 DEBUG builds accept launch arguments for jumping straight to a screen, for example `-seedDemoData`, `-tab stats`, `-openBook -readerLayout scroll -focus line -theme dark`, `-flow`, `-readerSheet settings|contents|ask|quote|define|flowSummary`, `-importFile <path>`, `-pdfDemoHighlight` and `-completeOnboarding`. Combine them with `-AppleLanguages "(ru)"` to check the Russian interface. `Scripts/shot.sh` launches the app with those arguments and saves a simulator screenshot.
 

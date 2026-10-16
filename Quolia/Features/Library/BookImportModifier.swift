@@ -20,9 +20,7 @@ struct BookImportModifier: ViewModifier {
                 Task {
                     let outcome = await BookImporter(context: context).importBooks(from: urls)
                     isImporting = false
-                    if let summary = outcome.summary {
-                        toasts.show(summary, symbol: outcome.failures.isEmpty ? "books.vertical.fill" : "exclamationmark.triangle.fill")
-                    }
+                    toasts.show(outcome, context: context)
                     if !outcome.imported.isEmpty { onImported(outcome.imported) }
                 }
             }

@@ -413,6 +413,58 @@
         }
       }
     },
+    "%lld of them were already in your library." : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld of them was already in your library."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld of them were already in your library."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Из них %lld уже есть в библиотеке."
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Из них %lld уже есть в библиотеке."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Из них %lld уже есть в библиотеке."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Из них %lld уже есть в библиотеке."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld pages" : {
       "localizations" : {
         "en" : {
@@ -1925,6 +1977,16 @@
         }
       }
     },
+    "Footnote %@" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сноска %@"
+          }
+        }
+      }
+    },
     "Footnotes" : {
       "localizations" : {
         "ru" : {
@@ -3259,6 +3321,28 @@
     },
     "Remove" : {
       "comment" : "Text selection menu",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Убрать"
+          }
+        }
+      }
+    },
+    "Remove Copies" : {
+      "comment" : "Toast action after importing books that were already in the library",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Убрать"
+          }
+        }
+      }
+    },
+    "Remove Copy" : {
+      "comment" : "Toast action after importing a book that was already in the library",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -4819,6 +4903,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "≈ %1$lld сл/мин · ваш обычный темп — %2$lld"
+          }
+        }
+      }
+    },
+    "“%@” is already in your library — added a copy." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«%@» уже есть в библиотеке — добавлена копия."
           }
         }
       }

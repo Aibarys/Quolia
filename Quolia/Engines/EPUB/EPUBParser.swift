@@ -95,11 +95,15 @@ struct EPUBParser {
         var extractedImages: [String: String] = [:]
         var chapters: [Chapter] = []
         let tocByPath = Dictionary(toc.map { ($0.path, $0) }, uniquingKeysWith: { first, _ in first })
+        let documents = NoteDocuments(archive: archive)
+        let footnotes = FootnoteResolver(lookup: documents.element)
 
         for (spineIndex, item) in spine.enumerated() {
             guard let data = try? archive.data(for: item.path) else { continue }
             let documentDir = (item.path as NSString).deletingLastPathComponent
-            let extractor = HTMLContentExtractor { src in
+            let root = MarkupParser.parse(data)
+            documents.setCurrent(root, path: item.path)
+            let extractor = HTMLContentExtractor(resolveImage: { src in
                 let path = Self.resolve(src, relativeTo: documentDir)
                 if let existing = extractedImages[path] { return existing }
                 guard let imageData = try? archive.data(for: path) else { return nil }
@@ -108,8 +112,14 @@ struct EPUBParser {
                 try? imageData.write(to: imagesDirectory.appendingPathComponent(fileName))
                 extractedImages[path] = fileName
                 return fileName
-            }
-            var blocks = extractor.extract(from: MarkupParser.parse(data))
+            }, resolveNote: { href, label, explicit in
+                guard let hash = href.firstIndex(of: "#") else { return nil }
+                let fragment = String(href[href.index(after: hash)...])
+                let path = hash == href.startIndex ? item.path : Self.resolve(href, relativeTo: documentDir)
+                guard !fragment.isEmpty else { return nil }
+                return footnotes.resolve(key: "\(path)#\(fragment)", label: label, explicit: explicit)
+            })
+            var blocks = extractor.extract(from: root)
 
             // Skip a cover page that only repeats the cover image.
             let words = blocks.reduce(0) { $0 + $1.wordCount }
@@ -132,12 +142,14 @@ struct EPUBParser {
 
         guard !chapters.isEmpty else { throw EPUBError.emptyBook }
 
-        let content = BookContent(
+        var content = BookContent(
             title: title,
             author: creators.joined(separator: ", "),
             language: language,
             chapters: chapters
         )
+        content.footnotes = footnotes.footnotes
+        LibraryBoilerplate.clean(&content)
         return Result(content: content, coverData: coverData)
     }
 
@@ -233,6 +245,53 @@ struct EPUBParser {
             parts.append(part)
         }
         return parts.joined(separator: "/")
+    }
+}
+
+/// Finds elements by "path#id" across the book's documents, for footnote lookup.
+/// Keeps the document being extracted plus a few others (notes usually live in one or two files).
+private final class NoteDocuments {
+    private let archive: ZipArchive
+    private var current: (path: String, root: MarkupNode)?
+    /// Roots are kept alongside the index: nodes only hold their parents weakly.
+    private var cache: [String: (root: MarkupNode, ids: [String: MarkupNode])] = [:]
+    private var currentIDs: [String: MarkupNode]?
+
+    init(archive: ZipArchive) {
+        self.archive = archive
+    }
+
+    func setCurrent(_ root: MarkupNode, path: String) {
+        current = (path, root)
+        currentIDs = nil
+    }
+
+    func element(_ key: String) -> MarkupNode? {
+        guard let hash = key.lastIndex(of: "#") else { return nil }
+        let path = String(key[..<hash]), id = String(key[key.index(after: hash)...])
+        if let current, current.path == path {
+            if currentIDs == nil { currentIDs = Self.index(current.root) }
+            return currentIDs?[id]
+        }
+        if cache[path] == nil {
+            if cache.count >= 8 { cache.removeAll() }
+            guard let data = try? archive.data(for: path) else { return nil }
+            let root = MarkupParser.parse(data)
+            cache[path] = (root, Self.index(root))
+        }
+        return cache[path]?.ids[id]
+    }
+
+    private static func index(_ root: MarkupNode) -> [String: MarkupNode] {
+        var result: [String: MarkupNode] = [:]
+        var stack = [root]
+        while let node = stack.popLast() {
+            for element in node.elements {
+                if let id = element["id"], result[id] == nil { result[id] = element }
+                stack.append(element)
+            }
+        }
+        return result
     }
 }
 

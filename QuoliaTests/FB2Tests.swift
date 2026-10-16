@@ -63,8 +63,8 @@ final class FB2Tests: XCTestCase {
         let paragraph = try XCTUnwrap(first.first { $0.kind == .paragraph })
         XCTAssertEqual(paragraph.text, "Первый курсивный и жирный абзац1.")
         let text = paragraph.text as NSString
-        XCTAssertEqual(paragraph.spans.map { text.substring(with: $0.range) }, ["курсивный", "жирный", "1"])
-        XCTAssertEqual(paragraph.spans.map(\.style), [.italic, .bold, .superscript])
+        XCTAssertEqual(paragraph.spans.map { text.substring(with: $0.range) }, ["курсивный", "жирный", "1", "1"])
+        XCTAssertEqual(paragraph.spans.map(\.style), [.italic, .bold, .superscript, .noteRef])
         XCTAssertTrue(first.contains { $0.kind == .quote && $0.text == "Строка один,\nстрока два." })
         XCTAssertEqual(content.chapters[1].blocks.last?.text, "Второй абзац — с тире.")
         XCTAssertTrue(content.chapters[2].blocks.contains { $0.text == "Текст сноски." })
@@ -97,6 +97,57 @@ final class FB2Tests: XCTestCase {
         var parser = FB2Parser(imagesDirectory: imagesDirectory)
         let content = try parser.parse(data: Data(xml.utf8)).content
         XCTAssertEqual(content.chapters.map(\.title), ["7 апреля 1928 года", "Часть вторая. Утро"])
+    }
+
+    func testNoteLinksBecomeFootnotes() throws {
+        var parser = FB2Parser(imagesDirectory: imagesDirectory)
+        let content = try parser.parse(data: Data(sample().utf8)).content
+        let paragraph = try XCTUnwrap(content.chapters[0].blocks.first { $0.kind == .paragraph })
+        let reference = try XCTUnwrap(paragraph.spans.first { $0.style == .noteRef })
+        XCTAssertEqual(content.footnotes[try XCTUnwrap(reference.target)], Footnote(label: "1", text: "Текст сноски."))
+    }
+
+    /// Some editions link plain "1" marks to numbered subtitles in a comments section of the main body.
+    func testCommentLinksWithoutNoteTypeBecomeFootnotes() throws {
+        let xml = """
+        <?xml version="1.0" encoding="utf-8"?>
+        <FictionBook xmlns:l="http://www.w3.org/1999/xlink"><description><title-info><book-title>Книга</book-title></title-info></description>
+        <body><section><title><p>Глава</p></title>
+        <p>Подай клюшки<a l:href="#c1">1</a>! Смотри <a l:href="#c2">вторую главу</a> и <a l:href="http://example.com">сайт</a>.</p></section>
+        <section><title><p>Комментарии</p></title><empty-line/><subtitle id="c1">1</subtitle><empty-line/>
+        <p><emphasis>…клюшки</emphasis> — пояснение.</p><empty-line/><subtitle id="c2">2</subtitle><p>Второе.</p></section></body></FictionBook>
+        """
+        var parser = FB2Parser(imagesDirectory: imagesDirectory)
+        let content = try parser.parse(data: Data(xml.utf8)).content
+        let paragraph = try XCTUnwrap(content.chapters[0].blocks.first { $0.kind == .paragraph })
+        let text = paragraph.text as NSString
+        let references = paragraph.spans.filter { $0.style == .noteRef }
+        XCTAssertEqual(references.map { text.substring(with: $0.range) }, ["1"], "only the mark-like link is a footnote")
+        XCTAssertTrue(paragraph.spans.contains { $0.style == .superscript && $0.range == references[0].range })
+        XCTAssertEqual(content.footnotes["c1"], Footnote(label: "1", text: "…клюшки — пояснение."))
+        XCTAssertEqual(content.footnotes.count, 1)
+    }
+
+    func testRemovesDownloadSiteAdsAndMakesTitlePage() throws {
+        let xml = """
+        <?xml version="1.0" encoding="utf-8"?>
+        <FictionBook xmlns:l="http://www.w3.org/1999/xlink"><description><title-info>
+        <author><first-name>Уильям</first-name><last-name>Фолкнер</last-name></author><book-title>Шум и ярость</book-title>
+        </title-info></description><body>
+        <p>Спасибо, что скачали книгу в <a l:href="http://example.com">бесплатной электронной библиотеке Example</a></p>
+        <p><a l:href="http://example.com/a">Все книги автора</a></p><p>Эта же книга в других форматах</p><empty-line/><p>Приятного чтения!</p>
+        <section><title><p>Уильям Фолкнер</p><empty-line/><p>Шум и ярость</p></title><subtitle>7 апреля 1928 года</subtitle>
+        <p>Через забор.</p><p>Приятного чтения!</p></section></body></FictionBook>
+        """
+        var parser = FB2Parser(imagesDirectory: imagesDirectory)
+        let blocks = try parser.parse(data: Data(xml.utf8)).content.chapters[0].blocks
+        // Ads become empty placeholders, so the indices of the blocks after them don't change.
+        XCTAssertEqual(blocks.map(\.kind), [.omitted, .omitted, .omitted, .omitted, .title, .heading, .paragraph, .paragraph])
+        XCTAssertTrue(blocks.prefix(4).allSatisfy { $0.text.isEmpty && $0.wordCount == 0 })
+        XCTAssertEqual(blocks[4].text, "Уильям Фолкнер\nШум и ярость")
+        XCTAssertEqual(blocks[4].spans.map(\.style), [.byline])
+        XCTAssertEqual((blocks[4].text as NSString).substring(with: blocks[4].spans[0].range), "Уильям Фолкнер")
+        XCTAssertEqual(blocks[7].text, "Приятного чтения!", "the same words inside the story stay")
     }
 
     func testRecognizesFB2Files() {

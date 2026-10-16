@@ -41,4 +41,6 @@ extension NSAttributedString.Key {
     static let quoliaHighlight = NSAttributedString.Key("QuoliaHighlight")
     /// Marks the temporary spotlight shown after jumping to a quote.
     static let quoliaSpotlight = NSAttributedString.Key("QuoliaSpotlight")
+    /// Marks a footnote reference (value: the footnote's key in `BookContent.footnotes`).
+    static let quoliaFootnote = NSAttributedString.Key("QuoliaFootnote")
 }

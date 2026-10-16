@@ -38,7 +38,7 @@ struct QuoliaApp: App {
                     if ProcessInfo.processInfo.arguments.contains("-seedDemoData") {
                         await DemoData.seedIfNeeded(context: container.mainContext, settings: settings)
                     }
-                    await DebugLaunch.apply(router: router, settings: settings, context: container.mainContext)
+                    await DebugLaunch.apply(router: router, settings: settings, toasts: toasts, context: container.mainContext)
                     #endif
                     RememberNotifications.refresh(settings: settings, context: container.mainContext)
                 }
