@@ -1,1 +1,1 @@
-ebook,reader,epub,fb2,pdf,books,highlight,notes,quotes,annotate,reading,focus,library,dictionary
+ebook,reader,epub,fb2,pdf,books,bookmarks,notes,quotes,annotate,reading,focus,library,dictionary
