@@ -15,6 +15,8 @@ struct WordLookupSheet: View {
 
     @State private var translation: String?
     @State private var translationFailed = false
+    /// The languages can be translated but aren't downloaded yet.
+    @State private var translationNeedsDownload = false
     @State private var configuration: TranslationSession.Configuration?
     @State private var showsDictionary = false
     @State private var contextMeaning: String?
@@ -81,12 +83,7 @@ struct WordLookupSheet: View {
                     translationFailed = true
                 }
             }
-            .onAppear {
-                configuration = TranslationSession.Configuration(
-                    source: sourceLanguage.map { Locale.Language(identifier: $0) },
-                    target: Locale.Language(identifier: targetLanguage)
-                )
-            }
+            .task { await prepareTranslation() }
         }
         .presentationDetents([.medium, .large])
         .presentationDragIndicator(.visible)
@@ -125,6 +122,10 @@ struct WordLookupSheet: View {
                 Text(translation)
                     .font(.title3)
                     .textSelection(.enabled)
+            } else if translationNeedsDownload {
+                Text("Download the languages to translate offline: Settings → Apps → Translate → Downloaded Languages.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
             } else if translationFailed {
                 Text("Translation isn't available for this language pair on this device yet. Language packs can be downloaded in Settings → Apps → Translate.")
                     .font(.subheadline)
@@ -176,6 +177,26 @@ struct WordLookupSheet: View {
         }
     }
 
+    /// Starts the translation only when its languages are already on the device. Otherwise a
+    /// translation task makes the system present its download prompt over this sheet, and on
+    /// iOS 26 that remote sheet crashes UIKit (`-[_UISceneHostingController _setSheetConfiguration:]`).
+    private func prepareTranslation() async {
+        let source = sourceLanguage.map { Locale.Language(identifier: $0) }
+        let target = Locale.Language(identifier: targetLanguage)
+        let availability = LanguageAvailability()
+        let status: LanguageAvailability.Status
+        if let source {
+            status = await availability.status(from: source, to: target)
+        } else {
+            status = (try? await availability.status(for: term, to: target)) ?? .unsupported
+        }
+        switch status {
+        case .installed: configuration = TranslationSession.Configuration(source: source, target: target)
+        case .supported: translationNeedsDownload = true
+        default: translationFailed = true
+        }
+    }
+
     private func section<Content: View>(_ title: LocalizedStringKey, @ViewBuilder content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(title)
@@ -217,7 +238,7 @@ struct WordLookupSheet: View {
     /// A one-line, spoiler-free meaning of the word in its sentence (uses the chosen AI provider).
     private func explainInContext() {
         guard case .ready(let provider) = AIService.resolve(settings: settings) else {
-            contextMeaning = "AI isn't available. Choose a provider in Settings → AI."
+            contextMeaning = String(localized: "AI is off. Choose an assistant in Settings → AI.")
             return
         }
         isExplaining = true

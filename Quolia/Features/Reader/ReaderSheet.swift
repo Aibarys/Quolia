@@ -42,6 +42,8 @@ enum ReaderSheet: Identifiable {
     case quoteCard(QuoteDraft)
     case flowSummary(FlowSummary)
     case footnote(Footnote)
+    /// The app's settings, opened from the reader (e.g. to turn on AI).
+    case appSettings(SettingsView.Focus?)
 
     var id: String {
         switch self {
@@ -55,6 +57,7 @@ enum ReaderSheet: Identifiable {
         case .quoteCard(let draft): "quote-\(draft.id)"
         case .flowSummary(let summary): "flow-\(summary.id)"
         case .footnote(let footnote): "footnote-\(footnote.hashValue)"
+        case .appSettings: "app-settings"
         }
     }
 }

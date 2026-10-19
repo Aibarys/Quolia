@@ -139,6 +139,14 @@ extension View {
     func floatingSurface<S: Shape>(_ shape: S, interactive: Bool = true) -> some View {
         modifier(FloatingSurface(shape: shape, interactive: interactive))
     }
+
+    /// The main action on a screen: an ink-filled button. Ink turns light in dark mode, and the
+    /// prominent style always draws a white label, so the label takes the background color.
+    func inkProminentButtonStyle() -> some View {
+        buttonStyle(.borderedProminent)
+            .tint(.qInk)
+            .foregroundStyle(Color.qBackground)
+    }
 }
 
 /// Simple wrapping layout for tags.

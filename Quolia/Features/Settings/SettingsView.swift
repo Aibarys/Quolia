@@ -2,6 +2,9 @@ import SwiftUI
 import SwiftData
 
 struct SettingsView: View {
+    /// A section to scroll to when the screen opens.
+    enum Focus { case ai }
+
     @Environment(AppSettings.self) private var settings
     @Environment(SyncMonitor.self) private var sync
     @Environment(\.modelContext) private var context
@@ -10,8 +13,10 @@ struct SettingsView: View {
     @State private var isGoalSheetPresented = false
     @State private var notificationsDenied = false
     private let initialSyncSetting: Bool
+    private let focus: Focus?
 
-    init() {
+    init(focus: Focus? = nil) {
+        self.focus = focus
         initialSyncSetting = UserDefaults.standard.data(forKey: AppSettings.Key.iCloudSync.storageKey)
             .flatMap { try? JSONDecoder().decode(Bool.self, from: $0) } ?? true
     }
@@ -21,6 +26,7 @@ struct SettingsView: View {
     var body: some View {
         @Bindable var settings = settings
         NavigationStack {
+            ScrollViewReader { proxy in
             Form {
                 Section {
                     Picker("Appearance", selection: $settings.appearance) {
@@ -101,6 +107,11 @@ struct SettingsView: View {
                     .listRowBackground(Color.clear)
                 }
             }
+            .onAppear {
+                guard focus == .ai else { return }
+                DispatchQueue.main.async { withAnimation { proxy.scrollTo(Focus.ai, anchor: .top) } }
+            }
+            }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -117,6 +128,7 @@ struct SettingsView: View {
             Picker("Assistant", selection: $settings.aiProvider) {
                 ForEach(AIProviderKind.allCases) { Text($0.name).tag($0) }
             }
+            .id(Focus.ai)
             if settings.aiProvider == .claude {
                 SecureField("Anthropic API key", text: $apiKey)
                     .textContentType(.password)

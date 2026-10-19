@@ -26,8 +26,7 @@ final class SyncMonitor {
         self.state = isCloudBacked ? .idle : .localOnly
         guard isCloudBacked else { return }
         Task { [weak self] in
-            let status = try? await CKContainer(identifier: BookFileStore.containerIdentifier).accountStatus()
-            if status != .available, self?.state == .idle { self?.state = .noAccount }
+            if await !Self.hasICloudAccount(), self?.state == .idle { self?.state = .noAccount }
         }
         observer = NotificationCenter.default.addObserver(
             forName: NSPersistentCloudKitContainer.eventChangedNotification, object: nil, queue: .main
@@ -41,13 +40,24 @@ final class SyncMonitor {
                 if ended == nil {
                     self.state = .syncing
                 } else if let error {
-                    self.state = .failed(error)
+                    self.report(error)
                 } else {
                     self.state = .idle
                     self.lastSync = ended
                 }
             }
         }
+    }
+
+    /// Mirroring fails while the device isn't signed in to iCloud; say that instead of the raw error.
+    private func report(_ error: String) {
+        Task {
+            state = await Self.hasICloudAccount() ? .failed(error) : .noAccount
+        }
+    }
+
+    private static func hasICloudAccount() async -> Bool {
+        (try? await CKContainer(identifier: BookFileStore.containerIdentifier).accountStatus()) == .available
     }
 
     var statusText: String {

@@ -7,7 +7,6 @@ struct AskBookView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(AppSettings.self) private var settings
-    @Environment(AppRouter.self) private var router
     @State private var chat = AskBookChat()
     @State private var input = ""
     @FocusState private var inputFocused: Bool
@@ -118,8 +117,8 @@ struct AskBookView: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
             Button("Open AI Settings") {
-                dismiss()
-                router.isSettingsPresented = true
+                // Replaces this sheet; the app-level settings sheet can't show over the reader.
+                model.activeSheet = .appSettings(.ai)
             }
             .buttonStyle(.bordered)
         }

@@ -213,8 +213,7 @@ struct QuoteCardComposer: View {
                             Label("Share Image", systemImage: "square.and.arrow.up")
                                 .frame(maxWidth: .infinity)
                         }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.qInk)
+                        .inkProminentButtonStyle()
                     }
                 }
                 .controlSize(.large)

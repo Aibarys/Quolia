@@ -163,8 +163,7 @@ struct LibraryView: View {
             } label: {
                 Text("Add a Book").padding(.horizontal, 8)
             }
-            .buttonStyle(.borderedProminent)
-            .tint(.qInk)
+            .inkProminentButtonStyle()
             Button("Try the sample book") {
                 Task {
                     let outcome = await BookImporter(context: context).importSampleBook()

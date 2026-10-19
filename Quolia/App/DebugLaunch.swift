@@ -50,6 +50,7 @@ enum DebugLaunch {
         if let tab = value("-tab").flatMap(AppTab.init(rawValue:)) { router.selectedTab = tab }
         if has("-showSettings") { router.isSettingsPresented = true }
         if has("-completeOnboarding") { settings.hasCompletedOnboarding = true }
+        if let provider = value("-aiProvider").flatMap(AIProviderKind.init(rawValue:)) { settings.aiProvider = provider }
 
         // `-importFile <path>` (repeatable) imports host files as if picked in Files.
         let files = arguments.indices.filter { arguments[$0] == "-importFile" && arguments.indices.contains($0 + 1) }

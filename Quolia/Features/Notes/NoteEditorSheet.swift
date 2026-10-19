@@ -197,8 +197,7 @@ struct NoteCardSheet: View {
 
             HStack(spacing: 12) {
                 Button(action: onEdit) { Label("Edit", systemImage: "pencil").frame(maxWidth: .infinity) }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.qInk)
+                    .inkProminentButtonStyle()
                 Button(action: onShare) { Label("Share", systemImage: "square.and.arrow.up").frame(maxWidth: .infinity) }
                     .buttonStyle(.bordered)
                 Button(role: .destructive) { confirmDelete = true } label: {

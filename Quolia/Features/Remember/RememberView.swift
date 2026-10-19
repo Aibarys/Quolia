@@ -97,8 +97,7 @@ struct RememberView: View {
             } label: {
                 Text("Next").frame(width: 72)
             }
-            .buttonStyle(.borderedProminent)
-            .tint(.qInk)
+            .inkProminentButtonStyle()
         }
         .controlSize(.large)
         .font(.subheadline.weight(.semibold))

@@ -178,6 +178,9 @@ private struct ReaderContentView: View {
             }
         case .footnote(let footnote):
             FootnoteSheet(footnote: footnote)
+        case .appSettings(let focus):
+            // The root's settings sheet can't appear while the reader covers the screen.
+            SettingsView(focus: focus)
         }
     }
 
