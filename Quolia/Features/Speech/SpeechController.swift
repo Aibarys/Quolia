@@ -47,6 +47,11 @@ final class SpeechController: NSObject {
         isPaused.toggle()
     }
 
+    func pause() {
+        guard isActive, !isPaused else { return }
+        togglePause()
+    }
+
     func stop() {
         guard isActive else { return }
         isActive = false

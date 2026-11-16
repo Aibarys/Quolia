@@ -361,6 +361,8 @@ final class ReaderViewModel {
         case .background, .inactive:
             session?.pause()
             try? context.save()
+            // iOS suspends the app in the background, so pause listening rather than cut it off mid-word.
+            if phase == .background { speech.pause() }
         @unknown default: break
         }
     }

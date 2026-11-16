@@ -67,7 +67,6 @@ targets:
           UIColorName: LaunchBackground
         UIBackgroundModes:
           - remote-notification
-          - audio
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationLandscapeLeft
