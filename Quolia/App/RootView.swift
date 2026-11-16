@@ -23,6 +23,7 @@ struct RootView: View {
             }
         }
         .animation(.easeInOut(duration: 0.45), value: settings.hasCompletedOnboarding)
+        .quoliaTipStyle()
         .environment(\.readerTransitionNamespace, readerNamespace)
         .fullScreenCover(item: $router.reader) { request in
             ReaderScreen(request: request)

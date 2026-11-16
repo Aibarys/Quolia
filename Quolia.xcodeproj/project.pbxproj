@@ -89,8 +89,10 @@
 		D119A365FFB3E671E4244CE2 /* SyncMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D29CE3EF0BDF2AF96F7A375 /* SyncMonitor.swift */; };
 		D350E083C1589DEE9A017AE5 /* AutoScrollControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587A4FC555A4047CB455D2AC /* AutoScrollControls.swift */; };
 		D4DFA44B27D5425F19483F1A /* ExportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149BA883A1181A0755AF47DE /* ExportTests.swift */; };
+		D510AC090E9F722ECA42EB31 /* ReaderGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F33C08CB0825D8640D1AA6B /* ReaderGuide.swift */; };
 		D9DA99D42359A000DA0267F9 /* ReadingStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8E8CC58CC90D394F0FE507 /* ReadingStats.swift */; };
 		DBBA6F0ED3943BC01DC7180F /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BBC80F1A1BEC95F83C5A09AA /* Localizable.xcstrings */; };
+		DD36CEEC734669D11E889DCA /* QuoliaTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6C4B8D484C81348D26D4970 /* QuoliaTips.swift */; };
 		DDDC4F8C7B49D1AEB7788E47 /* BookViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43B5D3AECAEDED7B1E7C0EC /* BookViews.swift */; };
 		DE18245486FDE858A4F4E946 /* LibraryFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FDE11B95E7D099D6B19287 /* LibraryFilter.swift */; };
 		DE2FB07F2739DCCED7359AB4 /* BookCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D3838EDE04118C1CC957BB /* BookCoverView.swift */; };
@@ -207,10 +209,12 @@
 		99FDE11B95E7D099D6B19287 /* LibraryFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryFilter.swift; sourceTree = "<group>"; };
 		9AA3060599CB05F461408D57 /* BookFileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookFileStore.swift; sourceTree = "<group>"; };
 		9D29CE3EF0BDF2AF96F7A375 /* SyncMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncMonitor.swift; sourceTree = "<group>"; };
+		9F33C08CB0825D8640D1AA6B /* ReaderGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderGuide.swift; sourceTree = "<group>"; };
 		A4F2486B8AE8FB1812CCB7AF /* SpeechController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechController.swift; sourceTree = "<group>"; };
 		A5999CCAD76ABC24E8246A15 /* BookImportModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookImportModifier.swift; sourceTree = "<group>"; };
 		A63760C9EA29DEA9C1A14638 /* GoalSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSheet.swift; sourceTree = "<group>"; };
 		A66A9DA915E099DAA9584402 /* QuoliaTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = QuoliaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6C4B8D484C81348D26D4970 /* QuoliaTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoliaTips.swift; sourceTree = "<group>"; };
 		A77B42ED39C0539940F78190 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		A8049EE5D8C702E8127B02AF /* NoteEditorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditorSheet.swift; sourceTree = "<group>"; };
 		ABDA3E4839CAEC7510B90F81 /* SavedWordsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedWordsList.swift; sourceTree = "<group>"; };
@@ -259,6 +263,15 @@
 				63AFD1AF7663336F1C2C29FB /* QuoliaTests */,
 				E48DCB89804944A69A788784 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		1FDDB16211F82A74B1B0F1E7 /* Tips */ = {
+			isa = PBXGroup;
+			children = (
+				A6C4B8D484C81348D26D4970 /* QuoliaTips.swift */,
+				9F33C08CB0825D8640D1AA6B /* ReaderGuide.swift */,
+			);
+			path = Tips;
 			sourceTree = "<group>";
 		};
 		21D85B109F970487B753C94F /* Goals */ = {
@@ -504,6 +517,7 @@
 				21EA3C450FE611C286EDA31C /* Speech */,
 				39C053FA4DA9AEDB0E0ACCA8 /* Stats */,
 				720CD4F17DAF9946F1610A71 /* Sync */,
+				1FDDB16211F82A74B1B0F1E7 /* Tips */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -893,9 +907,11 @@
 				6C4310D9AAE1C83DD08FC36C /* PlainTextParser.swift in Sources */,
 				25E71762865602C0ED9CEB37 /* Primitives.swift in Sources */,
 				F097D3113C40B9214E244653 /* QuoliaApp.swift in Sources */,
+				DD36CEEC734669D11E889DCA /* QuoliaTips.swift in Sources */,
 				919BCCC59B52CE481A3492A0 /* QuoteCardComposer.swift in Sources */,
 				8B18305BC9ACF429FD596A6B /* ReaderBridge.swift in Sources */,
 				7A80265090D681C876EB6348 /* ReaderChrome.swift in Sources */,
+				D510AC090E9F722ECA42EB31 /* ReaderGuide.swift in Sources */,
 				FF415F8F03D41489769900B5 /* ReaderLayoutManager.swift in Sources */,
 				3DCF03E3BDCA49DB97922B56 /* ReaderPreferences.swift in Sources */,
 				F4D8803F02AD6E686918D021 /* ReaderScreen.swift in Sources */,

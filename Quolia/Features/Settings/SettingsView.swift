@@ -12,6 +12,7 @@ struct SettingsView: View {
     @State private var apiKey = KeychainStore.string(for: ClaudeProvider.keychainKey) ?? ""
     @State private var isGoalSheetPresented = false
     @State private var notificationsDenied = false
+    @State private var tipsComeBack = false
     private let initialSyncSetting: Bool
     private let focus: Focus?
 
@@ -94,6 +95,17 @@ struct SettingsView: View {
                     Button("Add Sample Book") {
                         Task { _ = await BookImporter(context: context).importSampleBook() }
                     }
+                }
+
+                Section {
+                    Button(tipsComeBack ? "Tips will show again" : "Show Tips Again") {
+                        QuoliaTips.showAgain()
+                        Haptics.success()
+                        withAnimation { tipsComeBack = true }
+                    }
+                    .disabled(tipsComeBack)
+                } footer: {
+                    Text("The reading guide and feature tips will appear again as you use Quolia.")
                 }
 
                 Section {

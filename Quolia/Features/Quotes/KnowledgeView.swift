@@ -104,6 +104,12 @@ struct KnowledgeView: View {
                 .padding(.horizontal, Metrics.gutter)
                 .padding(.bottom, 8)
 
+                if !highlights.isEmpty {
+                    InlineTip(tip: NotesTip())
+                        .padding(.horizontal, Metrics.gutter)
+                        .padding(.bottom, 8)
+                }
+
                 if hasActiveFilter { activeFilters }
 
                 Group {

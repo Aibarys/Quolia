@@ -24,7 +24,7 @@ for LOC in en ru; do
   shoot() { # name delay args...
     local name=$1 delay=$2; shift 2
     xcrun simctl terminate $U com.quolia.reader >/dev/null 2>&1 || true
-    xcrun simctl launch $U com.quolia.reader -completeOnboarding -seedDemoData "${LANGARGS[@]}" "$@" >/dev/null
+    xcrun simctl launch $U com.quolia.reader -completeOnboarding -seedDemoData -hideTips "${LANGARGS[@]}" "$@" >/dev/null
     sleep $((delay + EXTRA_DELAY))
     xcrun simctl io $U screenshot "${DISPLAY_ARGS[@]}" $OUT/$LOC/$name.png >/dev/null 2>&1 && echo "$OUT/$LOC/$name.png"
   }

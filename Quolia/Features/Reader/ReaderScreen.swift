@@ -37,6 +37,7 @@ private struct ReaderContentView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
     @Environment(AppSettings.self) private var settings
+    @State private var isGuideVisible = false
 
     var body: some View {
         ZStack {
@@ -70,6 +71,13 @@ private struct ReaderContentView: View {
         .translationPresentation(isPresented: $model.isTranslationPresented, text: model.translationText)
         .onChange(of: scenePhase) { _, phase in model.scenePhaseChanged(phase) }
         .onDisappear { model.close() }
+        .task(id: model.loadState == .ready) {
+            guard model.loadState == .ready, ReaderGuide.shouldShow else { return }
+            // Let the page settle first; a book opened straight into Reading Flow skips the guide.
+            try? await Task.sleep(for: .milliseconds(700))
+            guard !Task.isCancelled, !model.isFlowActive, !model.speech.isActive else { return }
+            withAnimation(.qSpring) { isGuideVisible = true }
+        }
     }
 
     @ViewBuilder
@@ -114,7 +122,7 @@ private struct ReaderContentView: View {
         }
 
         if model.isChromeVisible && !model.isFlowActive {
-            ReaderChrome(model: model, theme: theme, onClose: close)
+            ReaderChrome(model: model, theme: theme, showsTips: !isGuideVisible && !ReaderGuide.shouldShow, onClose: close)
                 .transition(.opacity)
         }
 
@@ -143,6 +151,15 @@ private struct ReaderContentView: View {
         .animation(.qSpring, value: model.reachedChapterEnd)
         .animation(.qSpring, value: model.isAutoScrollActive)
         .animation(.qSpring, value: model.isFlowActive)
+
+        if isGuideVisible {
+            ReaderGuideView(layout: model.effectiveLayout, theme: theme) {
+                ReaderGuide.markSeen()
+                withAnimation(.qSpring) { isGuideVisible = false }
+            }
+            .transition(.opacity.combined(with: .scale(scale: 1.04)))
+            .zIndex(10)
+        }
     }
 
     @ViewBuilder

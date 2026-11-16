@@ -110,6 +110,8 @@ struct LibraryView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 22) {
+            InlineTip(tip: BookMenuTip())
+                .padding(.horizontal, Metrics.gutter)
             if let continueBook, filter == .all, search.isEmpty {
                 ContinueReadingCard(book: continueBook)
                     .padding(.horizontal, Metrics.gutter)

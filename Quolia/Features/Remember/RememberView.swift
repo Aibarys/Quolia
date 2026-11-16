@@ -34,6 +34,9 @@ struct RememberView: View {
                     }
                 } else if let current {
                     VStack(spacing: 0) {
+                        InlineTip(tip: RememberTip())
+                            .padding(.horizontal, Metrics.gutter)
+                            .padding(.top, 8)
                         Spacer(minLength: 12)
                         MemoryCard(highlight: current)
                             .id(current.id)

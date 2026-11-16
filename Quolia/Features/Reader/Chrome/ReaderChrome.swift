@@ -1,10 +1,19 @@
 import SwiftUI
+import TipKit
 
 /// The reader's interface: appears on a center tap, otherwise out of the way.
 struct ReaderChrome: View {
     @Bindable var model: ReaderViewModel
     let theme: ReaderTheme
+    /// False while the reader guide is still to come or on screen.
+    var showsTips = true
     let onClose: () -> Void
+
+    @State private var tips = TipGroup(.ordered) {
+        ReadingFlowTip()
+        FocusTip()
+        AskBookTip()
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -12,6 +21,14 @@ struct ReaderChrome: View {
             Spacer(minLength: 0)
             bottomBar
         }
+        .tipViewStyle(QuoliaTipStyle(palette: .init(ink: theme.textColor, muted: theme.secondaryTextColor,
+                                                     accent: theme.accentColor)))
+        // Over a page of text a glass popover is hard to read, so the tip sits on the reader's paper.
+        .tipBackground(theme.backgroundColor)
+    }
+
+    private func tip<T: Tip>(_ type: T.Type) -> T? {
+        showsTips ? tips.currentTip as? T : nil
     }
 
     // MARK: - Top
@@ -116,7 +133,10 @@ struct ReaderChrome: View {
         HStack(spacing: 0) {
             ToolButton(symbol: "list.bullet", label: "Contents") { model.activeSheet = .contents }
             Menu {
-                Picker("Focus", selection: Binding(get: { model.effectiveFocus }, set: { model.setFocusMode($0) })) {
+                Picker("Focus", selection: Binding(get: { model.effectiveFocus }, set: {
+                    model.setFocusMode($0)
+                    FocusTip().invalidate(reason: .actionPerformed)
+                })) {
                     ForEach(FocusMode.allCases) { mode in
                         Label(mode.name, systemImage: mode.symbol).tag(mode)
                     }
@@ -125,14 +145,23 @@ struct ReaderChrome: View {
                 ToolIcon(symbol: model.effectiveFocus == .off ? "scope" : "scope", active: model.effectiveFocus != .off, theme: theme)
             }
             .accessibilityLabel("Focus mode")
+            .popoverTip(tip(FocusTip.self), arrowEdge: .bottom)
             ToolButton(symbol: "gauge.with.dots.needle.33percent", label: "Auto Scroll") { model.startAutoScroll() }
-            ToolButton(symbol: "play.fill", label: "Start Reading Flow", prominent: true, theme: theme) { model.startFlow() }
+            ToolButton(symbol: "play.fill", label: "Start Reading Flow", prominent: true, theme: theme) {
+                ReadingFlowTip().invalidate(reason: .actionPerformed)
+                model.startFlow()
+            }
+            .popoverTip(tip(ReadingFlowTip.self), arrowEdge: .bottom)
             ToolButton(symbol: model.speech.isActive ? "headphones.circle.fill" : "headphones",
                        label: model.speech.isActive ? "Stop listening" : "Listen",
                        active: model.speech.isActive, theme: theme) { model.toggleListening() }
                 .opacity(model.engine == .text ? 1 : 0.35)
                 .disabled(model.engine != .text)
-            ToolButton(symbol: "sparkles", label: "Ask the Book") { model.activeSheet = .ask(AIRequest()) }
+            ToolButton(symbol: "sparkles", label: "Ask the Book") {
+                AskBookTip().invalidate(reason: .actionPerformed)
+                model.activeSheet = .ask(AIRequest())
+            }
+            .popoverTip(tip(AskBookTip.self), arrowEdge: .bottom)
         }
         .padding(.horizontal, 6)
         .padding(.vertical, 4)

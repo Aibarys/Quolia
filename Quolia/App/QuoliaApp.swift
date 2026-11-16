@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import TipKit
 
 @main
 struct QuoliaApp: App {
@@ -15,6 +16,7 @@ struct QuoliaApp: App {
         if arguments.contains("-resetQuolia") {
             UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier ?? "")
         }
+        QuoliaTips.configure()
         let settings = AppSettings()
         let result = ModelContainerFactory.make(iCloudEnabled: settings.iCloudSyncEnabled,
                                                 inMemory: arguments.contains("-inMemoryStore"))

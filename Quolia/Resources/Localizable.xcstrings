@@ -1091,6 +1091,16 @@
         }
       }
     },
+    "All your highlights" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все ваши выделения"
+          }
+        }
+      }
+    },
     "Anthropic API key" : {
       "localizations" : {
         "ru" : {
@@ -1198,6 +1208,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Спросить об этом"
+          }
+        }
+      }
+    },
+    "Ask about a character or an idea. Answers use only what you've read, so there are no spoilers." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Спросите о герое или идее. Ответ опирается только на прочитанное, поэтому без спойлеров."
           }
         }
       }
@@ -1889,6 +1909,16 @@
         }
       }
     },
+    "Each highlight returns in a few days, then in a week, a month and later, so it stays with you. Press and hold a card to see it less often." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Каждое выделение вернётся через несколько дней, потом через неделю, месяц и позже, чтобы оно запомнилось. Нажмите на карточку и подержите, чтобы видеть её реже."
+          }
+        }
+      }
+    },
     "Earlier today" : {
       "localizations" : {
         "ru" : {
@@ -2224,6 +2254,16 @@
         }
       }
     },
+    "Highlight and take notes" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выделяйте и записывайте"
+          }
+        }
+      }
+    },
     "Highlight what matters." : {
       "localizations" : {
         "ru" : {
@@ -2260,6 +2300,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Выделения и заметки"
+          }
+        }
+      }
+    },
+    "Highlights come back" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выделения возвращаются"
           }
         }
       }
@@ -2361,6 +2411,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "По ширине"
+          }
+        }
+      }
+    },
+    "Keep one line or paragraph bright and dim the rest. Tap the edges of the page to move it." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Одна строка или абзац остаются яркими, остальное затемняется. Нажимайте у краёв страницы, чтобы двигать фокус."
           }
         }
       }
@@ -2646,6 +2706,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Больше"
+          }
+        }
+      }
+    },
+    "More for every book" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Больше действий с книгой"
           }
         }
       }
@@ -3235,6 +3305,26 @@
         }
       }
     },
+    "Press and hold a book to start Reading Flow, mark it as finished or see its details." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите на книгу и подержите, чтобы начать поток чтения, отметить её прочитанной или открыть подробности."
+          }
+        }
+      }
+    },
+    "Press and hold a word, then drag to select. Highlight the passage, add a note, look up a word or ask about it." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите на слово и подержите, затем протяните выделение. Выделите отрывок, добавьте заметку, найдите значение слова или спросите о нём."
+          }
+        }
+      }
+    },
     "Progress" : {
       "comment" : "Sort by progress",
       "localizations" : {
@@ -3386,6 +3476,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Читаю"
+          }
+        }
+      }
+    },
+    "Reading Flow" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поток чтения"
           }
         }
       }
@@ -3685,6 +3785,16 @@
         }
       }
     },
+    "Scroll to read" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прокручивайте текст"
+          }
+        }
+      }
+    },
     "Search" : {
       "localizations" : {
         "ru" : {
@@ -3711,6 +3821,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Поиск ещё не готов"
+          }
+        }
+      }
+    },
+    "Search quotes and notes, filter them by book, tag or color, and export them to Markdown or PDF." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ищите цитаты и заметки, фильтруйте их по книге, тегу или цвету и экспортируйте в Markdown или PDF."
           }
         }
       }
@@ -3853,6 +3973,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Показывать реже"
+          }
+        }
+      }
+    },
+    "Show Tips Again" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать подсказки снова"
           }
         }
       }
@@ -4154,6 +4284,16 @@
         }
       }
     },
+    "Swipe up to keep reading. Quolia remembers your place." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Смахивайте вверх, чтобы читать дальше. Quolia запомнит, где вы остановились."
+          }
+        }
+      }
+    },
     "Sync" : {
       "localizations" : {
         "ru" : {
@@ -4230,6 +4370,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Нажмите на закладку во время чтения, чтобы запомнить место."
+          }
+        }
+      }
+    },
+    "Tap the middle of the page for contents, focus, Reading Flow, listening and settings. Tap again to hide them." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите в середине страницы, чтобы открыть содержание, фокус, поток чтения, чтение вслух и настройки. Нажмите ещё раз, чтобы скрыть их."
+          }
+        }
+      }
+    },
+    "Tap the right edge for the next page and the left edge to go back. You can swipe too." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите у правого края, чтобы перейти дальше, и у левого, чтобы вернуться. Можно и смахнуть."
           }
         }
       }
@@ -4335,6 +4495,16 @@
         }
       }
     },
+    "The reading guide and feature tips will appear again as you use Quolia." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Знакомство с читалкой и подсказки появятся снова, когда вы будете пользоваться Quolia."
+          }
+        }
+      }
+    },
     "The sample book is missing from the app." : {
       "localizations" : {
         "ru" : {
@@ -4351,6 +4521,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Не удалось прочитать текстовый файл."
+          }
+        }
+      }
+    },
+    "The text moves on by itself at your reading speed. Change the pace with − and +." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Текст сам движется со скоростью вашего чтения. Темп меняется кнопками − и +."
           }
         }
       }
@@ -4535,6 +4715,16 @@
         }
       }
     },
+    "Tips will show again" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подсказки появятся снова"
+          }
+        }
+      }
+    },
     "Title" : {
       "comment" : "Sort by title",
       "localizations" : {
@@ -4562,6 +4752,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сегодня"
+          }
+        }
+      }
+    },
+    "Tools are in the middle" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Инструменты — в центре"
           }
         }
       }
@@ -4663,6 +4863,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Включите Apple Intelligence в приложении «Настройки», чтобы пользоваться функциями ИИ."
+          }
+        }
+      }
+    },
+    "Turn the page" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Листайте страницы"
           }
         }
       }
