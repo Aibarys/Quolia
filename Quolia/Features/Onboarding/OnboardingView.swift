@@ -111,7 +111,7 @@ private struct OnboardingPageView: View {
                 }
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 300)
+            .frame(minHeight: 200, maxHeight: 300)
             Spacer(minLength: 24)
             VStack(alignment: .leading, spacing: 14) {
                 Text(page.title)
@@ -121,7 +121,10 @@ private struct OnboardingPageView: View {
                 Text(page.subtitle)
                     .font(.title3)
                     .foregroundStyle(Color.qMuted)
+                    .fixedSize(horizontal: false, vertical: true)
             }
+            // On short screens (the folded iPhone Duo) the illustration gives way, never the text.
+            .layoutPriority(1)
             .padding(.horizontal, 28)
             .opacity(isActive ? 1 : 0)
             .offset(y: isActive ? 0 : 12)

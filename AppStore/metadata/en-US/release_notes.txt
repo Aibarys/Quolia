@@ -1,1 +1,3 @@
-The first version of Quolia.
+Made for iPhone Duo. Quolia now fills both displays, and your page stays where it was when you fold or unfold.
+Text in the reader no longer runs under the status bar or camera at the side of the screen.
+The welcome screens fit shorter displays.

@@ -71,6 +71,11 @@ final class TextReaderController: UIViewController {
     private var theme: ReaderTheme { state.style.theme }
     private var safeTop: CGFloat { max(view.safeAreaInsets.top, view.window?.safeAreaInsets.top ?? 0, 20) }
     private var safeBottom: CGFloat { max(view.safeAreaInsets.bottom, view.window?.safeAreaInsets.bottom ?? 0) }
+    // Side safe areas: the folded iPhone Duo's vertical status bar and camera, or a notch in landscape.
+    // Text stays between them so system UI never covers a line.
+    private var safeLeft: CGFloat { view.safeAreaInsets.left }
+    private var safeRight: CGFloat { view.safeAreaInsets.right }
+    private var readingWidth: CGFloat { view.bounds.width - safeLeft - safeRight }
     private var scrollTopInset: CGFloat { safeTop + 52 }
     private var scrollBottomInset: CGFloat { 260 }
 
@@ -179,13 +184,13 @@ final class TextReaderController: UIViewController {
 
     // MARK: - Rendering
 
-    private var textWidth: CGFloat { state.style.textWidth(forWidth: view.bounds.width) }
+    private var textWidth: CGFloat { state.style.textWidth(forWidth: readingWidth) }
     private var maxImageHeight: CGFloat { max(view.bounds.height - safeTop - safeBottom - 140, 160) }
 
     func rendered(_ index: Int) -> RenderedChapter {
         if let cached = renderedCache[index] { return cached }
         let result = ChapterRenderer.render(content.chapters[index], style: state.style, imagesDirectory: imagesDirectory,
-                                            contentWidth: textWidth, maxImageHeight: maxImageHeight)
+                                            contentWidth: textWidth, maxImageHeight: maxImageHeight, scale: traitCollection.displayScale)
         renderedCache[index] = result
         return result
     }
@@ -245,9 +250,9 @@ final class TextReaderController: UIViewController {
             let y = origin.y + inset.top + line.minY + lineHeight / 2
             let x: CGFloat
             if inScrollView {
-                x = textView.bounds.width - max(inset.right / 2, 12)
+                x = textView.bounds.width - safeRight - max((inset.right - safeRight) / 2, 12)
             } else {
-                let rightMargin = view.bounds.width - textView.frame.maxX
+                let rightMargin = view.bounds.width - safeRight - textView.frame.maxX
                 x = textView.frame.maxX + max(rightMargin / 2, 10)
             }
             let marker = NoteMarkerView(highlightID: mark.id, color: mark.color.uiColor)
@@ -283,12 +288,12 @@ final class TextReaderController: UIViewController {
         cancelContinuedSelection()
         chapterIndex = chapter
         let rendered = rendered(chapter)
-        let width = view.bounds.width
-        let inset = state.style.horizontalInset(forWidth: width)
+        let inset = state.style.horizontalInset(forWidth: readingWidth)
         let (storage, layoutManager, container) = TextStack.make(attributed: rendered.attributed,
-                                                           containerSize: CGSize(width: width - inset * 2, height: .greatestFiniteMagnitude))
+                                                           containerSize: CGSize(width: textWidth, height: .greatestFiniteMagnitude))
         let textView = ReaderTextView(frame: view.bounds, textContainer: container)
-        textView.textContainerInset = UIEdgeInsets(top: scrollTopInset, left: inset, bottom: scrollBottomInset, right: inset)
+        textView.textContainerInset = UIEdgeInsets(top: scrollTopInset, left: safeLeft + inset,
+                                                   bottom: scrollBottomInset, right: safeRight + inset)
         textView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         textView.indicatorStyle = theme.isDark ? .white : .black
         textView.delegate = self
@@ -304,7 +309,7 @@ final class TextReaderController: UIViewController {
 
         let next = content.chapter(chapter + 1)
         let footer = ChapterFooterView(nextTitle: next?.title, theme: theme, font: state.style.bodyFont)
-        footer.frame = CGRect(x: 0, y: scrollTopInset + chapterTextHeight + 56, width: width, height: 120)
+        footer.frame = CGRect(x: safeLeft, y: scrollTopInset + chapterTextHeight + 56, width: readingWidth, height: 120)
         footer.autoresizingMask = [.flexibleWidth]
         footer.onTap = { [weak self] in self?.changeChapter(by: 1) }
         textView.addSubview(footer)
@@ -345,8 +350,8 @@ final class TextReaderController: UIViewController {
     // MARK: - Paged mode
 
     private var pageInsets: UIEdgeInsets {
-        let horizontal = state.style.horizontalInset(forWidth: view.bounds.width)
-        return UIEdgeInsets(top: safeTop + 50, left: horizontal, bottom: max(safeBottom, 16) + 40, right: horizontal)
+        let horizontal = state.style.horizontalInset(forWidth: readingWidth)
+        return UIEdgeInsets(top: safeTop + 50, left: safeLeft + horizontal, bottom: max(safeBottom, 16) + 40, right: safeRight + horizontal)
     }
 
     private var pageSize: CGSize {
@@ -437,7 +442,7 @@ final class TextReaderController: UIViewController {
             delegate?.textReader(didCountBookPages: cached)
             return
         }
-        let style = state.style, images = imagesDirectory, scale = UIScreen.main.scale, bookID = bookID
+        let style = state.style, images = imagesDirectory, scale = traitCollection.displayScale, bookID = bookID
         pageCountTask = Task.detached(priority: .utility) { [weak self] in
             var counts: [Int] = []
             for chapter in chapters {

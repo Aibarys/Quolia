@@ -65,9 +65,9 @@ struct RenderedChapter {
 }
 
 enum ChapterRenderer {
-    /// Safe to call off the main thread when `scale` is passed explicitly.
+    /// Safe to call off the main thread. Pass the window's display scale; the default suits tests only.
     static func render(_ chapter: Chapter, style: ReaderStyle, imagesDirectory: URL?,
-                       contentWidth: CGFloat, maxImageHeight: CGFloat, scale: CGFloat = UIScreen.main.scale) -> RenderedChapter {
+                       contentWidth: CGFloat, maxImageHeight: CGFloat, scale: CGFloat = 2) -> RenderedChapter {
         let output = NSMutableAttributedString()
         var ranges: [NSRange] = []
         ranges.reserveCapacity(chapter.blocks.count)

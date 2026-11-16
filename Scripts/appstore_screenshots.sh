@@ -1,9 +1,11 @@
 #!/bin/zsh
 # Captures the App Store screenshot set on one simulator, in English and Russian.
-# Usage: Scripts/appstore_screenshots.sh <simulator-udid> <out-dir>
+# Usage: Scripts/appstore_screenshots.sh <simulator-udid> <out-dir> [display]
 # Needs a DEBUG build of Quolia in build/DerivedData (xcodebuild ... -derivedDataPath build/DerivedData).
+# On iPhone Duo pass the display to capture: primary (outer, folded) or primary-1 (inner, unfolded),
+# after setting the posture in Device Hub. EXTRA_DELAY adds seconds to every wait for slower simulators.
 set -e
-U=$1; OUT=$2
+U=$1; OUT=$2; DISPLAY_ARGS=(${3:+--display=$3}); EXTRA_DELAY=${EXTRA_DELAY:-0}
 APP=build/DerivedData/Build/Products/Debug-iphonesimulator/Quolia.app
 BOOK_RU="$PWD/Scripts/AppStoreFixtures/Тихие главы.fb2"
 
@@ -23,8 +25,8 @@ for LOC in en ru; do
     local name=$1 delay=$2; shift 2
     xcrun simctl terminate $U com.quolia.reader >/dev/null 2>&1 || true
     xcrun simctl launch $U com.quolia.reader -completeOnboarding -seedDemoData "${LANGARGS[@]}" "$@" >/dev/null
-    sleep $delay
-    xcrun simctl io $U screenshot $OUT/$LOC/$name.png >/dev/null 2>&1 && echo "$OUT/$LOC/$name.png"
+    sleep $((delay + EXTRA_DELAY))
+    xcrun simctl io $U screenshot "${DISPLAY_ARGS[@]}" $OUT/$LOC/$name.png >/dev/null 2>&1 && echo "$OUT/$LOC/$name.png"
   }
   if [ $LOC = ru ]; then
     shoot 1-library 20 -tab library -importFile "$BOOK_RU"
