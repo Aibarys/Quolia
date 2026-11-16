@@ -1,3 +1,5 @@
 Made for iPhone Duo. Quolia now fills both displays, and your page stays where it was when you fold or unfold.
 Text in the reader no longer runs under the status bar or camera at the side of the screen.
 The welcome screens fit shorter displays.
+Reading Flow keeps Focus off when you have turned it off.
+The focus highlight covers the whole text, including the tails of letters in headings and quotes.

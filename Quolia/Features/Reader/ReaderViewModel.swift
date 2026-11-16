@@ -58,7 +58,6 @@ final class ReaderViewModel {
 
     // Modes
     private(set) var layoutOverride: ReaderLayout?
-    private(set) var focusOverride: FocusMode?
     private(set) var isAutoScrollActive = false
     var isAutoScrollRunning = false
     private(set) var reachedChapterEnd = false
@@ -172,7 +171,8 @@ final class ReaderViewModel {
     // MARK: - Derived state
 
     var effectiveLayout: ReaderLayout { layoutOverride ?? settings.reader.layout }
-    var effectiveFocus: FocusMode { focusOverride ?? settings.reader.focusMode }
+    // Reading Flow follows the chosen focus mode too: "Off" means no focus line.
+    var effectiveFocus: FocusMode { settings.reader.focusMode }
     var chapterIndex: Int { visibleRange.start.chapter }
 
     var chapterTitle: String {
@@ -567,7 +567,6 @@ final class ReaderViewModel {
 
     func setFocusMode(_ mode: FocusMode) {
         settings.reader.focusMode = mode
-        focusOverride = nil
         Haptics.selection()
     }
 
@@ -580,7 +579,6 @@ final class ReaderViewModel {
         speech.stop()
         isFlowActive = true
         session?.isFlow = true
-        if settings.reader.focusMode == .off { focusOverride = .line }
         let words = session?.wordsRead ?? 0
         flowStart = (Date(), session?.activeSeconds ?? 0, words, session?.chaptersCompleted ?? 0,
                      session?.highlightsCreated ?? 0, session?.notesCreated ?? 0)
@@ -590,7 +588,6 @@ final class ReaderViewModel {
     func endFlow() {
         guard isFlowActive else { return }
         isFlowActive = false
-        focusOverride = nil
         stopAutoScroll()
         UIApplication.shared.isIdleTimerDisabled = false
         let start = flowStart

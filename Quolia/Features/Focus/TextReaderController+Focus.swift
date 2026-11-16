@@ -58,17 +58,36 @@ extension TextReaderController {
 
     // MARK: - Geometry
 
-    private func glyphBand(_ rect: CGRect, character: Int, storage: NSTextStorage) -> CGFloat {
-        guard character < storage.length else { return rect.height }
-        let font = (storage.attribute(.font, at: character, effectiveRange: nil) as? UIFont) ?? state.style.bodyFont
-        return min(rect.height, font.lineHeight + 4)
-    }
-
-    private func trimmedParagraphRect(_ rect: CGRect, endsBlock: Bool) -> CGRect {
-        var result = rect
-        let trim = state.style.lineSpacing + (endsBlock ? state.style.paragraphSpacing : 0)
-        result.size.height = max(rect.height - trim, min(rect.height, state.style.bodyFont.lineHeight))
-        return result
+    /// A full-width rect around the glyphs of `glyphRange`: from the first line's ascender to the last
+    /// line's descender. Line fragments also hold line and paragraph spacing, which differ by block
+    /// (headings, quotes, poems), so the band follows where the text sits, not the fragments.
+    private func focusRect(glyphRange: NSRange, layoutManager: NSLayoutManager, storage: NSTextStorage,
+                           width: CGFloat) -> CGRect? {
+        var top = CGFloat.greatestFiniteMagnitude
+        var bottom = -CGFloat.greatestFiniteMagnitude
+        layoutManager.enumerateLineFragments(forGlyphRange: glyphRange) { fragment, used, _, lineGlyphs, _ in
+            let glyphs = NSIntersectionRange(lineGlyphs, glyphRange)
+            guard glyphs.length > 0 else { return }
+            let characters = layoutManager.characterRange(forGlyphRange: glyphs, actualGlyphRange: nil)
+            var ascender: CGFloat = 0, descender: CGFloat = 0, hasAttachment = false
+            storage.enumerateAttributes(in: characters) { attributes, _, _ in
+                let font = attributes[.font] as? UIFont ?? self.state.style.bodyFont
+                ascender = max(ascender, font.ascender)
+                descender = max(descender, -font.descender)
+                if attributes[.attachment] != nil { hasAttachment = true }
+            }
+            if hasAttachment {
+                // Images rise above the font's ascender.
+                top = min(top, used.minY)
+                bottom = max(bottom, used.maxY)
+            } else {
+                let baseline = fragment.minY + layoutManager.location(forGlyphAt: glyphs.location).y
+                top = min(top, baseline - ascender)
+                bottom = max(bottom, baseline + descender)
+            }
+        }
+        guard bottom > top else { return nil }
+        return CGRect(x: 0, y: top, width: width, height: bottom - top)
     }
 
     private func scrollFocusUnit(textView: UITextView, rendered: RenderedChapter, mode: FocusMode) -> (key: Int, rect: CGRect)? {
@@ -78,12 +97,13 @@ extension TextReaderController {
         let inset = textView.textContainerInset
         let storage = textView.textStorage
 
-        var key: Int
-        var rect: CGRect
+        let width = container.size.width
+        let key: Int
+        let unitRect: CGRect?
         if let speech = state.speech, speech.chapter == rendered.index, rendered.blockRanges.indices.contains(speech.block) {
             let range = rendered.blockRanges[speech.block]
             let glyphs = layoutManager.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
-            rect = trimmedParagraphRect(layoutManager.boundingRect(forGlyphRange: glyphs, in: container), endsBlock: true)
+            unitRect = focusRect(glyphRange: glyphs, layoutManager: layoutManager, storage: storage, width: width)
             key = speech.block
         } else {
             let used = layoutManager.usedRect(for: container)
@@ -93,23 +113,20 @@ extension TextReaderController {
             switch mode {
             case .line:
                 var lineRange = NSRange()
-                let line = layoutManager.lineFragmentUsedRect(forGlyphAt: glyph, effectiveRange: &lineRange)
-                let character = layoutManager.characterIndexForGlyph(at: lineRange.location)
-                rect = CGRect(x: 0, y: line.minY, width: container.size.width,
-                              height: glyphBand(line, character: character, storage: storage))
+                _ = layoutManager.lineFragmentRect(forGlyphAt: glyph, effectiveRange: &lineRange)
+                unitRect = focusRect(glyphRange: lineRange, layoutManager: layoutManager, storage: storage, width: width)
                 key = lineRange.location
             case .paragraph, .off:
                 let character = layoutManager.characterIndexForGlyph(at: glyph)
                 let block = rendered.blockIndex(containing: character)
                 let range = rendered.blockRanges[block]
                 let glyphs = layoutManager.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
-                rect = trimmedParagraphRect(layoutManager.boundingRect(forGlyphRange: glyphs, in: container), endsBlock: true)
-                rect.origin.x = 0
-                rect.size.width = container.size.width
+                unitRect = focusRect(glyphRange: glyphs, layoutManager: layoutManager, storage: storage, width: width)
                 key = block
             }
         }
-        let contentRect = rect.offsetBy(dx: inset.left, dy: inset.top)
+        guard let unitRect else { return nil }
+        let contentRect = unitRect.offsetBy(dx: inset.left, dy: inset.top)
         return (key, textView.convert(contentRect, to: view))
     }
 
@@ -123,11 +140,12 @@ extension TextReaderController {
 
         var units: [(Int, CGRect)] = []
         if mode == .line && state.speech == nil {
-            layoutManager.enumerateLineFragments(forGlyphRange: glyphRange) { _, used, _, lineGlyphs, _ in
+            layoutManager.enumerateLineFragments(forGlyphRange: glyphRange) { _, _, _, lineGlyphs, _ in
                 let character = layoutManager.characterIndexForGlyph(at: lineGlyphs.location)
-                let rect = CGRect(x: 0, y: used.minY, width: container.size.width,
-                                  height: self.glyphBand(used, character: character, storage: storage))
-                units.append((character + page.characterOffset, rect))
+                if let rect = self.focusRect(glyphRange: lineGlyphs, layoutManager: layoutManager, storage: storage,
+                                             width: container.size.width) {
+                    units.append((character + page.characterOffset, rect))
+                }
             }
         } else {
             let characters = page.characterRange
@@ -139,11 +157,10 @@ extension TextReaderController {
                 let intersection = NSIntersectionRange(blockRange, characters)
                 guard intersection.length > 0, let local = page.localRange(intersection) else { continue }
                 let glyphs = layoutManager.glyphRange(forCharacterRange: local, actualCharacterRange: nil)
-                var rect = layoutManager.boundingRect(forGlyphRange: glyphs, in: container)
-                rect = trimmedParagraphRect(rect, endsBlock: NSMaxRange(intersection) == NSMaxRange(blockRange))
-                rect.origin.x = 0
-                rect.size.width = container.size.width
-                units.append((block, rect))
+                if let rect = focusRect(glyphRange: glyphs, layoutManager: layoutManager, storage: storage,
+                                        width: container.size.width) {
+                    units.append((block, rect))
+                }
             }
         }
         return units.map { ($0.0, page.textView.convert($0.1, to: view)) }
